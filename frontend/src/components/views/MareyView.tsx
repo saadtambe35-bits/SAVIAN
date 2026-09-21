@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { MareyChart } from '@/components/marey/MareyChart';
 import { CORRIDOR_STATIONS, MOCK_TRAIN_SCHEDULES, MOCK_MAINTENANCE_BLOCKS } from '@/data/mareyData';
 import { formatMinutesToHHMM } from '@/components/marey/MareyTooltip';
@@ -34,20 +35,20 @@ export const MareyView: React.FC<MareyViewProps> = ({
     <div className="space-y-5 animate-in fade-in duration-300">
       {/* Top Banner if Chaos Mode Active */}
       {chaosMode && (
-        <div className="rounded-xl border border-red-500/40 bg-gradient-to-r from-red-950/80 via-slate-900 to-red-950/50 p-4 shadow-lg shadow-red-950/40">
+        <div className="rounded-2xl border border-rose-200 bg-rose-50/80 p-4 shadow-sm text-rose-900">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center space-x-3">
-              <div className="rounded-lg bg-red-500/20 p-2 text-red-400 border border-red-500/30">
+              <div className="rounded-xl bg-rose-100 p-2 text-rose-700 border border-rose-300 shadow-sm">
                 <AlertTriangle className="h-5 w-5 animate-pulse" />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-red-200 flex items-center gap-2">
+                <h3 className="text-sm font-bold text-rose-900 flex items-center gap-2">
                   Corridor Conflict Simulation (Chaos Mode Active)
-                  <span className="rounded-full bg-red-500/30 px-2 py-0.5 text-[10px] text-red-300 border border-red-500/40">
+                  <span className="rounded-full bg-rose-100 px-2.5 py-0.5 text-[10px] text-rose-800 border border-rose-300 font-bold">
                     {clashingBlocksCount} Critical Clashes Detected
                   </span>
                 </h3>
-                <p className="text-xs text-red-300/80">
+                <p className="text-xs text-rose-800/80 font-medium">
                   Observe pulsing red borders with glowing shadows on blocks overlapping active train paths (BHS–DWG Passenger conflict & BKA–BNI Ghat OHE conflict).
                 </p>
               </div>
@@ -57,7 +58,7 @@ export const MareyView: React.FC<MareyViewProps> = ({
                 variant="outline"
                 size="sm"
                 onClick={() => onChaosModeChange(false)}
-                className="border-red-500/50 bg-red-900/30 text-red-200 hover:bg-red-800/40 shrink-0"
+                className="border-rose-300 bg-white text-rose-800 hover:bg-rose-100 font-bold rounded-xl shrink-0 cursor-pointer shadow-sm"
               >
                 Disable Chaos Mode
               </Button>
@@ -66,32 +67,32 @@ export const MareyView: React.FC<MareyViewProps> = ({
         </div>
       )}
 
-      {/* Corridor Summary Pills - Matched with Marey Chart Aesthetic */}
+      {/* Corridor Summary Pills - Matched with Warm Neumorphic Control Aesthetic */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="rounded-xl border border-slate-700/80 bg-slate-950 p-3.5 shadow-lg shadow-black/20">
-          <div className="text-[11px] font-medium text-slate-400">Total Route Span</div>
-          <div className="text-xl font-black font-mono text-white mt-1 tracking-tight">231.5 KM</div>
-          <div className="text-[10px] text-slate-500 font-mono mt-0.5">BINA Jn (0.0k) → ET Jn (231.5k)</div>
+        <div className="rounded-2xl border border-[#ded8c9] bg-white p-3.5 shadow-sm">
+          <div className="text-[11px] font-semibold text-stone-500 uppercase">Total Route Span</div>
+          <div className="text-xl font-bold font-mono text-stone-900 mt-1 tracking-tight">231.5 KM</div>
+          <div className="text-[10px] text-stone-400 font-mono mt-0.5">BINA Jn (0.0k) → ET Jn (231.5k)</div>
         </div>
 
-        <div className="rounded-xl border border-blue-900/60 bg-slate-950 p-3.5 shadow-lg shadow-black/20">
-          <div className="text-[11px] font-medium text-slate-400">Corridor Stations</div>
-          <div className="text-xl font-black font-mono text-sky-400 mt-1 tracking-tight">27 Stations</div>
-          <div className="text-[10px] text-slate-500 font-mono mt-0.5">26 Contiguous Block Sections</div>
+        <div className="rounded-2xl border border-[#ded8c9] bg-white p-3.5 shadow-sm">
+          <div className="text-[11px] font-semibold text-stone-500 uppercase">Corridor Stations</div>
+          <div className="text-xl font-bold font-mono text-emerald-800 mt-1 tracking-tight">27 Stations</div>
+          <div className="text-[10px] text-stone-400 font-mono mt-0.5">26 Contiguous Block Sections</div>
         </div>
 
-        <div className="rounded-xl border border-emerald-900/60 bg-slate-950 p-3.5 shadow-lg shadow-black/20">
-          <div className="text-[11px] font-medium text-slate-400">Scheduled Trains</div>
-          <div className="text-xl font-black font-mono text-emerald-400 mt-1 tracking-tight">12 Paths</div>
-          <div className="text-[10px] text-slate-500 font-mono mt-0.5">Rajdhani, VB, Exp, Mail, Freight</div>
+        <div className="rounded-2xl border border-[#ded8c9] bg-white p-3.5 shadow-sm">
+          <div className="text-[11px] font-semibold text-stone-500 uppercase">Scheduled Trains</div>
+          <div className="text-xl font-bold font-mono text-emerald-700 mt-1 tracking-tight">12 Paths</div>
+          <div className="text-[10px] text-stone-400 font-mono mt-0.5">Rajdhani, VB, Exp, Mail, Freight</div>
         </div>
 
-        <div className="rounded-xl border border-amber-900/60 bg-slate-950 p-3.5 shadow-lg shadow-black/20">
-          <div className="text-[11px] font-medium text-slate-400">Maintenance Possessions</div>
-          <div className="text-xl font-black font-mono text-amber-400 mt-1 tracking-tight">
-            8 Blocks <span className="text-xs font-normal text-slate-400 font-sans">({shadowBlocksCount} shadow)</span>
+        <div className="rounded-2xl border border-[#ded8c9] bg-white p-3.5 shadow-sm">
+          <div className="text-[11px] font-semibold text-stone-500 uppercase">Maintenance Possessions</div>
+          <div className="text-xl font-bold font-mono text-amber-800 mt-1 tracking-tight">
+            8 Blocks <span className="text-xs font-normal text-stone-500 font-sans">({shadowBlocksCount} shadow)</span>
           </div>
-          <div className="text-[10px] text-slate-500 font-mono mt-0.5">P-Way, OHE, S&T Integrated</div>
+          <div className="text-[10px] text-stone-400 font-mono mt-0.5">P-Way, OHE, S&T Integrated</div>
         </div>
       </div>
 
@@ -106,141 +107,152 @@ export const MareyView: React.FC<MareyViewProps> = ({
       />
 
       {/* Selected Block Inspection Drawer / Modal */}
-      {selectedBlock && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-lg rounded-xl border border-slate-700 bg-slate-900 p-5 shadow-2xl animate-in zoom-in-95 duration-150">
-            {/* Modal Header */}
-            <div className="flex items-start justify-between border-b border-slate-800 pb-3">
-              <div className="flex items-center space-x-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400">
-                  <Activity className="h-5 w-5" />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-mono text-base font-bold text-white">
-                      {selectedBlock.demand_code}
-                    </h3>
-                    <Badge
-                      variant={
-                        selectedBlock.department === 'P_WAY'
-                          ? 'railway'
-                          : selectedBlock.department === 'OHE'
-                          ? 'warning'
-                          : 'info'
-                      }
-                    >
-                      {selectedBlock.department}
-                    </Badge>
+      {selectedBlock &&
+        typeof document !== 'undefined' &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[99999] flex items-center justify-center bg-stone-900/60 p-4 backdrop-blur-sm overflow-y-auto"
+            onClick={() => setSelectedBlockId(null)}
+          >
+            <div
+              className="relative w-full max-w-lg rounded-2xl border border-[#ded9cb] bg-[#faf8f3] p-5 shadow-2xl animate-in zoom-in-95 duration-150 text-stone-900 my-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="flex items-start justify-between border-b border-[#e5dfd3] pb-3.5 bg-[#f4efe4] -mx-5 -mt-5 p-5 rounded-t-2xl">
+                <div className="flex items-center space-x-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 border border-amber-300 text-amber-800 shadow-sm">
+                    <Activity className="h-5 w-5" />
                   </div>
-                  <div className="font-mono text-xs text-slate-400">
-                    Block ID: {selectedBlock.block_id}
-                  </div>
-                </div>
-              </div>
-              <button
-                onClick={() => setSelectedBlockId(null)}
-                className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-
-            {/* Modal Body */}
-            <div className="my-4 space-y-3.5 text-xs text-slate-300">
-              {/* Clash or Shadow Alerts */}
-              {selectedBlock.has_clash && (
-                <div className="flex items-center gap-2 rounded-lg border border-red-500/40 bg-red-950/60 p-2.5 text-red-200">
-                  <AlertTriangle className="h-5 w-5 text-red-400 shrink-0 animate-pulse" />
                   <div>
-                    <span className="font-bold">Schedule Clash Detected:</span> In Chaos Mode, this maintenance possession conflicts with scheduled passenger/freight paths. Optimization solver recommended to shift window by +15 min.
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-mono text-base font-bold text-stone-900">
+                        {selectedBlock.demand_code}
+                      </h3>
+                      <Badge
+                        variant={
+                          selectedBlock.department === 'P_WAY'
+                            ? 'railway'
+                            : selectedBlock.department === 'OHE'
+                            ? 'warning'
+                            : 'info'
+                        }
+                      >
+                        {selectedBlock.department}
+                      </Badge>
+                    </div>
+                    <div className="font-mono text-xs text-stone-500 font-medium">
+                      Block ID: {selectedBlock.block_id}
+                    </div>
                   </div>
                 </div>
-              )}
-
-              {selectedBlock.is_shadow && (
-                <div className="flex items-center gap-2 rounded-lg border border-emerald-500/40 bg-emerald-950/40 p-2.5 text-emerald-200">
-                  <Layers className="h-5 w-5 text-emerald-400 shrink-0" />
-                  <div>
-                    <span className="font-bold">Shadow Co-utilization Window:</span> Granted under parent possession{' '}
-                    <span className="font-mono text-emerald-300 font-semibold">{selectedBlock.shadow_parent_id}</span>, saving 2.0 hours of track occupation.
-                  </div>
-                </div>
-              )}
-
-              {/* Grid Specs */}
-              <div className="grid grid-cols-2 gap-2.5 rounded-lg bg-slate-950/80 border border-slate-800/80 p-3 font-mono">
-                <div>
-                  <span className="text-[10px] text-slate-500 block uppercase">Time Window</span>
-                  <span className="text-sm font-bold text-amber-300">
-                    {formatMinutesToHHMM(selectedBlock.start_minutes)} → {formatMinutesToHHMM(selectedBlock.end_minutes)}
-                  </span>
-                  <span className="text-[10px] text-slate-400 block mt-0.5">
-                    Duration: {selectedBlock.end_minutes - selectedBlock.start_minutes} minutes
-                  </span>
-                </div>
-                <div>
-                  <span className="text-[10px] text-slate-500 block uppercase">Corridor Section</span>
-                  <span className="text-sm font-bold text-white">
-                    Km {selectedBlock.start_km.toFixed(1)} → {selectedBlock.end_km.toFixed(1)}
-                  </span>
-                  <span className="text-[10px] text-slate-400 block mt-0.5">
-                    {selectedBlock.section_from && selectedBlock.section_to
-                      ? `${selectedBlock.section_from} – ${selectedBlock.section_to}`
-                      : 'Main Line Double Track'}
-                  </span>
-                </div>
-                <div>
-                  <span className="text-[10px] text-slate-500 block uppercase">Status</span>
-                  <span className="text-xs font-bold text-emerald-400">
-                    {selectedBlock.status}
-                  </span>
-                </div>
-                <div>
-                  <span className="text-[10px] text-slate-500 block uppercase">Machinery Assigned</span>
-                  <span className="text-xs text-slate-300 truncate block">
-                    {selectedBlock.machinery_type || 'Track Crew Unit'}
-                  </span>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedBlockId(null)}
+                  className="rounded-xl p-1.5 text-stone-400 hover:bg-[#eae4d5] hover:text-stone-700 transition-colors cursor-pointer"
+                >
+                  <X className="h-5 w-5" />
+                </button>
               </div>
 
-              {/* Activity Description */}
-              {selectedBlock.activity_description && (
-                <div>
-                  <div className="text-[11px] font-semibold text-slate-400 mb-1">
-                    Activity Description:
+              {/* Modal Body */}
+              <div className="my-4 space-y-3.5 text-xs text-stone-700">
+                {/* Clash or Shadow Alerts */}
+                {selectedBlock.has_clash && (
+                  <div className="flex items-center gap-2.5 rounded-xl border border-rose-200 bg-rose-50 p-3 text-rose-900 shadow-sm">
+                    <AlertTriangle className="h-5 w-5 text-rose-600 shrink-0 animate-pulse" />
+                    <div>
+                      <span className="font-bold">Schedule Clash Detected:</span> In Chaos Mode, this maintenance possession conflicts with scheduled passenger/freight paths. Optimization solver recommended to shift window by +15 min.
+                    </div>
                   </div>
-                  <div className="rounded bg-slate-950/50 p-2.5 text-slate-300 border border-slate-800 text-[11px] leading-relaxed">
-                    {selectedBlock.activity_description}
+                )}
+
+                {selectedBlock.is_shadow && (
+                  <div className="flex items-center gap-2.5 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-emerald-900 shadow-sm">
+                    <Layers className="h-5 w-5 text-emerald-700 shrink-0" />
+                    <div>
+                      <span className="font-bold">Shadow Co-utilization Window:</span> Granted under parent possession{' '}
+                      <span className="font-mono text-emerald-800 font-bold">{selectedBlock.shadow_parent_id}</span>, saving 2.0 hours of track occupation.
+                    </div>
+                  </div>
+                )}
+
+                {/* Grid Specs */}
+                <div className="grid grid-cols-2 gap-2.5 rounded-xl bg-white border border-[#ded8c9] p-3.5 font-mono shadow-sm">
+                  <div>
+                    <span className="text-[10px] text-stone-500 block uppercase font-semibold">Time Window</span>
+                    <span className="text-sm font-bold text-amber-800">
+                      {formatMinutesToHHMM(selectedBlock.start_minutes)} → {formatMinutesToHHMM(selectedBlock.end_minutes)}
+                    </span>
+                    <span className="text-[10px] text-stone-400 block mt-0.5">
+                      Duration: {selectedBlock.end_minutes - selectedBlock.start_minutes} minutes
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-stone-500 block uppercase font-semibold">Corridor Section</span>
+                    <span className="text-sm font-bold text-stone-900">
+                      Km {selectedBlock.start_km.toFixed(1)} → {selectedBlock.end_km.toFixed(1)}
+                    </span>
+                    <span className="text-[10px] text-stone-400 block mt-0.5">
+                      {selectedBlock.section_from && selectedBlock.section_to
+                        ? `${selectedBlock.section_from} – ${selectedBlock.section_to}`
+                        : 'Main Line Double Track'}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-stone-500 block uppercase font-semibold">Status</span>
+                    <span className="text-xs font-bold text-emerald-700">
+                      {selectedBlock.status}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-stone-500 block uppercase font-semibold">Machinery Assigned</span>
+                    <span className="text-xs text-stone-800 font-medium truncate block">
+                      {selectedBlock.machinery_type || 'Track Crew Unit'}
+                    </span>
                   </div>
                 </div>
-              )}
-            </div>
 
-            {/* Modal Actions */}
-            <div className="flex items-center justify-end gap-2 border-t border-slate-800 pt-3">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setSelectedBlockId(null)}
-                className="border-slate-700 text-slate-300"
-              >
-                Close
-              </Button>
-              <Button
-                variant="railway"
-                size="sm"
-                onClick={() => {
-                  alert(`Caution Order T/409 generated for ${selectedBlock.demand_code} at Km ${selectedBlock.start_km} - ${selectedBlock.end_km}`);
-                }}
-                className="bg-blue-600 hover:bg-blue-500 text-white"
-              >
-                <FileText className="mr-1.5 h-3.5 w-3.5" />
-                Issue T/409 Caution Order
-              </Button>
+                {/* Activity Description */}
+                {selectedBlock.activity_description && (
+                  <div>
+                    <div className="text-[11px] font-semibold text-stone-600 mb-1">
+                      Activity Description:
+                    </div>
+                    <div className="rounded-xl bg-[#f7f4ec] p-3 text-stone-700 border border-[#e5dfd3] text-[11px] leading-relaxed">
+                      {selectedBlock.activity_description}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Modal Actions */}
+              <div className="flex items-center justify-end gap-2 border-t border-[#e5dfd3] pt-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setSelectedBlockId(null)}
+                  className="rounded-xl border-[#ded8c9] bg-white text-stone-700 hover:bg-[#eae4d5] cursor-pointer shadow-sm"
+                >
+                  Close
+                </Button>
+                <Button
+                  variant="railway"
+                  size="sm"
+                  onClick={() => {
+                    alert(`Caution Order T/409 generated for ${selectedBlock.demand_code} at Km ${selectedBlock.start_km} - ${selectedBlock.end_km}`);
+                  }}
+                  className="rounded-xl bg-emerald-800 hover:bg-emerald-700 text-white font-bold cursor-pointer shadow-sm"
+                >
+                  <FileText className="mr-1.5 h-3.5 w-3.5" />
+                  Issue T/409 Caution Order
+                </Button>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </div>
   );
 };
+

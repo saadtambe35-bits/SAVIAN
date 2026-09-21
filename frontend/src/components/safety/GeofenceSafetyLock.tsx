@@ -98,19 +98,19 @@ export const GeofenceSafetyLock: React.FC<GeofenceSafetyLockProps> = ({
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto font-sans text-slate-100">
+    <div className="w-full max-w-5xl mx-auto font-sans text-stone-900">
       
       {/* Outer Cockpit Card */}
-      <div className="relative overflow-hidden rounded-2xl border border-slate-700/70 bg-slate-900/95 backdrop-blur-md shadow-2xl shadow-black/60">
+      <div className="relative overflow-hidden rounded-2xl border border-[#ded9cb] bg-[#faf8f3] shadow-lg shadow-stone-900/10">
         
         {/* Top Control Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 bg-slate-950/70 px-5 py-3.5 gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#e5dfd3] bg-[#f5f0e6]/70 px-5 py-3.5 gap-3">
           <div className="flex items-center gap-3">
             <div
-              className={`flex h-10 w-10 items-center justify-center rounded-xl border transition-colors ${
+              className={`flex h-10 w-10 items-center justify-center rounded-xl border transition-colors shadow-sm ${
                 isHazardZoneOccupied
-                  ? 'bg-red-500/10 border-red-500/40 text-red-400'
-                  : 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400'
+                  ? 'bg-rose-100 border-rose-300 text-rose-700'
+                  : 'bg-emerald-100 border-emerald-300 text-emerald-800'
               }`}
             >
               {isHazardZoneOccupied ? (
@@ -121,20 +121,20 @@ export const GeofenceSafetyLock: React.FC<GeofenceSafetyLockProps> = ({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-sm sm:text-base font-bold tracking-tight text-white font-mono">
+                <h2 className="text-sm sm:text-base font-bold tracking-tight text-stone-900 font-mono">
                   GEOFENCE SAFETY INTERLOCK (RULE 4.09 GR/SR)
                 </h2>
                 <span
-                  className={`rounded px-1.5 py-0.5 text-[10px] font-mono font-bold border ${
+                  className={`rounded-lg px-2 py-0.5 text-[10px] font-mono font-bold border shadow-sm ${
                     isHazardZoneOccupied
-                      ? 'bg-red-950/60 border-red-500/60 text-red-300 animate-pulse'
-                      : 'bg-emerald-950/60 border-emerald-500/60 text-emerald-300'
+                      ? 'bg-rose-100 border-rose-300 text-rose-800 animate-pulse'
+                      : 'bg-emerald-100 border-emerald-300 text-emerald-800'
                   }`}
                 >
                   {isHazardZoneOccupied ? 'RELAY INTERLOCK INHIBITED' : 'INTERLOCK ENERGIZED & CLEAR'}
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-stone-500 font-mono mt-0.5">
                 {section.sectionName}
               </p>
             </div>
@@ -142,74 +142,74 @@ export const GeofenceSafetyLock: React.FC<GeofenceSafetyLockProps> = ({
 
           {/* NavIC Satellite Lock Badge */}
           <div className="flex items-center gap-2 text-[11px] font-mono">
-            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800/80 border border-slate-700 text-slate-300">
-              <Compass className="w-3.5 h-3.5 text-cyan-400" />
+            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-white border border-[#ded8c9] text-stone-700 shadow-sm">
+              <Compass className="w-3.5 h-3.5 text-emerald-700" />
               <span>NavIC RTK: ±0.3m</span>
             </span>
-            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800/80 border border-slate-700 text-emerald-400">
-              <Zap className="w-3.5 h-3.5" />
-              <span>OHE 25kV: {isHazardZoneOccupied ? 'POWER OFF' : 'PERMITTED'}</span>
+            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-white border border-[#ded8c9] shadow-sm">
+              <Zap className="w-3.5 h-3.5 text-amber-600" />
+              <span className={isHazardZoneOccupied ? 'text-rose-700 font-bold' : 'text-emerald-700 font-bold'}>
+                OHE 25kV: {isHazardZoneOccupied ? 'POWER OFF' : 'PERMITTED'}
+              </span>
             </span>
           </div>
         </div>
 
         {/* ⛔ CRITICAL SAFETY INTERLOCK BANNER */}
         {isHazardZoneOccupied ? (
-          <div className="border-b border-red-500/40 bg-gradient-to-r from-red-950/60 via-slate-900/90 to-red-950/40 p-4 sm:p-5 relative overflow-hidden">
-            <div className="pointer-events-none absolute -left-12 -top-12 h-36 w-36 rounded-full bg-red-500/15 blur-2xl animate-pulse" />
-
+          <div className="border-b border-rose-200 bg-rose-50/90 p-4 sm:p-5 relative overflow-hidden">
             <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-red-600 text-white tracking-wide uppercase shadow-md shadow-red-950/80 animate-pulse">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-rose-600 text-white tracking-wide uppercase shadow-sm">
                     <AlertOctagon className="w-3 h-3" />
                     LINE CLEAR HARD INHIBITED
                   </span>
-                  <span className="text-xs font-mono text-red-400">
+                  <span className="text-xs font-mono font-semibold text-rose-700">
                     Track Clearance Gauge Intrusion Detected
                   </span>
                 </div>
 
-                <p className="text-xs sm:text-sm text-slate-100 font-mono font-medium leading-relaxed">
+                <p className="text-xs sm:text-sm text-stone-900 font-mono font-medium leading-relaxed">
                   ⛔ SAFETY INTERLOCK ACTIVE: Crew GPS active within clearance gauge at{' '}
-                  <strong className="text-red-300 underline decoration-red-500">
+                  <strong className="text-rose-700 font-bold underline decoration-rose-400">
                     Km {sseKm.toFixed(3)}
                   </strong>
                   . Line Clear strictly inhibited under Rule 4.09 GR/SR.
                 </p>
 
-                <p className="text-[11px] text-slate-400">
+                <p className="text-[11px] text-stone-600 font-mono">
                   Station Master Block Instrument is electrically isolated until all trackmen and SSE are certified outside Km 45.000 – Km 48.500.
                 </p>
               </div>
 
               <div className="flex items-center gap-2 flex-shrink-0">
-                <div className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-red-950/80 border border-red-500/50 text-red-200 text-xs font-mono">
-                  <ShieldAlert className="w-4 h-4 text-red-400" />
+                <div className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-rose-100 border border-rose-300 text-rose-800 text-xs font-mono font-bold shadow-sm">
+                  <ShieldAlert className="w-4 h-4 text-rose-600" />
                   <span>BLOCK COLLAR LOCKED</span>
                 </div>
               </div>
             </div>
           </div>
         ) : (
-          <div className="border-b border-emerald-500/30 bg-gradient-to-r from-emerald-950/40 via-slate-900/90 to-emerald-950/20 p-4 relative overflow-hidden">
+          <div className="border-b border-emerald-200 bg-emerald-50/90 p-4 relative overflow-hidden">
             <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-600 text-white tracking-wide uppercase">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-emerald-600 text-white tracking-wide uppercase shadow-sm">
                     <CheckCircle2 className="w-3 h-3" />
                     TRACK CLEARANCE GAUGE VACATED
                   </span>
-                  <span className="text-xs font-mono text-emerald-400">
+                  <span className="text-xs font-mono font-semibold text-emerald-800">
                     All maintenance personnel outside Km 45.000 - 48.500
                   </span>
                 </div>
-                <p className="text-xs text-slate-300 font-mono">
+                <p className="text-xs text-stone-700 font-mono">
                   Digital interlock released. Station Master may now authorize Line Clear & 25kV OHE traction restoration.
                 </p>
               </div>
-              <div className="flex items-center gap-1 text-xs font-mono text-emerald-300 bg-emerald-950/60 border border-emerald-500/40 px-3 py-1.5 rounded-lg">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-emerald-800 bg-emerald-100 border border-emerald-300 px-3 py-1.5 rounded-xl shadow-sm">
+                <ShieldCheck className="w-4 h-4 text-emerald-700" />
                 <span>SAFE FOR TRAFFIC</span>
               </div>
             </div>
@@ -219,23 +219,23 @@ export const GeofenceSafetyLock: React.FC<GeofenceSafetyLockProps> = ({
         {/* ========================================================================= */}
         {/* CORRIDOR GEOFENCE VISUALIZER (Interactive Track Strip) */}
         {/* ========================================================================= */}
-        <div className="p-5 sm:p-6 space-y-4 border-b border-slate-800 bg-slate-950/40">
+        <div className="p-5 sm:p-6 space-y-4 border-b border-[#e5dfd3] bg-[#faf8f3]">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+              <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-stone-700 flex items-center gap-2">
                 <span>Down Line Track Clearance Gauge Visualizer</span>
-                <span className="text-[10px] text-slate-500 font-normal">(Km 44.000 to Km 50.000)</span>
+                <span className="text-[10px] text-stone-500 font-normal">(Km 44.000 to Km 50.000)</span>
               </h3>
             </div>
             
             {/* Legend */}
-            <div className="flex items-center gap-3 text-[11px] font-mono text-slate-400">
+            <div className="flex items-center gap-3 text-[11px] font-mono text-stone-600">
               <span className="flex items-center gap-1">
-                <span className="h-2 w-3 rounded-sm bg-emerald-500/40 border border-emerald-500" />
+                <span className="h-2 w-3 rounded-sm bg-emerald-500/40 border border-emerald-600" />
                 <span>Safe Zone (&lt;45 or &gt;48.5)</span>
               </span>
               <span className="flex items-center gap-1">
-                <span className="h-2 w-3 rounded-sm bg-red-500/40 border border-red-500" />
+                <span className="h-2 w-3 rounded-sm bg-red-500/40 border border-red-600" />
                 <span>Hazard Block (45.0 – 48.5)</span>
               </span>
             </div>
@@ -245,7 +245,7 @@ export const GeofenceSafetyLock: React.FC<GeofenceSafetyLockProps> = ({
           <div className="relative py-8 px-2">
             
             {/* Twin Steel Rails SVG Background */}
-            <div className="relative h-12 w-full rounded-xl bg-slate-950 border border-slate-800 overflow-hidden shadow-inner flex items-center">
+            <div className="relative h-12 w-full rounded-xl bg-slate-950 border border-slate-800/90 overflow-hidden shadow-[inset_0_2px_10px_rgba(0,0,0,0.7)] flex items-center">
               
               {/* Railroad Wooden/Concrete Sleepers (Ties) repeated pattern */}
               <div
@@ -346,24 +346,24 @@ export const GeofenceSafetyLock: React.FC<GeofenceSafetyLockProps> = ({
             </div>
 
             {/* Kilometer Markers along Track Bottom */}
-            <div className="relative flex justify-between mt-2 text-[10px] font-mono text-slate-500 px-1">
+            <div className="relative flex justify-between mt-2 text-[10px] font-mono text-stone-500 px-1 font-semibold">
               <span>Km 44.0</span>
-              <span className="text-red-400 font-semibold">Km 45.0 (Block In)</span>
+              <span className="text-rose-700 font-bold">Km 45.0 (Block In)</span>
               <span>Km 46.0</span>
               <span>Km 47.0</span>
               <span>Km 48.0</span>
-              <span className="text-red-400 font-semibold">Km 48.5 (Block Out)</span>
+              <span className="text-rose-700 font-bold">Km 48.5 (Block Out)</span>
               <span>Km 50.0</span>
             </div>
           </div>
 
           {/* Interactive GPS Coordinate Slider */}
-          <div className="rounded-xl border border-slate-800 bg-slate-900 p-4 space-y-3">
+          <div className="rounded-xl border border-[#ded8c9] bg-white p-4 space-y-3 shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <div className="flex items-center gap-2 text-xs font-mono text-slate-200">
-                <Sliders className="w-4 h-4 text-cyan-400" />
-                <span>Simulate SSE S. K. Verma GPS Coordinate:</span>
-                <span className="font-bold text-cyan-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">
+              <div className="flex items-center gap-2 text-xs font-mono text-stone-800">
+                <Sliders className="w-4 h-4 text-emerald-700" />
+                <span className="font-semibold">Simulate SSE S. K. Verma GPS Coordinate:</span>
+                <span className="font-bold text-stone-900 bg-[#f7f4ec] px-2 py-0.5 rounded-lg border border-[#ded8c9]">
                   Km {sseKm.toFixed(3)}
                 </span>
               </div>
@@ -373,14 +373,14 @@ export const GeofenceSafetyLock: React.FC<GeofenceSafetyLockProps> = ({
                 <button
                   type="button"
                   onClick={() => handleSliderChange(46.2)}
-                  className="text-[11px] font-mono px-2.5 py-1 rounded bg-red-950/60 hover:bg-red-900/80 border border-red-500/40 text-red-300 transition-colors"
+                  className="text-[11px] font-mono font-bold px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 border border-rose-300 text-rose-700 transition-colors shadow-sm cursor-pointer"
                 >
                   Jump to Hazard (Km 46.200)
                 </button>
                 <button
                   type="button"
                   onClick={() => handleSliderChange(49.2)}
-                  className="text-[11px] font-mono px-2.5 py-1 rounded bg-emerald-950/60 hover:bg-emerald-900/80 border border-emerald-500/40 text-emerald-300 transition-colors"
+                  className="text-[11px] font-mono font-bold px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-800 transition-colors shadow-sm cursor-pointer"
                 >
                   Clear Outside Gauge (Km 49.200)
                 </button>
@@ -396,12 +396,12 @@ export const GeofenceSafetyLock: React.FC<GeofenceSafetyLockProps> = ({
                 step={0.05}
                 value={sseKm}
                 onChange={(e) => handleSliderChange(parseFloat(e.target.value))}
-                className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+                className="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-emerald-700"
                 aria-label="SSE S. K. Verma GPS position slider"
               />
-              <div className="flex justify-between text-[10px] font-mono text-slate-500">
+              <div className="flex justify-between text-[10px] font-mono text-stone-500">
                 <span>Km 44.000</span>
-                <span className="text-amber-400">Move slider past Km 48.500 to unlock Station Master authorization</span>
+                <span className="text-amber-800 font-semibold">Move slider past Km 48.500 to unlock Station Master authorization</span>
                 <span>Km 50.000</span>
               </div>
             </div>
@@ -412,8 +412,8 @@ export const GeofenceSafetyLock: React.FC<GeofenceSafetyLockProps> = ({
         {/* ========================================================================= */}
         {/* LIVE FIELD CREW TELEMETRY CARDS */}
         {/* ========================================================================= */}
-        <div className="p-5 sm:p-6 border-b border-slate-800 bg-slate-900/50 space-y-3">
-          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+        <div className="p-5 sm:p-6 border-b border-[#e5dfd3] bg-[#faf8f3] space-y-3">
+          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-stone-600">
             Field Personnel IoT Telemetry & Satellite Geofence Status
           </h3>
 
@@ -421,38 +421,38 @@ export const GeofenceSafetyLock: React.FC<GeofenceSafetyLockProps> = ({
             
             {/* Card 1: SSE S. K. Verma */}
             <div
-              className={`rounded-xl border p-4 transition-all duration-300 ${
+              className={`rounded-xl border p-4 transition-all duration-300 shadow-sm ${
                 isSseInHazard
-                  ? 'border-red-500/50 bg-red-950/20 shadow-lg shadow-red-950/40'
-                  : 'border-slate-800 bg-slate-800/40'
+                  ? 'border-rose-300 bg-rose-50/70 shadow-rose-900/5'
+                  : 'border-[#ded8c9] bg-white'
               }`}
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-2.5">
                   <div
-                    className={`flex h-9 w-9 items-center justify-center rounded-lg border ${
+                    className={`flex h-9 w-9 items-center justify-center rounded-xl border shadow-sm ${
                       isSseInHazard
-                        ? 'bg-red-500/20 border-red-500/50 text-red-300'
-                        : 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300'
+                        ? 'bg-rose-100 border-rose-300 text-rose-700'
+                        : 'bg-emerald-100 border-emerald-300 text-emerald-800'
                     }`}
                   >
                     <User className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-slate-100 font-mono">
+                    <h4 className="text-sm font-bold text-stone-900 font-mono">
                       SSE S. K. Verma
                     </h4>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-stone-500">
                       Senior Section Engineer (P-Way, Bhopal Div)
                     </p>
                   </div>
                 </div>
 
                 <span
-                  className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-semibold border ${
+                  className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold border shadow-sm ${
                     isSseInHazard
-                      ? 'bg-red-500/20 border-red-500/50 text-red-300 animate-pulse'
-                      : 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300'
+                      ? 'bg-rose-100 border-rose-300 text-rose-800 animate-pulse'
+                      : 'bg-emerald-100 border-emerald-300 text-emerald-800'
                   }`}
                 >
                   {isSseInHazard ? '⚠️ INSIDE TRACK GAUGE' : '✅ CLEARED GAUGE'}
@@ -460,61 +460,61 @@ export const GeofenceSafetyLock: React.FC<GeofenceSafetyLockProps> = ({
               </div>
 
               <div className="mt-3 grid grid-cols-3 gap-2 text-[11px] font-mono">
-                <div className="p-2 rounded bg-slate-900/80 border border-slate-800">
-                  <div className="text-slate-500 text-[10px]">CURRENT GPS</div>
-                  <div className="text-slate-200 font-bold mt-0.5">Km {sseKm.toFixed(3)}</div>
+                <div className="p-2.5 rounded-lg bg-[#f7f4ec] border border-[#ded8c9]">
+                  <div className="text-stone-500 text-[10px] uppercase font-semibold">CURRENT GPS</div>
+                  <div className="text-stone-900 font-bold mt-0.5">Km {sseKm.toFixed(3)}</div>
                 </div>
-                <div className="p-2 rounded bg-slate-900/80 border border-slate-800">
-                  <div className="text-slate-500 text-[10px]">DEVICE</div>
-                  <div className="text-cyan-400 font-bold mt-0.5">NavIC IRNSS</div>
+                <div className="p-2.5 rounded-lg bg-[#f7f4ec] border border-[#ded8c9]">
+                  <div className="text-stone-500 text-[10px] uppercase font-semibold">DEVICE</div>
+                  <div className="text-emerald-800 font-bold mt-0.5">NavIC IRNSS</div>
                 </div>
-                <div className="p-2 rounded bg-slate-900/80 border border-slate-800">
-                  <div className="text-slate-500 text-[10px] flex items-center gap-1">
-                    <BatteryCharging className="w-3 h-3 text-emerald-400" />
+                <div className="p-2.5 rounded-lg bg-[#f7f4ec] border border-[#ded8c9]">
+                  <div className="text-stone-500 text-[10px] uppercase font-semibold flex items-center gap-1">
+                    <BatteryCharging className="w-3 h-3 text-emerald-700" />
                     BATTERY
                   </div>
-                  <div className="text-emerald-400 font-bold mt-0.5">88% (Online)</div>
+                  <div className="text-emerald-800 font-bold mt-0.5">88% (Online)</div>
                 </div>
               </div>
             </div>
 
             {/* Card 2: Gang No. 4 (6 Trackmen) */}
-            <div className="rounded-xl border border-slate-800 bg-slate-800/40 p-4">
+            <div className="rounded-xl border border-[#ded8c9] bg-white p-4 shadow-sm">
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border bg-emerald-500/20 border-emerald-500/50 text-emerald-300">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl border bg-emerald-100 border-emerald-300 text-emerald-800 shadow-sm">
                     <Users className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-slate-100 font-mono">
+                    <h4 className="text-sm font-bold text-stone-900 font-mono">
                       Gang No. 4 (6 Trackmen)
                     </h4>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-stone-500">
                       Keyman, Mate & Track Maintainers
                     </p>
                   </div>
                 </div>
 
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-emerald-500/20 border border-emerald-500/50 text-emerald-300">
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-emerald-100 border border-emerald-300 text-emerald-800 shadow-sm">
                   ✅ CLEARED GAUGE
                 </span>
               </div>
 
               <div className="mt-3 grid grid-cols-3 gap-2 text-[11px] font-mono">
-                <div className="p-2 rounded bg-slate-900/80 border border-slate-800">
-                  <div className="text-slate-500 text-[10px]">CURRENT GPS</div>
-                  <div className="text-slate-200 font-bold mt-0.5">Km {gangKm.toFixed(3)}</div>
+                <div className="p-2.5 rounded-lg bg-[#f7f4ec] border border-[#ded8c9]">
+                  <div className="text-stone-500 text-[10px] uppercase font-semibold">CURRENT GPS</div>
+                  <div className="text-stone-900 font-bold mt-0.5">Km {gangKm.toFixed(3)}</div>
                 </div>
-                <div className="p-2 rounded bg-slate-900/80 border border-slate-800">
-                  <div className="text-slate-500 text-[10px]">SAFETY BAND</div>
-                  <div className="text-cyan-400 font-bold mt-0.5">RFID + GPS Hub</div>
+                <div className="p-2.5 rounded-lg bg-[#f7f4ec] border border-[#ded8c9]">
+                  <div className="text-stone-500 text-[10px] uppercase font-semibold">SAFETY BAND</div>
+                  <div className="text-emerald-800 font-bold mt-0.5">RFID + GPS Hub</div>
                 </div>
-                <div className="p-2 rounded bg-slate-900/80 border border-slate-800">
-                  <div className="text-slate-500 text-[10px] flex items-center gap-1">
-                    <Radio className="w-3 h-3 text-cyan-400" />
+                <div className="p-2.5 rounded-lg bg-[#f7f4ec] border border-[#ded8c9]">
+                  <div className="text-stone-500 text-[10px] uppercase font-semibold flex items-center gap-1">
+                    <Radio className="w-3 h-3 text-emerald-700" />
                     LINK
                   </div>
-                  <div className="text-emerald-400 font-bold mt-0.5">Telemetry OK</div>
+                  <div className="text-emerald-800 font-bold mt-0.5">Telemetry OK</div>
                 </div>
               </div>
             </div>
@@ -525,15 +525,15 @@ export const GeofenceSafetyLock: React.FC<GeofenceSafetyLockProps> = ({
         {/* ========================================================================= */}
         {/* HARDWARE INTERLOCK ENFORCEMENT & AUTHORIZATION ACTION */}
         {/* ========================================================================= */}
-        <div className="p-5 sm:p-6 bg-slate-950/80 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="p-5 sm:p-6 bg-[#f5f0e6]/60 flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-[#e5dfd3]">
           <div className="space-y-1 max-w-xl">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                <Key className="w-3.5 h-3.5 text-amber-400" />
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-stone-800 flex items-center gap-1.5">
+                <Key className="w-3.5 h-3.5 text-amber-700" />
                 Station Master Cryptographic Block Authorization
               </span>
             </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs text-stone-500 leading-relaxed font-mono">
               Issuance generates a SHA-256 digital authority token registered in FOIS & Block Proving Axle Counter (BPAC) relay circuits.
             </p>
           </div>
@@ -544,22 +544,22 @@ export const GeofenceSafetyLock: React.FC<GeofenceSafetyLockProps> = ({
               <button
                 type="button"
                 disabled
-                className="w-full sm:w-auto px-5 py-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider bg-slate-800 border border-red-500/60 text-slate-400 cursor-not-allowed flex items-center justify-center gap-2 shadow-lg opacity-80"
+                className="w-full sm:w-auto px-5 py-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider bg-stone-200 border border-stone-300 text-stone-400 cursor-not-allowed flex items-center justify-center gap-2 shadow-none"
                 title="Line Clear cannot be authorized while personnel are inside track clearance gauge"
               >
-                <Lock className="w-4 h-4 text-red-500" />
+                <Lock className="w-4 h-4 text-rose-500" />
                 <span>AUTHORIZE LINE CLEAR & POWER RESTORATION</span>
               </button>
             ) : isAuthorized ? (
-              <div className="flex items-center gap-2 bg-emerald-950/80 border border-emerald-500/60 px-4 py-2.5 rounded-xl text-emerald-300 font-mono text-xs font-bold shadow-lg shadow-emerald-950/80">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <div className="flex items-center gap-2 bg-emerald-100 border border-emerald-300 px-4 py-2.5 rounded-xl text-emerald-900 font-mono text-xs font-bold shadow-sm">
+                <CheckCircle2 className="w-4 h-4 text-emerald-700" />
                 <span>LINE CLEAR GRANTED: {authCertificate}</span>
               </div>
             ) : (
               <button
                 type="button"
                 onClick={handleAuthorizeLineClear}
-                className="w-full sm:w-auto px-6 py-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider bg-emerald-600 hover:bg-emerald-500 text-slate-950 hover:text-white border border-emerald-400 transition-all duration-200 flex items-center justify-center gap-2 shadow-xl shadow-emerald-950/70 hover:scale-[1.02] cursor-pointer"
+                className="w-full sm:w-auto px-6 py-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider bg-emerald-800 hover:bg-emerald-700 text-white border border-emerald-700 transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:scale-[1.02] cursor-pointer"
               >
                 <Unlock className="w-4 h-4" />
                 <span>AUTHORIZE LINE CLEAR & POWER RESTORATION</span>
@@ -569,12 +569,12 @@ export const GeofenceSafetyLock: React.FC<GeofenceSafetyLockProps> = ({
         </div>
 
         {/* Footer Audit Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-800 bg-slate-950 px-5 py-3 text-[11px] text-slate-500 font-mono">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#faf8f3] px-5 py-3 text-[11px] text-stone-500 font-mono">
           <div className="flex items-center gap-2">
-            <MapPin className="w-3.5 h-3.5 text-cyan-400" />
+            <MapPin className="w-3.5 h-3.5 text-emerald-700" />
             <span>CRIS Section Corridor: Bhopal (BPL) - Bina (BINA) Down Fast Track.</span>
           </div>
-          <div className="text-slate-400">
+          <div className="text-stone-500">
             RDSO Specification No. RDSO/SPN/TC/105/2020 Rev 1.0 Compliant
           </div>
         </div>

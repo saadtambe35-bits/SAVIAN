@@ -250,30 +250,30 @@ export const MareyChart: React.FC<MareyChartProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`relative flex flex-col rounded-lg border border-slate-700 bg-slate-950 p-3 shadow-2xl select-none ${className}`}
+      className={`relative flex flex-col rounded-2xl border border-[#ded9cb] bg-[#faf8f3] p-4 shadow-lg shadow-stone-900/10 select-none ${className}`}
     >
       {/* Top Header & Interactive Toolbar */}
-      <div className="mb-2.5 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-2.5">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3 border-b border-[#e5dfd3] pb-3">
         <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400">
-            <Train className="h-4 w-4" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100/80 border border-emerald-300 text-emerald-800 shadow-sm">
+            <Train className="h-4.5 w-4.5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-bold tracking-tight text-white">
+              <h3 className="text-sm font-bold tracking-tight text-stone-900 font-mono">
                 Corridor Stringline Diagram (Marey Chart)
               </h3>
-              <span className="rounded bg-slate-800 px-2 py-0.5 font-mono text-[10px] text-slate-400 border border-slate-700">
+              <span className="rounded-lg bg-stone-200/80 px-2 py-0.5 font-mono text-[10px] text-stone-700 border border-stone-300">
                 231.5 km · 27 Stations · 24h
               </span>
               {chaosMode && (
-                <span className="flex items-center gap-1 rounded-full bg-red-500/20 px-2 py-0.5 text-[10px] font-bold text-red-400 border border-red-500/40 animate-pulse">
-                  <Zap className="h-3 w-3 fill-current" />
+                <span className="flex items-center gap-1 rounded-full bg-rose-100 px-2.5 py-0.5 text-[10px] font-bold text-rose-700 border border-rose-300 shadow-sm animate-pulse">
+                  <Zap className="h-3 w-3 fill-current text-rose-600" />
                   Chaos Mode Active ({clashingBlocksCount} Clashes)
                 </span>
               )}
             </div>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-stone-500 font-mono mt-0.5">
               X-Axis: Time (00:00 - 24:00) · Y-Axis: Bina Jn (0.0k) → Itarsi Jn (231.5k) · Lower layer: Blocks · Upper layer: Train paths
             </p>
           </div>
@@ -283,32 +283,32 @@ export const MareyChart: React.FC<MareyChartProps> = ({
         <div className="flex flex-wrap items-center gap-2">
           {/* Cursor Time Pill */}
           {cursorMinute !== null && (
-            <div className="flex items-center gap-1.5 rounded-md bg-slate-900 px-2.5 py-1 text-xs font-mono text-cyan-400 border border-slate-800">
-              <Clock className="h-3 w-3" />
+            <div className="flex items-center gap-1.5 rounded-xl bg-white px-3 py-1 text-xs font-mono font-bold text-emerald-800 border border-[#ded8c9] shadow-sm">
+              <Clock className="h-3.5 w-3.5 text-emerald-700" />
               <span>{formatMinutesToHHMM(cursorMinute)}</span>
             </div>
           )}
 
           {/* Zoom Controls */}
-          <div className="flex items-center rounded-md border border-slate-800 bg-slate-900/90 p-0.5">
+          <div className="flex items-center rounded-xl border border-[#ded8c9] bg-white p-1 shadow-sm gap-0.5">
             <button
               onClick={handleZoomIn}
               title="Zoom In (or Mouse Wheel)"
-              className="rounded p-1 text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
+              className="rounded-lg p-1.5 text-stone-600 hover:bg-[#eae4d5] hover:text-stone-900 transition-colors cursor-pointer"
             >
               <ZoomIn className="h-3.5 w-3.5" />
             </button>
             <button
               onClick={handleZoomOut}
               title="Zoom Out (or Mouse Wheel)"
-              className="rounded p-1 text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
+              className="rounded-lg p-1.5 text-stone-600 hover:bg-[#eae4d5] hover:text-stone-900 transition-colors cursor-pointer"
             >
               <ZoomOut className="h-3.5 w-3.5" />
             </button>
             <button
               onClick={handleResetZoom}
               title="Reset Zoom & Pan"
-              className="rounded p-1 text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
+              className="rounded-lg p-1.5 text-stone-600 hover:bg-[#eae4d5] hover:text-stone-900 transition-colors cursor-pointer"
             >
               <RotateCcw className="h-3.5 w-3.5" />
             </button>
@@ -317,11 +317,11 @@ export const MareyChart: React.FC<MareyChartProps> = ({
       </div>
 
       {/* Filter Chips Bar */}
-      <div className="mb-2 flex flex-wrap items-center justify-between gap-2 px-1 text-[11px]">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2 px-1 text-[11px]">
         {/* Train Type Filters */}
         <div className="flex flex-wrap items-center gap-1.5">
-          <span className="text-slate-500 font-medium mr-1 flex items-center gap-1">
-            <Train className="h-3 w-3" /> Trains:
+          <span className="text-stone-600 font-bold mr-1 flex items-center gap-1 font-mono text-[11px]">
+            <Train className="h-3.5 w-3.5 text-stone-500" /> Trains:
           </span>
           {(
             [
@@ -338,15 +338,15 @@ export const MareyChart: React.FC<MareyChartProps> = ({
               <button
                 key={item.type}
                 onClick={() => toggleTrainType(item.type)}
-                className={`flex items-center gap-1 rounded-full px-2 py-0.5 transition-all border ${
+                className={`flex items-center gap-1.5 rounded-full px-2.5 py-0.5 transition-all border font-mono text-[10px] cursor-pointer ${
                   active
-                    ? 'bg-slate-800 text-slate-200 border-slate-700'
-                    : 'bg-slate-950/40 text-slate-600 border-slate-900 hover:text-slate-400'
+                    ? 'bg-white text-stone-800 border-[#ded8c9] shadow-sm font-bold'
+                    : 'bg-[#eee9dc]/60 text-stone-400 border-[#ded8c9]/50 hover:text-stone-600'
                 }`}
               >
                 <span
-                  className="h-2 w-2 rounded-full"
-                  style={{ backgroundColor: active ? item.color : '#475569' }}
+                  className="h-2 w-2 rounded-full ring-1 ring-black/10"
+                  style={{ backgroundColor: active ? item.color : '#a8a29e' }}
                 />
                 <span>{item.label}</span>
               </button>
@@ -356,8 +356,8 @@ export const MareyChart: React.FC<MareyChartProps> = ({
 
         {/* Maintenance Department Filters */}
         <div className="flex flex-wrap items-center gap-1.5">
-          <span className="text-slate-500 font-medium mr-1 flex items-center gap-1">
-            <Wrench className="h-3 w-3" /> Blocks:
+          <span className="text-stone-600 font-bold mr-1 flex items-center gap-1 font-mono text-[11px]">
+            <Wrench className="h-3.5 w-3.5 text-stone-500" /> Blocks:
           </span>
           {(
             [
@@ -371,15 +371,15 @@ export const MareyChart: React.FC<MareyChartProps> = ({
               <button
                 key={item.dept}
                 onClick={() => toggleDepartment(item.dept)}
-                className={`flex items-center gap-1 rounded-full px-2 py-0.5 transition-all border ${
+                className={`flex items-center gap-1.5 rounded-full px-2.5 py-0.5 transition-all border font-mono text-[10px] cursor-pointer ${
                   active
-                    ? 'bg-slate-800 text-slate-200 border-slate-700'
-                    : 'bg-slate-950/40 text-slate-600 border-slate-900 hover:text-slate-400'
+                    ? 'bg-white text-stone-800 border-[#ded8c9] shadow-sm font-bold'
+                    : 'bg-[#eee9dc]/60 text-stone-400 border-[#ded8c9]/50 hover:text-stone-600'
                 }`}
               >
                 <span
-                  className="h-2 w-2 rounded-sm"
-                  style={{ backgroundColor: active ? item.color : '#475569' }}
+                  className="h-2 w-2 rounded-sm ring-1 ring-black/10"
+                  style={{ backgroundColor: active ? item.color : '#a8a29e' }}
                 />
                 <span>{item.label}</span>
               </button>
@@ -389,7 +389,7 @@ export const MareyChart: React.FC<MareyChartProps> = ({
       </div>
 
       {/* SVG Canvas Container */}
-      <div className="relative overflow-hidden rounded-md border border-slate-800/80 bg-slate-950">
+      <div className="relative overflow-hidden rounded-xl border border-slate-800/90 bg-slate-950 shadow-[inset_0_2px_12px_rgba(0,0,0,0.6)]">
         <svg
           ref={svgRef}
           width={width}
@@ -739,29 +739,29 @@ export const MareyChart: React.FC<MareyChartProps> = ({
       </div>
 
       {/* Bottom Chart Footer / Legend & Shortcuts */}
-      <div className="mt-2.5 flex flex-wrap items-center justify-between gap-3 px-1 text-[11px] text-slate-400">
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-3 px-1 text-[11px] font-mono text-stone-500">
         <div className="flex flex-wrap items-center gap-4">
           <span className="flex items-center gap-1.5">
-            <span className="h-0.5 w-4 bg-red-500 inline-block" /> Rajdhani (2.5px)
+            <span className="h-0.5 w-4 bg-red-500 inline-block rounded-full" /> Rajdhani (2.5px)
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="h-0.5 w-4 bg-orange-500 inline-block" /> Vande Bharat (2.5px)
+            <span className="h-0.5 w-4 bg-orange-500 inline-block rounded-full" /> Vande Bharat (2.5px)
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="h-0.5 w-4 bg-blue-500 inline-block" /> Express (1.8px)
+            <span className="h-0.5 w-4 bg-blue-500 inline-block rounded-full" /> Express (1.8px)
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="h-0.5 w-4 bg-purple-500 inline-block" /> Mail (1.8px)
+            <span className="h-0.5 w-4 bg-purple-500 inline-block rounded-full" /> Mail (1.8px)
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="h-0.5 w-4 bg-cyan-500 inline-block" /> Passenger (1.2px)
+            <span className="h-0.5 w-4 bg-cyan-500 inline-block rounded-full" /> Passenger (1.2px)
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="h-0.5 w-4 bg-slate-500 inline-block" /> Freight (1.2px)
+            <span className="h-0.5 w-4 bg-stone-400 inline-block rounded-full" /> Freight (1.2px)
           </span>
         </div>
 
-        <div className="flex items-center gap-3 text-slate-500">
+        <div className="flex items-center gap-3 text-stone-400">
           <span>Scroll to zoom · Drag to pan · Hover line/block for details</span>
         </div>
       </div>
