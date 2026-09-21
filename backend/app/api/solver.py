@@ -7,6 +7,11 @@ from app.core.database import get_db
 from app.models.demand import DemandModel
 from app.schemas.solver import SolveRequest, SolveResponse
 from app.services.ortools_solver import ORToolsCorridorSolver
+from app.services.elastic_solver_service import (
+    solve_corridor_schedule_async,
+    CorridorOptimizationRequest,
+    CorridorOptimizationResponse
+)
 
 router = APIRouter(prefix="/solver", tags=["AI Scheduling Cockpit (OR-Tools)"])
 solver_service = ORToolsCorridorSolver()
@@ -59,3 +64,12 @@ async def stream_solver_telemetry():
             yield f"data: {json.dumps(stage)}\n\n"
 
     return StreamingResponse(event_generator(), media_type="text/event-stream")
+
+@router.post("/elastic-solve", response_model=CorridorOptimizationResponse)
+async def solve_corridor_elastic(request: CorridorOptimizationRequest):
+    """
+    Two-Stage Hierarchical Relaxation Solver with AsyncIO Thread Pool Offloading.
+    Stage 1 (Strict) -> Stage 2 (Elastic Fallback with Linear Penalty) to eliminate timeouts.
+    """
+    return await solve_corridor_schedule_async(request)
+

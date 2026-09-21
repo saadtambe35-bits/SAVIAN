@@ -13,6 +13,9 @@ import {
   PRESET_SCENARIOS,
   MOCK_TELEMETRY,
 } from '@/data/mockData';
+import { LanguageProvider } from '@/i18n/LanguageContext';
+import { StationDigitalTwin3D } from '@/components/digitaltwin/StationDigitalTwin3D';
+import { DepartmentTrustMatrix } from '@/components/discipline/DepartmentTrustMatrix';
 
 export const App: React.FC = () => {
   // Navigation State
@@ -146,6 +149,16 @@ export const App: React.FC = () => {
           title: 'Block Lifecycle',
           subtitle: 'Proposal to Station Master Line-Clear Execution Pipeline',
         };
+      case 'digitaltwin':
+        return {
+          title: '3D Station Yard Digital Twin',
+          subtitle: 'Interactive 2.5D Isometric Rail Yard & Lockout Visualizer',
+        };
+      case 'discipline':
+        return {
+          title: 'Departmental Discipline Matrix',
+          subtitle: 'P-Way, S&T & OHE Historical Trust Scores & Solver Penalties',
+        };
       case 'settings':
         return {
           title: 'System Settings',
@@ -159,13 +172,14 @@ export const App: React.FC = () => {
   const navMeta = getNavTitle();
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-[#f5f3ec] text-stone-800 font-sans">
-      {/* 1. Left Sidebar (Fixed / Desktop w-64, Drawer on Mobile) */}
-      <Sidebar
-        activeNav={activeNav}
-        onSelectNav={(key) => setActiveNav(key)}
-        mobileOpen={mobileSidebarOpen}
-        onCloseMobile={() => setMobileSidebarOpen(false)}
+    <LanguageProvider>
+      <div className="flex h-screen w-screen overflow-hidden bg-[#f5f3ec] text-stone-800 font-sans">
+        {/* 1. Left Sidebar (Fixed / Desktop w-64, Drawer on Mobile) */}
+        <Sidebar
+          activeNav={activeNav}
+          onSelectNav={(key) => setActiveNav(key)}
+          mobileOpen={mobileSidebarOpen}
+          onCloseMobile={() => setMobileSidebarOpen(false)}
         demandCount={demands.length}
         activeClashes={solverResult.clashes_detected}
       />
@@ -234,6 +248,18 @@ export const App: React.FC = () => {
               />
             )}
 
+            {activeNav === 'digitaltwin' && (
+              <div className="rounded-2xl border border-[#ded9cb] bg-[#fbf9f4] p-4 shadow-sm">
+                <StationDigitalTwin3D />
+              </div>
+            )}
+
+            {activeNav === 'discipline' && (
+              <div className="rounded-2xl border border-[#ded9cb] bg-[#fbf9f4] p-4 shadow-sm">
+                <DepartmentTrustMatrix />
+              </div>
+            )}
+
             {activeNav === 'settings' && <SettingsView />}
           </div>
         </main>
@@ -249,6 +275,7 @@ export const App: React.FC = () => {
         />
       </div>
     </div>
+    </LanguageProvider>
   );
 };
 

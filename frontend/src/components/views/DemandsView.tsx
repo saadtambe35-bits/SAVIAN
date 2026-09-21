@@ -13,6 +13,7 @@ import {
   AlertTriangle,
   Check,
   Trash2,
+  Mic,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -20,6 +21,7 @@ import { BlockDemand } from '@/types';
 import { MOCK_DEMANDS, MOCK_STATIONS } from '@/data/mockData';
 import { formatMinutesToTime } from '@/lib/utils';
 import { FormT409Modal } from '@/components/cockpit/FormT409Modal';
+import { VoiceDispatchModal } from '@/components/voice/VoiceDispatchModal';
 
 interface DemandsViewProps {
   demands?: BlockDemand[];
@@ -47,6 +49,7 @@ export const DemandsView: React.FC<DemandsViewProps> = ({
   const [showCoalignModal, setShowCoalignModal] = useState(false);
   const [showSafetyModal, setShowSafetyModal] = useState(false);
   const [showFormT409, setShowFormT409] = useState(false);
+  const [showVoiceModal, setShowVoiceModal] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   // New Demand Form state
@@ -242,15 +245,28 @@ export const DemandsView: React.FC<DemandsViewProps> = ({
             ))}
           </div>
 
-          <Button
-            variant="railway"
-            size="sm"
-            onClick={() => setShowNewDemandModal(true)}
-            className="text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-[0_3px_10px_rgba(16,185,129,0.3)] transition-all transform active:scale-95"
-          >
-            <Plus className="mr-1 h-3.5 w-3.5" />
-            New Demand
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowVoiceModal(true)}
+              className="text-xs font-bold border-cyan-500/40 bg-cyan-50/90 hover:bg-cyan-100 text-cyan-950 rounded-xl shadow-sm transition-all transform active:scale-95 flex items-center gap-1.5"
+              title="Voice Dispatch Assistant (JARVIS)"
+            >
+              <Mic className="h-3.5 w-3.5 text-cyan-600 animate-pulse" />
+              <span>Voice Dispatch</span>
+            </Button>
+
+            <Button
+              variant="railway"
+              size="sm"
+              onClick={() => setShowNewDemandModal(true)}
+              className="text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-[0_3px_10px_rgba(16,185,129,0.3)] transition-all transform active:scale-95"
+            >
+              <Plus className="mr-1 h-3.5 w-3.5" />
+              New Demand
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -941,6 +957,22 @@ export const DemandsView: React.FC<DemandsViewProps> = ({
         isOpen={showFormT409}
         onClose={() => setShowFormT409(false)}
         onConfirm={handleConfirmFormT409}
+      />
+
+      {/* JARVIS-Style NLP Voice Dispatch Modal */}
+      <VoiceDispatchModal
+        isOpen={showVoiceModal}
+        onClose={() => setShowVoiceModal(false)}
+        onSubmitDemand={(extracted) => {
+          setFormFrom(extracted.sectionFrom || 'BINA');
+          setFormTo(extracted.sectionTo || 'MABA');
+          setFormDept(extracted.department || 'P_WAY');
+          setFormStartTime(extracted.startTime || '14:00');
+          setFormEndTime(extracted.endTime || '16:30');
+          setShowVoiceModal(false);
+          setShowNewDemandModal(true);
+          showToast(`Voice entities extracted: ${extracted.workDescription}`);
+        }}
       />
     </div>
   );

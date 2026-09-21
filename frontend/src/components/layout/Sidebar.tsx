@@ -9,11 +9,14 @@ import {
   X,
   Radio,
   ShieldCheck,
+  Box,
+  Award,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
+import { useTranslation } from '@/i18n/LanguageContext';
 
-export type NavItemKey = 'dashboard' | 'marey' | 'demands' | 'solver' | 'lifecycle' | 'settings';
+export type NavItemKey = 'dashboard' | 'marey' | 'demands' | 'solver' | 'lifecycle' | 'digitaltwin' | 'discipline' | 'settings';
 
 interface SidebarProps {
   activeNav: NavItemKey;
@@ -40,6 +43,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   demandCount = 5,
   activeClashes = 0,
 }) => {
+  const { t } = useTranslation();
   const navItems: NavItemConfig[] = [
     {
       key: 'dashboard',
@@ -71,6 +75,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
       key: 'lifecycle',
       label: 'Lifecycle',
       icon: GitBranch,
+    },
+    {
+      key: 'digitaltwin',
+      label: '3D Yard Twin',
+      icon: Box,
+      badge: '3D Twin',
+      badgeVariant: 'railway',
+    },
+    {
+      key: 'discipline',
+      label: 'Discipline Matrix',
+      icon: Award,
+      badge: 'Trust',
+      badgeVariant: 'warning',
     },
     {
       key: 'settings',
@@ -143,7 +161,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div className="flex items-center justify-between text-[11px] font-semibold text-stone-700">
             <span className="flex items-center gap-1.5 text-stone-800">
               <Radio className="h-3 w-3 text-emerald-600" />
-              BINA – ET SECTION
+              {t('bina_et_section') || 'BINA – ET SECTION'}
             </span>
             <span className="font-mono text-emerald-800 text-[10px] bg-emerald-100/70 px-1.5 py-0.5 rounded-md border border-emerald-300/60 font-bold">
               WCR / BPL
@@ -160,7 +178,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Navigation */}
         <nav className="flex-1 space-y-1.5 px-3 py-3 overflow-y-auto">
           <div className="px-2 pb-1 text-[10px] font-bold uppercase tracking-wider text-stone-400 font-mono">
-            Navigation
+            {t('navigation') || 'Navigation'}
           </div>
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -189,7 +207,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       isActive ? 'text-emerald-700' : 'text-stone-400 group-hover:text-stone-600'
                     )}
                   />
-                  <span>{item.label}</span>
+                  <span>{t(item.key) || item.label}</span>
                 </div>
 
                 {item.badge && (

@@ -16,6 +16,7 @@ import { BlockDemand } from '@/types';
 import { MOCK_DEMANDS } from '@/data/mockData';
 import { formatMinutesToTime } from '@/lib/utils';
 import { FormT409Modal } from '@/components/cockpit/FormT409Modal';
+import { GeofenceSafetyLock } from '@/components/safety/GeofenceSafetyLock';
 
 interface LifecycleViewProps {
   demands?: BlockDemand[];
@@ -260,6 +261,11 @@ export const LifecycleView: React.FC<LifecycleViewProps> = ({
             </div>
           );
         })}
+      </div>
+
+      {/* IoT NavIC/GPS Track Clearance Geofenced Safety Interlock */}
+      <div className="pt-2">
+        <GeofenceSafetyLock />
       </div>
 
       {/* Official Indian Railways Form T/409 Line-Clear Authority Modal */}

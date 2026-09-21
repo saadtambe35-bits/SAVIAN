@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { SolverResult, TelemetryEvent } from '@/types';
 import { MOCK_SOLVER_RESULT, MOCK_TELEMETRY } from '@/data/mockData';
+import { CrewDutyGuard } from '@/components/crew/CrewDutyGuard';
 
 interface SolverViewProps {
   solverStatus: 'idle' | 'solving' | 'done';
@@ -355,6 +356,11 @@ export const SolverView: React.FC<SolverViewProps> = ({
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Indian Railways 10-Hour Loco Pilot Duty Guard Module */}
+      <div className="pt-2">
+        <CrewDutyGuard />
       </div>
     </div>
   );

@@ -16,6 +16,8 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { PRESET_SCENARIOS } from '@/data/mockData';
+import { RoiTicker } from '@/components/roi/RoiTicker';
+import { LanguageToggle, useTranslation } from '@/i18n/LanguageContext';
 
 export type SolverStatusType = 'idle' | 'solving' | 'done';
 
@@ -54,6 +56,7 @@ export const Header: React.FC<HeaderProps> = ({
   currentScenario = 'standard',
   onSelectScenario,
 }) => {
+  const { t } = useTranslation();
   const [showNotifications, setShowNotifications] = useState(false);
   const [alertsCount, setAlertsCount] = useState(unreadAlertCount);
   const [showScenarioMenu, setShowScenarioMenu] = useState(false);
@@ -141,19 +144,29 @@ export const Header: React.FC<HeaderProps> = ({
           <div>
             <div className="flex items-center space-x-2.5">
               <h1 className="text-base font-bold tracking-tight text-stone-900 sm:text-lg">
-                {title}
+                {t(title)}
               </h1>
               {subtitle && (
                 <span className="hidden xl:inline-block text-xs text-stone-500 border-l border-[#d8d3c5] pl-2.5">
-                  {subtitle}
+                  {t(subtitle)}
                 </span>
               )}
             </div>
           </div>
         </div>
 
+        {/* Center Ticker Slot: Live Demurrage & Carbon ROI */}
+        <div className="hidden xl:flex items-center">
+          <RoiTicker compact />
+        </div>
+
         {/* Right Controls Area */}
         <div className="flex items-center space-x-2.5 sm:space-x-3">
+          {/* Vernacular Language Switcher */}
+          <div className="hidden sm:flex items-center">
+            <LanguageToggle />
+          </div>
+
           {/* Live IST Clock Pill */}
           <div className="hidden sm:flex items-center space-x-1.5 rounded-full border border-[#ded7c8] bg-white/90 px-3 py-1 text-xs font-mono text-stone-700 shadow-sm">
             <Clock className="h-3.5 w-3.5 text-stone-400 animate-spin" style={{ animationDuration: '60s' }} />

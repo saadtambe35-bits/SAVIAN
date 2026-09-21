@@ -17,6 +17,8 @@ import { BlockDemand, SolverResult } from '@/types';
 import { MOCK_DEMANDS, MOCK_SOLVER_RESULT } from '@/data/mockData';
 import { formatMinutesToTime } from '@/lib/utils';
 import { TrackStripMap } from '@/components/cockpit/TrackStripMap';
+import { WeatherTsrEngine } from '@/components/weather/WeatherTsrEngine';
+import { useTranslation } from '@/i18n/LanguageContext';
 
 interface DashboardViewProps {
   chaosMode: boolean;
@@ -35,6 +37,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   demands = MOCK_DEMANDS,
   solverResult = MOCK_SOLVER_RESULT,
 }) => {
+  const { t } = useTranslation();
   const criticalCount = demands.filter((d) => d.severity_tier === 'CRITICAL').length;
   const reviewedCount = demands.filter((d) => d.status === 'REVIEWED').length;
   const approvedCount = demands.filter((d) => d.status === 'APPROVED').length;
@@ -95,7 +98,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   }`}
                 >
                   <Play className="mr-1.5 h-3.5 w-3.5 fill-current" />
-                  Re-optimize Corridor
+                  {t('reoptimize') || 'Re-optimize Corridor'}
                 </motion.button>
               </div>
 
@@ -164,6 +167,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       {/* Hero KPI Cards (4 Grid Columns) - Neumorphic with count-up & hover elevation */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {/* Card 1: Total Demands -> Navigates to Demands */}
+        {/* Card 1: Total Demands -> Navigates to Demands */}
         <motion.div
           whileHover={{ y: -3 }}
           onClick={() => onNavigate('demands')}
@@ -172,7 +176,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-1.5">
-              <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">Total Demands</span>
+              <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">{t('total_demands')}</span>
               <ArrowUpRight className="h-3.5 w-3.5 text-stone-400 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
             <div className="rounded-xl bg-sky-100 p-2 text-sky-700 border border-sky-200/70 shadow-sm group-hover:scale-105 transition-transform">
@@ -217,7 +221,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-1.5">
-              <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">Shadow Block Savings</span>
+              <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">{t('shadow_savings')}</span>
               <ArrowUpRight className="h-3.5 w-3.5 text-stone-400 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
             <div className="rounded-xl bg-emerald-100 p-2 text-emerald-700 border border-emerald-200/70 shadow-sm group-hover:scale-105 transition-transform">
@@ -262,7 +266,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-1.5">
-              <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">Train Delay Impact</span>
+              <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">{t('train_delay_impact')}</span>
               <ArrowUpRight className="h-3.5 w-3.5 text-stone-400 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
             <div className="rounded-xl bg-indigo-100 p-2 text-indigo-700 border border-indigo-200/70 shadow-sm group-hover:scale-105 transition-transform">
@@ -307,7 +311,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-1.5">
-              <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">Kavach Commissioned</span>
+              <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">{t('kavach_commissioned')}</span>
               <ArrowUpRight className="h-3.5 w-3.5 text-stone-400 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
             <div className="rounded-xl bg-teal-100 p-2 text-teal-700 border border-teal-200/70 shadow-sm group-hover:scale-105 transition-transform">
@@ -346,6 +350,11 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
       {/* Centerpiece: Bina–Itarsi Strip Map */}
       <TrackStripMap />
+
+      {/* Dynamic IMD Weather Radar & TSR Engine */}
+      <div className="pt-1">
+        <WeatherTsrEngine />
+      </div>
 
       {/* Bottom Operational Split Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
