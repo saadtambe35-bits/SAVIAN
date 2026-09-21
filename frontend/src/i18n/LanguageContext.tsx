@@ -1078,7 +1078,7 @@ export const LanguageToggle: React.FC = () => {
     <div
       role="group"
       aria-label="Language selection toggle"
-      className="inline-flex items-center p-1 rounded-full bg-slate-900 border border-slate-700/80 shadow-inner"
+      className="inline-flex items-center p-1 rounded-full bg-[#ece8dd] border border-[#d8d2c4] shadow-inner"
     >
       {options.map((opt) => {
         const isActive = language === opt.code;
@@ -1087,10 +1087,10 @@ export const LanguageToggle: React.FC = () => {
             key={opt.code}
             type="button"
             onClick={() => setLanguage(opt.code)}
-            className={`px-3 py-1 text-xs font-mono font-semibold rounded-full transition-all duration-200 cursor-pointer ${
+            className={`px-3 py-1 text-xs font-mono font-bold rounded-full transition-all duration-200 cursor-pointer ${
               isActive
-                ? 'bg-emerald-500 text-slate-950 font-bold shadow-md shadow-emerald-950/60 scale-[1.03]'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                ? 'bg-emerald-800 text-white shadow-sm scale-[1.03]'
+                : 'text-stone-600 hover:text-stone-900 hover:bg-white/60'
             }`}
             title={`Switch to ${opt.subLabel}`}
             aria-pressed={isActive}

@@ -176,27 +176,27 @@ export const CrewDutyGuard: React.FC<CrewDutyGuardProps> = ({
   }, [records]);
 
   return (
-    <div className="w-full max-w-5xl mx-auto font-sans text-slate-100">
+    <div className="w-full max-w-5xl mx-auto font-sans text-stone-900">
       
       {/* Outer Cockpit Container */}
-      <div className="relative overflow-hidden rounded-2xl border border-slate-700/70 bg-slate-900/90 backdrop-blur-md shadow-2xl shadow-black/60">
+      <div className="relative overflow-hidden rounded-2xl border border-[#ded9cb] bg-[#faf8f3] shadow-lg shadow-stone-900/10">
         
         {/* Top Control Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 bg-slate-950/60 px-5 py-3.5 gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#e5dfd3] bg-[#f4efe4] px-5 py-3.5 gap-3">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-100 border border-amber-300 text-amber-800 shadow-sm">
               <ShieldAlert className="h-5 w-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-sm sm:text-base font-bold tracking-tight text-white font-mono">
+                <h2 className="text-sm sm:text-base font-bold tracking-tight text-stone-900 font-mono">
                   CREW DUTY GUARD (GR/SR 10-HR COMPLIANCE)
                 </h2>
-                <span className="rounded bg-slate-800 border border-slate-700 px-1.5 py-0.5 text-[10px] font-mono text-cyan-300">
+                <span className="rounded-md bg-stone-200/80 border border-stone-300 px-1.5 py-0.5 text-[10px] font-mono text-stone-700 font-semibold">
                   HOER SEC. 130
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-stone-500 font-medium">
                 Statutory Running Duty Ceiling • Loop Detention Protection • Active Relief Dispatch
               </p>
             </div>
@@ -204,27 +204,27 @@ export const CrewDutyGuard: React.FC<CrewDutyGuardProps> = ({
 
           {/* Aggregate Telemetry Status Pills */}
           <div className="flex items-center gap-2 text-[11px] font-mono">
-            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800/80 border border-slate-700/60 text-slate-300">
-              <Users className="w-3.5 h-3.5 text-slate-400" />
-              <span>{summary.total} CREWS</span>
+            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-white border border-[#ded8c9] text-stone-700 shadow-sm">
+              <Users className="w-3.5 h-3.5 text-stone-500" />
+              <span className="font-semibold">{summary.total} CREWS</span>
             </span>
 
             {summary.critical > 0 && (
-              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-red-950/60 border border-red-500/60 text-red-300 animate-pulse font-bold">
-                <span className="h-2 w-2 rounded-full bg-red-500" />
+              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-rose-50 border border-rose-300 text-rose-800 animate-pulse font-bold shadow-sm">
+                <span className="h-2 w-2 rounded-full bg-rose-600" />
                 {summary.critical} CRITICAL
               </span>
             )}
 
             {summary.warning > 0 && (
-              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-amber-950/50 border border-amber-500/50 text-amber-300">
-                <span className="h-2 w-2 rounded-full bg-amber-400" />
+              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-amber-50 border border-amber-300 text-amber-800 font-semibold shadow-sm">
+                <span className="h-2 w-2 rounded-full bg-amber-500" />
                 {summary.warning} AT RISK
               </span>
             )}
 
-            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-emerald-950/40 border border-emerald-500/40 text-emerald-300">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 font-semibold shadow-sm">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
               {summary.normal} NORMAL
             </span>
           </div>
@@ -232,41 +232,41 @@ export const CrewDutyGuard: React.FC<CrewDutyGuardProps> = ({
 
         {/* 🚨 ADVISORY ALERT BANNER (For WARNING or CRITICAL VIOLATION trains) */}
         {priorityAlertRecord && (
-          <div className="border-b border-amber-500/30 bg-gradient-to-r from-amber-950/40 via-slate-900/90 to-amber-950/20 p-4 sm:p-5 relative overflow-hidden">
+          <div className="border-b border-amber-200 bg-amber-50/70 p-4 sm:p-5 relative overflow-hidden">
             {/* Ambient Alert Glow */}
-            <div className="pointer-events-none absolute -left-10 -top-10 h-32 w-32 rounded-full bg-amber-500/10 blur-xl" />
+            <div className="pointer-events-none absolute -left-10 -top-10 h-32 w-32 rounded-full bg-amber-400/15 blur-xl" />
 
             <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-4">
               
               {/* Alert Text Details */}
               <div className="space-y-1.5 max-w-3xl">
                 <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500 text-slate-950 tracking-wide uppercase animate-pulse">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500 text-stone-950 tracking-wide uppercase shadow-sm">
                     <AlertTriangle className="w-3 h-3" />
                     DISPATCH ADVISORY ALERT
                   </span>
-                  <span className="text-xs text-amber-300/80 font-mono">
+                  <span className="text-xs text-amber-900/80 font-mono font-medium">
                     Loop Detention Threat: Over-Duty Stabling Risk
                   </span>
                 </div>
 
-                <div className="text-xs sm:text-sm text-slate-100 font-mono leading-relaxed">
-                  <span className="text-amber-400 font-bold">🚨 CREW DUTY LIMIT ALERT:</span>{' '}
-                  Loco Pilot <strong className="text-white underline decoration-amber-400/50">{priorityAlertRecord.pilotId}</strong> on{' '}
-                  <strong className="text-white">{priorityAlertRecord.trainName}</strong> has reached{' '}
-                  <strong className="text-amber-300 bg-amber-500/20 px-1.5 py-0.5 rounded border border-amber-500/40">
+                <div className="text-xs sm:text-sm text-stone-800 font-mono leading-relaxed">
+                  <span className="text-amber-800 font-bold">🚨 CREW DUTY LIMIT ALERT:</span>{' '}
+                  Loco Pilot <strong className="text-stone-900 underline decoration-amber-500/50">{priorityAlertRecord.pilotId}</strong> on{' '}
+                  <strong className="text-stone-900">{priorityAlertRecord.trainName}</strong> has reached{' '}
+                  <strong className="text-amber-900 bg-amber-200/70 px-1.5 py-0.5 rounded border border-amber-300 font-bold">
                     {formatHours(priorityAlertRecord.cumulativeHours)}
                   </strong>{' '}
                   continuous duty. Loop wait exceeds safe limit.
                 </div>
 
-                <p className="text-[11px] text-slate-400 flex items-center gap-1.5">
-                  <Radio className="w-3.5 h-3.5 text-amber-400" />
+                <p className="text-[11px] text-stone-600 flex items-center gap-1.5">
+                  <Radio className="w-3.5 h-3.5 text-amber-700" />
                   <span>
                     Scheduled Relief Station:{' '}
-                    <strong className="text-slate-200">{priorityAlertRecord.reliefStation}</strong>
+                    <strong className="text-stone-900">{priorityAlertRecord.reliefStation}</strong>
                   </span>
-                  <span className="text-slate-600">•</span>
+                  <span className="text-stone-400">•</span>
                   <span>Section Threshold: {priorityAlertRecord.thresholdHours.toFixed(1)} hrs Legal Ceiling</span>
                 </p>
               </div>
@@ -278,14 +278,14 @@ export const CrewDutyGuard: React.FC<CrewDutyGuardProps> = ({
                   type="button"
                   onClick={() => handleAdvanceBlock(priorityAlertRecord.trainId)}
                   disabled={advancedWindows[priorityAlertRecord.trainId]}
-                  className={`px-3 py-2 rounded-lg text-xs font-semibold font-mono flex items-center justify-center gap-1.5 transition-all duration-200 border ${
+                  className={`px-3 py-2 rounded-xl text-xs font-semibold font-mono flex items-center justify-center gap-1.5 transition-all duration-200 border ${
                     advancedWindows[priorityAlertRecord.trainId]
-                      ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-300 cursor-default'
-                      : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700 hover:border-slate-600 shadow-md'
+                      ? 'bg-emerald-50 border-emerald-300 text-emerald-800 cursor-default'
+                      : 'bg-white hover:bg-[#f2ede4] text-stone-700 border-[#ded8c9] shadow-sm cursor-pointer'
                   }`}
                   title="Prioritize section signals to clear train before 10h threshold"
                 >
-                  <FastForward className="w-3.5 h-3.5 text-cyan-400" />
+                  <FastForward className="w-3.5 h-3.5 text-stone-500" />
                   {advancedWindows[priorityAlertRecord.trainId] ? (
                     <span>Block Window Advanced (-35m)</span>
                   ) : (
@@ -298,16 +298,16 @@ export const CrewDutyGuard: React.FC<CrewDutyGuardProps> = ({
                   type="button"
                   onClick={() => handleDispatchRelief(priorityAlertRecord.trainId)}
                   disabled={dispatchedReliefs[priorityAlertRecord.trainId]}
-                  className={`px-3.5 py-2 rounded-lg text-xs font-bold font-mono flex items-center justify-center gap-1.5 transition-all duration-200 border ${
+                  className={`px-3.5 py-2 rounded-xl text-xs font-bold font-mono flex items-center justify-center gap-1.5 transition-all duration-200 border cursor-pointer ${
                     dispatchedReliefs[priorityAlertRecord.trainId]
-                      ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300 cursor-default shadow-lg shadow-emerald-950/50'
-                      : 'bg-amber-500 hover:bg-amber-400 text-slate-950 border-amber-400 shadow-lg shadow-amber-950/60 hover:scale-[1.02]'
+                      ? 'bg-emerald-100 border-emerald-300 text-emerald-800 cursor-default shadow-sm'
+                      : 'bg-amber-500 hover:bg-amber-400 text-stone-950 border-amber-400 shadow-md shadow-amber-900/20 hover:scale-[1.02]'
                   }`}
                   title={`Deploy standby Loco Pilot crew to ${priorityAlertRecord.reliefStation}`}
                 >
                   <UserCheck className="w-4 h-4" />
                   {dispatchedReliefs[priorityAlertRecord.trainId] ? (
-                    <span className="flex items-center gap-1 text-emerald-300">
+                    <span className="flex items-center gap-1 text-emerald-800 font-bold">
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       Relief Dispatched (ETA 12 mins)
                     </span>
@@ -322,16 +322,16 @@ export const CrewDutyGuard: React.FC<CrewDutyGuardProps> = ({
         )}
 
         {/* Filter and Search Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between border-b border-slate-800/80 bg-slate-950/30 px-5 py-3 gap-3">
+        <div className="flex flex-col sm:flex-row items-center justify-between border-b border-[#e5dfd3] bg-[#f7f4ec] px-5 py-3 gap-3">
           {/* Filter Pills */}
           <div className="flex items-center gap-1.5 w-full sm:w-auto">
             <button
               type="button"
               onClick={() => setFilterTab('ALL')}
-              className={`px-3 py-1 rounded-md text-xs font-mono transition-colors ${
+              className={`px-3 py-1 rounded-xl text-xs font-mono transition-colors cursor-pointer ${
                 filterTab === 'ALL'
-                  ? 'bg-slate-800 text-white font-semibold border border-slate-700'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white text-stone-900 font-bold border border-[#ded8c9] shadow-sm'
+                  : 'text-stone-500 hover:text-stone-900'
               }`}
             >
               All Corridor Trains ({records.length})
@@ -339,22 +339,22 @@ export const CrewDutyGuard: React.FC<CrewDutyGuardProps> = ({
             <button
               type="button"
               onClick={() => setFilterTab('WARNINGS_ONLY')}
-              className={`px-3 py-1 rounded-md text-xs font-mono transition-colors flex items-center gap-1 ${
+              className={`px-3 py-1 rounded-xl text-xs font-mono transition-colors flex items-center gap-1 cursor-pointer ${
                 filterTab === 'WARNINGS_ONLY'
-                  ? 'bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/40'
-                  : 'text-slate-400 hover:text-amber-300'
+                  ? 'bg-amber-100 text-amber-900 font-bold border border-amber-300 shadow-sm'
+                  : 'text-stone-500 hover:text-amber-800'
               }`}
             >
-              <AlertTriangle className="w-3 h-3 text-amber-400" />
+              <AlertTriangle className="w-3 h-3 text-amber-700" />
               Duty Alerts ({summary.warning + summary.critical})
             </button>
             <button
               type="button"
               onClick={() => setFilterTab('COMPLIANT')}
-              className={`px-3 py-1 rounded-md text-xs font-mono transition-colors ${
+              className={`px-3 py-1 rounded-xl text-xs font-mono transition-colors cursor-pointer ${
                 filterTab === 'COMPLIANT'
-                  ? 'bg-emerald-500/20 text-emerald-300 font-semibold border border-emerald-500/40'
-                  : 'text-slate-400 hover:text-emerald-300'
+                  ? 'bg-emerald-100 text-emerald-900 font-bold border border-emerald-300 shadow-sm'
+                  : 'text-stone-500 hover:text-emerald-800'
               }`}
             >
               Compliant (&lt;9h) ({summary.normal})
@@ -363,21 +363,21 @@ export const CrewDutyGuard: React.FC<CrewDutyGuardProps> = ({
 
           {/* Quick Search */}
           <div className="relative w-full sm:w-64">
-            <Search className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search train, pilot ID, station..."
-              className="w-full bg-slate-900 border border-slate-700/70 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-cyan-500/80 font-mono transition-colors"
+              className="w-full bg-white border border-[#ded8c9] rounded-xl pl-8 pr-3 py-1.5 text-xs text-stone-800 placeholder:text-stone-400 focus:outline-none focus:border-emerald-700 font-mono transition-colors shadow-sm"
             />
           </div>
         </div>
 
         {/* Corridor Pilot Duty Monitor Table / Cards */}
-        <div className="p-4 sm:p-5 space-y-3.5">
+        <div className="p-4 sm:p-5 space-y-3.5 bg-[#faf8f3]">
           {filteredRecords.length === 0 ? (
-            <div className="text-center py-10 text-slate-500 font-mono text-xs">
+            <div className="text-center py-10 text-stone-400 font-mono text-xs">
               No train crews match the selected filter criteria.
             </div>
           ) : (
@@ -390,35 +390,35 @@ export const CrewDutyGuard: React.FC<CrewDutyGuardProps> = ({
               // Color configs based on GR/SR status
               const statusConfig = {
                 NORMAL: {
-                  badge: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300',
+                  badge: 'bg-emerald-50 border-emerald-200 text-emerald-800',
                   badgeLabel: 'NORMAL DUTY',
-                  border: 'border-slate-800 hover:border-slate-700',
-                  progressBar: 'bg-emerald-500',
-                  accentText: 'text-emerald-400',
+                  border: 'border-[#ded8c9] bg-white hover:bg-[#faf8f3] shadow-sm',
+                  progressBar: 'bg-emerald-600',
+                  accentText: 'text-emerald-800 font-bold',
                   hazardStrobe: '',
                 },
                 WARNING: {
-                  badge: 'bg-amber-500/20 border-amber-500/50 text-amber-300 animate-pulse',
+                  badge: 'bg-amber-50 border-amber-300 text-amber-800 font-bold animate-pulse',
                   badgeLabel: 'WARNING (9.0h - 9.9h)',
-                  border: 'border-amber-500/40 bg-slate-900/95 shadow-lg shadow-amber-950/20',
-                  progressBar: 'bg-amber-400',
-                  accentText: 'text-amber-400',
+                  border: 'border-amber-300 bg-[#fffdf9] shadow-sm hover:bg-[#fffcf5]',
+                  progressBar: 'bg-amber-500',
+                  accentText: 'text-amber-800 font-bold',
                   hazardStrobe: '',
                 },
                 CRITICAL_VIOLATION: {
-                  badge: 'bg-red-500/20 border-red-500/60 text-red-300 animate-pulse font-bold',
+                  badge: 'bg-rose-50 border-rose-300 text-rose-800 font-bold animate-pulse',
                   badgeLabel: 'CRITICAL VIOLATION (≥10.0h)',
-                  border: 'border-red-500/60 bg-red-950/10 shadow-lg shadow-red-950/30',
-                  progressBar: 'bg-red-500',
-                  accentText: 'text-red-400',
-                  hazardStrobe: 'ring-1 ring-red-500/30',
+                  border: 'border-rose-300 bg-[#fffafa] shadow-sm hover:bg-[#fff5f5]',
+                  progressBar: 'bg-rose-600',
+                  accentText: 'text-rose-800 font-bold',
+                  hazardStrobe: 'ring-1 ring-rose-400/40',
                 },
               }[status];
 
               return (
                 <div
                   key={record.trainId}
-                  className={`rounded-xl border ${statusConfig.border} ${statusConfig.hazardStrobe} bg-slate-800/40 p-4 transition-all duration-200 hover:bg-slate-800/60`}
+                  className={`rounded-2xl border ${statusConfig.border} ${statusConfig.hazardStrobe} p-4 transition-all duration-200`}
                 >
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                     
@@ -427,56 +427,56 @@ export const CrewDutyGuard: React.FC<CrewDutyGuardProps> = ({
                       
                       {/* Top Header Row */}
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="font-mono font-bold text-sm text-slate-100 flex items-center gap-1.5">
-                          <Train className="w-4 h-4 text-slate-400" />
+                        <span className="font-mono font-bold text-sm text-stone-900 flex items-center gap-1.5">
+                          <Train className="w-4 h-4 text-stone-500" />
                           {record.trainId}
                         </span>
-                        <span className="text-slate-500 text-xs font-mono">•</span>
-                        <span className="text-xs text-slate-300 font-medium truncate">
+                        <span className="text-stone-400 text-xs font-mono">•</span>
+                        <span className="text-xs text-stone-600 font-medium truncate">
                           {record.trainName}
                         </span>
                         
                         {/* Status Badge */}
                         <span
-                          className={`ml-auto sm:ml-0 inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono border ${statusConfig.badge}`}
+                          className={`ml-auto sm:ml-0 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono border ${statusConfig.badge}`}
                         >
-                          {status === 'NORMAL' && <CheckCircle2 className="w-3 h-3 text-emerald-400" />}
-                          {status === 'WARNING' && <AlertTriangle className="w-3 h-3 text-amber-400" />}
-                          {status === 'CRITICAL_VIOLATION' && <AlertCircle className="w-3 h-3 text-red-400" />}
+                          {status === 'NORMAL' && <CheckCircle2 className="w-3 h-3 text-emerald-700" />}
+                          {status === 'WARNING' && <AlertTriangle className="w-3 h-3 text-amber-700" />}
+                          {status === 'CRITICAL_VIOLATION' && <AlertCircle className="w-3 h-3 text-rose-700" />}
                           {statusConfig.badgeLabel}
                         </span>
 
                         {isReliefDispatched && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/20 border border-emerald-500/50 text-emerald-300 font-semibold shadow-sm">
-                            <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-emerald-50 border border-emerald-300 text-emerald-800 font-semibold shadow-sm">
+                            <CheckCircle2 className="w-3 h-3 text-emerald-700" />
                             Relief Dispatched (ETA 12 mins)
                           </span>
                         )}
 
                         {isBlockAdvanced && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-500/20 border border-cyan-500/50 text-cyan-300">
-                            <FastForward className="w-3 h-3 text-cyan-400" />
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-stone-100 border border-stone-300 text-stone-700 font-semibold">
+                            <FastForward className="w-3 h-3 text-stone-600" />
                             Window Advanced (-35m)
                           </span>
                         )}
                       </div>
 
                       {/* Pilot ID & Sign-on details */}
-                      <div className="flex flex-wrap items-center gap-y-1 gap-x-4 text-xs text-slate-400 font-mono">
+                      <div className="flex flex-wrap items-center gap-y-1 gap-x-4 text-xs text-stone-500 font-mono">
                         <div className="flex items-center gap-1.5">
-                          <span className="text-slate-500">Loco Pilot:</span>
-                          <span className="text-slate-200 font-medium">{record.pilotName}</span>
-                          <span className="text-[10px] text-cyan-400 bg-slate-800 px-1 py-0.2 rounded border border-slate-700">
+                          <span>Loco Pilot:</span>
+                          <span className="text-stone-800 font-semibold">{record.pilotName}</span>
+                          <span className="text-[10px] text-stone-700 bg-[#f4efe4] px-1.5 py-0.5 rounded border border-[#ded8c9] font-medium">
                             {record.pilotId}
                           </span>
                         </div>
-                        <div className="flex items-center gap-1 text-slate-400">
-                          <Clock className="w-3 h-3 text-slate-500" />
+                        <div className="flex items-center gap-1 text-stone-500">
+                          <Clock className="w-3 h-3 text-stone-400" />
                           <span>Sign-On: {record.dutyStartTime}</span>
                         </div>
-                        <div className="flex items-center gap-1 text-slate-400">
-                          <MapPin className="w-3 h-3 text-slate-500" />
-                          <span>Relief Siding: <strong className="text-slate-300">{record.reliefStation}</strong></span>
+                        <div className="flex items-center gap-1 text-stone-500">
+                          <MapPin className="w-3 h-3 text-stone-400" />
+                          <span>Relief Siding: <strong className="text-stone-800">{record.reliefStation}</strong></span>
                         </div>
                       </div>
 
@@ -485,20 +485,20 @@ export const CrewDutyGuard: React.FC<CrewDutyGuardProps> = ({
                     {/* Middle: Visual Running Duty Gauge */}
                     <div className="w-full lg:w-72 flex-shrink-0 space-y-1.5">
                       <div className="flex items-center justify-between text-xs font-mono">
-                        <span className="text-slate-400 flex items-center gap-1">
-                          <Timer className="w-3 h-3 text-slate-500" />
+                        <span className="text-stone-500 flex items-center gap-1">
+                          <Timer className="w-3 h-3 text-stone-400" />
                           Running Duty:
                         </span>
                         <div className="flex items-baseline gap-1">
                           <span className={`text-base font-bold ${statusConfig.accentText}`}>
                             {formatHours(record.cumulativeHours)}
                           </span>
-                          <span className="text-slate-500 text-[11px]">/ 10h 00m limit</span>
+                          <span className="text-stone-400 text-[11px]">/ 10h 00m limit</span>
                         </div>
                       </div>
 
                       {/* Progress Bar with 9h and 10h milestone markers */}
-                      <div className="relative h-2 w-full rounded-full bg-slate-950 border border-slate-700/60 overflow-hidden">
+                      <div className="relative h-2 w-full rounded-full bg-[#eee9dc] border border-[#ded8c9] overflow-hidden">
                         <div
                           className={`h-full transition-all duration-500 ${statusConfig.progressBar}`}
                           style={{ width: `${percentage}%` }}
@@ -506,21 +506,21 @@ export const CrewDutyGuard: React.FC<CrewDutyGuardProps> = ({
                       </div>
 
                       {/* Milestone Indicators */}
-                      <div className="flex items-center justify-between text-[10px] font-mono text-slate-500">
+                      <div className="flex items-center justify-between text-[10px] font-mono text-stone-500">
                         <span>0h (Sign-On)</span>
-                        <span className="text-amber-400/80">9.0h (Warning)</span>
-                        <span className="text-red-400/90 font-semibold">10.0h (Legal Limit)</span>
+                        <span className="text-amber-800 font-medium">9.0h (Warning)</span>
+                        <span className="text-rose-800 font-bold">10.0h (Legal Limit)</span>
                       </div>
                     </div>
 
                     {/* Right: Dispatch Mitigation Buttons (for Warning / Critical) */}
                     {(status === 'WARNING' || status === 'CRITICAL_VIOLATION') && (
-                      <div className="flex items-center gap-2 flex-shrink-0 lg:border-l lg:border-slate-800 lg:pl-4">
+                      <div className="flex items-center gap-2 flex-shrink-0 lg:border-l lg:border-[#e5dfd3] lg:pl-4">
                         {!isReliefDispatched ? (
                           <button
                             type="button"
                             onClick={() => handleDispatchRelief(record.trainId)}
-                            className="px-3 py-1.5 rounded-lg text-xs font-mono font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all duration-150 flex items-center gap-1.5 shadow-md shadow-amber-950/40 hover:scale-[1.02]"
+                            className="px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold bg-amber-500 hover:bg-amber-400 text-stone-950 transition-all duration-150 flex items-center gap-1.5 shadow-sm shadow-amber-900/20 hover:scale-[1.02] cursor-pointer"
                             title={`Dispatch relief pilot crew to ${record.reliefStation}`}
                           >
                             <UserCheck className="w-3.5 h-3.5" />
@@ -528,11 +528,11 @@ export const CrewDutyGuard: React.FC<CrewDutyGuardProps> = ({
                           </button>
                         ) : (
                           <div className="text-right">
-                            <span className="text-[11px] font-mono text-emerald-400 flex items-center gap-1 font-semibold">
-                              <CheckCircle2 className="w-3.5 h-3.5" />
+                            <span className="text-[11px] font-mono text-emerald-800 flex items-center gap-1 font-bold">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
                               Relief En-Route
                             </span>
-                            <span className="text-[10px] text-slate-400 font-mono">
+                            <span className="text-[10px] text-stone-500 font-mono">
                               ETA 12m to {record.reliefStation.split(' ')[0]}
                             </span>
                           </div>
@@ -542,10 +542,10 @@ export const CrewDutyGuard: React.FC<CrewDutyGuardProps> = ({
                           <button
                             type="button"
                             onClick={() => handleAdvanceBlock(record.trainId)}
-                            className="px-2.5 py-1.5 rounded-lg text-xs font-mono text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors flex items-center gap-1"
+                            className="px-3 py-1.5 rounded-xl text-xs font-mono text-stone-700 hover:text-stone-900 bg-white hover:bg-[#eae4d5] border border-[#ded8c9] transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
                             title="Advance block window by 35m to prevent loop wait"
                           >
-                            <FastForward className="w-3 h-3 text-cyan-400" />
+                            <FastForward className="w-3 h-3 text-stone-500" />
                             Advance Block
                           </button>
                         )}
@@ -560,12 +560,12 @@ export const CrewDutyGuard: React.FC<CrewDutyGuardProps> = ({
         </div>
 
         {/* Footer: Statutory Rule Documentation & Operational Notes */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-800 bg-slate-950/70 px-5 py-3 text-[11px] text-slate-500 font-mono">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-[#e5dfd3] bg-[#f4efe4] px-5 py-3 text-[11px] text-stone-500 font-mono">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+            <ShieldCheck className="w-4 h-4 text-emerald-700 flex-shrink-0" />
             <span>Indian Railways GR/SR Rule 3.48 & HOER (Hours of Employment and Period of Rest).</span>
           </div>
-          <div className="text-slate-400">
+          <div className="text-stone-600 font-medium">
             Automated Siding Loop Protection • Section Speed Harmonization Active
           </div>
         </div>

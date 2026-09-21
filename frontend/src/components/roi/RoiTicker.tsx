@@ -213,18 +213,18 @@ export const RoiTicker: React.FC<RoiTickerProps> = ({
           }}
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
-          className="group relative flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-slate-900/90 hover:bg-slate-800/95 border border-slate-700/70 hover:border-slate-600 transition-all duration-300 cursor-pointer shadow-lg shadow-black/40 select-none"
+          className="group relative flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-white/95 hover:bg-[#f5f1e8] border border-[#ded7c8] hover:border-[#cfc7b4] transition-all duration-200 cursor-pointer shadow-sm select-none"
           title="Click to view Railway Board ROI audit breakdown"
           aria-label={`Current Metric: ${currentSlide.value}. Click for Railway Board breakdown.`}
         >
           {/* Live Pulsing Beacon */}
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600" />
           </span>
 
           {/* Metric Icon */}
-          <div className={`p-1 rounded-full ${currentSlide.badgeBg}`}>
+          <div className="p-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-sm">
             <IconComponent className="w-3.5 h-3.5" />
           </div>
 
@@ -233,16 +233,16 @@ export const RoiTicker: React.FC<RoiTickerProps> = ({
             className={`flex items-center gap-2 transition-all duration-200 ${isTransitioning ? 'opacity-0 translate-y-1' : 'opacity-100 translate-y-0'
               }`}
           >
-            <span className="text-xs font-semibold tracking-wide text-slate-100 font-mono">
+            <span className="text-xs font-bold tracking-wide text-stone-900 font-mono">
               {currentSlide.value}
             </span>
-            <span className="hidden sm:inline-block text-[10px] text-slate-400 border-l border-slate-700/80 pl-2">
+            <span className="hidden sm:inline-block text-[10px] text-stone-500 border-l border-[#ded7c8] pl-2">
               {currentSlide.subtitle}
             </span>
           </div>
 
           {/* Quick Expand Icon */}
-          <div className="flex items-center text-slate-500 group-hover:text-slate-300 transition-colors ml-1">
+          <div className="flex items-center text-stone-400 group-hover:text-emerald-700 transition-colors ml-1">
             <ArrowUpRight className="w-3 h-3" />
           </div>
         </div>

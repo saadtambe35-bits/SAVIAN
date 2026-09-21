@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Mic,
   MicOff,
@@ -300,34 +301,34 @@ export const VoiceDispatchModal: React.FC<VoiceDispatchModalProps> = ({
 
   if (!isOpen) return null;
 
-  return (
+  const modalContent = (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/85 backdrop-blur-md overflow-y-auto"
+      className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 bg-stone-900/60 backdrop-blur-sm overflow-y-auto"
       role="dialog"
       aria-modal="true"
       aria-labelledby="voice-modal-title"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-2xl rounded-2xl border border-slate-700/80 bg-slate-900/95 shadow-2xl shadow-black/80 overflow-hidden text-slate-100 my-8"
+        className="relative w-full max-w-2xl sm:max-w-3xl rounded-2xl border border-[#ded9cb] bg-[#faf8f3] shadow-2xl shadow-stone-900/25 overflow-hidden text-stone-900 my-auto flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 bg-slate-950/70 px-6 py-4">
+        <div className="flex items-center justify-between border-b border-[#e5dfd3] bg-[#f4efe4] px-6 py-4 flex-shrink-0">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 border border-emerald-300 text-emerald-800 shadow-sm">
               <Volume2 className="h-5 w-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 id="voice-modal-title" className="text-base sm:text-lg font-bold tracking-tight text-white font-mono">
-                  VOICE DISPATCH ASSISTANT (JARVIS-IR)
+                <h2 id="voice-modal-title" className="text-base sm:text-lg font-bold tracking-tight text-stone-900">
+                  Voice Dispatch Assistant (JARVIS-IR)
                 </h2>
-                <span className="rounded bg-cyan-500/20 border border-cyan-500/40 px-1.5 py-0.5 text-[10px] font-mono text-cyan-300 font-semibold">
+                <span className="rounded-md bg-emerald-100 border border-emerald-300 px-2 py-0.5 text-[10px] font-mono text-emerald-800 font-bold">
                   NLP V2.4
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-stone-500 font-medium">
                 Spoken Indian Railways Block Tokenizer • Hands-Free Section Control
               </p>
             </div>
@@ -336,7 +337,7 @@ export const VoiceDispatchModal: React.FC<VoiceDispatchModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors cursor-pointer"
+            className="rounded-xl p-1.5 text-stone-400 hover:bg-[#eae4d5] hover:text-stone-700 transition-colors cursor-pointer"
             aria-label="Close voice modal"
           >
             <X className="w-5 h-5" />
@@ -344,32 +345,32 @@ export const VoiceDispatchModal: React.FC<VoiceDispatchModalProps> = ({
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 space-y-6 max-h-[75vh] overflow-y-auto">
+        <div className="p-6 space-y-5 overflow-y-auto flex-1 bg-[#faf8f3]">
           
           {/* Microphone & Voice Waveform Centerpiece */}
-          <div className="flex flex-col items-center justify-center p-6 rounded-2xl border border-slate-800 bg-slate-950/60 relative overflow-hidden">
+          <div className="flex flex-col items-center justify-center p-6 rounded-2xl border border-[#ded8c9] bg-white shadow-sm relative overflow-hidden">
             
-            {/* Glowing radial ambient field */}
+            {/* Ambient field */}
             <div
               className={`pointer-events-none absolute h-40 w-40 rounded-full blur-3xl transition-all duration-500 ${
-                isListening ? 'bg-cyan-500/20 scale-125' : 'bg-slate-800/20 scale-100'
+                isListening ? 'bg-rose-500/15 scale-125' : 'bg-emerald-600/10 scale-100'
               }`}
             />
 
-            {/* Glowing Interactive Microphone Button */}
+            {/* Interactive Microphone Button */}
             <button
               type="button"
               onClick={toggleListening}
-              className={`relative flex h-20 w-20 items-center justify-center rounded-full border-2 transition-all duration-300 shadow-2xl cursor-pointer ${
+              className={`relative flex h-20 w-20 items-center justify-center rounded-full border-2 transition-all duration-300 shadow-lg cursor-pointer ${
                 isListening
-                  ? 'bg-red-500/20 border-red-500 text-red-400 shadow-red-500/50 scale-105'
-                  : 'bg-cyan-500/10 border-cyan-500/50 text-cyan-400 shadow-cyan-500/30 hover:scale-105 hover:bg-cyan-500/20'
+                  ? 'bg-rose-50 border-rose-500 text-rose-700 shadow-rose-500/25 scale-105'
+                  : 'bg-emerald-50 border-emerald-700 text-emerald-800 shadow-emerald-800/15 hover:scale-105 hover:bg-emerald-100'
               }`}
               title={isListening ? 'Click to stop listening' : 'Click to start speaking command'}
             >
               {isListening ? (
                 <>
-                  <span className="absolute inset-0 rounded-full border-2 border-red-400 animate-ping opacity-60" />
+                  <span className="absolute inset-0 rounded-full border-2 border-rose-400 animate-ping opacity-60" />
                   <MicOff className="w-8 h-8" />
                 </>
               ) : (
@@ -381,18 +382,18 @@ export const VoiceDispatchModal: React.FC<VoiceDispatchModalProps> = ({
             <div className="mt-4 flex items-center gap-1.5 h-6">
               {isListening ? (
                 <>
-                  <span className="h-3 w-1 bg-cyan-400 rounded-full animate-pulse" />
-                  <span className="h-5 w-1 bg-cyan-300 rounded-full animate-pulse delay-75" />
-                  <span className="h-6 w-1 bg-cyan-400 rounded-full animate-pulse delay-150" />
-                  <span className="h-4 w-1 bg-cyan-300 rounded-full animate-pulse delay-100" />
-                  <span className="h-2 w-1 bg-cyan-400 rounded-full animate-pulse" />
-                  <span className="ml-2 text-xs font-mono text-cyan-300 font-bold tracking-wider">
+                  <span className="h-3 w-1 bg-rose-600 rounded-full animate-pulse" />
+                  <span className="h-5 w-1 bg-rose-500 rounded-full animate-pulse delay-75" />
+                  <span className="h-6 w-1 bg-rose-600 rounded-full animate-pulse delay-150" />
+                  <span className="h-4 w-1 bg-rose-500 rounded-full animate-pulse delay-100" />
+                  <span className="h-2 w-1 bg-rose-600 rounded-full animate-pulse" />
+                  <span className="ml-2 text-xs font-mono text-rose-700 font-bold tracking-wider">
                     LISTENING TO SECTION CONTROLLER...
                   </span>
                 </>
               ) : (
-                <span className="text-xs font-mono text-slate-400 flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                <span className="text-xs font-mono text-stone-500 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-700" />
                   Tap mic to speak command or select a quick utterance chip below
                 </span>
               )}
@@ -400,7 +401,7 @@ export const VoiceDispatchModal: React.FC<VoiceDispatchModalProps> = ({
 
             {/* Spoken / Typed Transcript Box */}
             <div className="mt-4 w-full">
-              <label htmlFor="voice-transcript-input" className="block text-[10px] font-mono uppercase text-slate-400 mb-1">
+              <label htmlFor="voice-transcript-input" className="block text-[11px] font-mono uppercase text-stone-500 mb-1 font-semibold">
                 Live Controller Spoken Command Transcript:
               </label>
               <textarea
@@ -409,16 +410,16 @@ export const VoiceDispatchModal: React.FC<VoiceDispatchModalProps> = ({
                 value={transcript}
                 onChange={(e) => setTranscript(e.target.value)}
                 placeholder="e.g. Block downline between Bina and Mandi Bamora for P-Way tamping from 14:00 to 16:30 hours."
-                className="w-full bg-slate-900 border border-slate-700/80 rounded-xl p-3 text-xs sm:text-sm font-mono text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-cyan-500 resize-none transition-colors"
+                className="w-full bg-[#f4efe4] border border-[#ded8c9] rounded-xl p-3 text-xs sm:text-sm font-mono text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-emerald-700 focus:bg-white resize-none transition-colors"
               />
             </div>
           </div>
 
           {/* Quick Utterance Demo Chips */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs font-mono text-slate-400">
-              <span className="uppercase tracking-wider">Demo / Quick Utterance Chips:</span>
-              <span className="text-[10px] text-slate-500">1-Click Live Pitch Simulator</span>
+            <div className="flex items-center justify-between text-xs font-mono text-stone-600">
+              <span className="uppercase tracking-wider font-semibold">Demo / Quick Utterance Chips:</span>
+              <span className="text-[10px] text-stone-400">1-Click Live Pitch Simulator</span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -427,16 +428,16 @@ export const VoiceDispatchModal: React.FC<VoiceDispatchModalProps> = ({
                   key={idx}
                   type="button"
                   onClick={() => setTranscript(chip.transcript)}
-                  className="p-2.5 rounded-xl border border-slate-800 bg-slate-800/40 hover:bg-slate-800 hover:border-slate-700 text-left transition-all cursor-pointer group"
+                  className="p-3 rounded-xl border border-[#ded8c9] bg-white hover:bg-[#fbf9f4] hover:border-emerald-700/40 text-left transition-all cursor-pointer shadow-sm group"
                 >
-                  <div className="flex items-center justify-between text-xs font-mono font-bold text-slate-200 group-hover:text-cyan-300">
+                  <div className="flex items-center justify-between text-xs font-mono font-bold text-stone-800 group-hover:text-emerald-800">
                     <span>{chip.label}</span>
-                    <ArrowRight className="w-3 h-3 text-slate-500 group-hover:text-cyan-400 transition-transform group-hover:translate-x-0.5" />
+                    <ArrowRight className="w-3.5 h-3.5 text-stone-400 group-hover:text-emerald-700 transition-transform group-hover:translate-x-0.5" />
                   </div>
-                  <p className="mt-0.5 text-[11px] text-slate-400 truncate">
+                  <p className="mt-1 text-[11px] text-stone-600 truncate">
                     &quot;{chip.transcript}&quot;
                   </p>
-                  <div className="mt-1 text-[10px] font-mono text-cyan-400/80">
+                  <div className="mt-1.5 text-[10px] font-mono text-emerald-700 font-semibold">
                     ↳ {chip.hint}
                   </div>
                 </button>
@@ -445,17 +446,17 @@ export const VoiceDispatchModal: React.FC<VoiceDispatchModalProps> = ({
           </div>
 
           {/* Structured Railway Entity Card Output */}
-          <div className="rounded-xl border border-cyan-500/40 bg-slate-950/60 p-4 space-y-3">
+          <div className="rounded-xl border border-[#ded8c9] bg-white p-4 space-y-3 shadow-sm">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-cyan-400" />
-                <h3 className="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider">
+                <ShieldCheck className="w-4 h-4 text-emerald-700" />
+                <h3 className="text-xs font-mono font-bold text-stone-800 uppercase tracking-wider">
                   Extracted Structured Block Demand
                 </h3>
               </div>
 
-              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-bold">
-                <CheckCircle2 className="w-3 h-3" />
+              <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-mono font-bold">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
                 <span>{confidence}% NLP Confidence</span>
               </div>
             </div>
@@ -464,27 +465,27 @@ export const VoiceDispatchModal: React.FC<VoiceDispatchModalProps> = ({
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs font-mono">
               
               {/* Section Pair */}
-              <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 col-span-2">
-                <div className="text-slate-500 text-[10px] flex items-center gap-1">
-                  <Train className="w-3 h-3 text-cyan-400" />
+              <div className="p-2.5 rounded-lg bg-[#f7f4ec] border border-[#e5dfd3] col-span-2">
+                <div className="text-stone-500 text-[10px] flex items-center gap-1 font-semibold">
+                  <Train className="w-3 h-3 text-emerald-700" />
                   CORRIDOR SECTION
                 </div>
-                <div className="text-slate-100 font-bold mt-1 flex items-center gap-1.5 truncate">
+                <div className="text-stone-900 font-bold mt-1 flex items-center gap-1.5 truncate">
                   <span>{demand.sectionFrom}</span>
-                  <ArrowRight className="w-3 h-3 text-slate-500 flex-shrink-0" />
+                  <ArrowRight className="w-3 h-3 text-stone-400 flex-shrink-0" />
                   <span>{demand.sectionTo}</span>
                 </div>
               </div>
 
               {/* Department Token */}
-              <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
-                <div className="text-slate-500 text-[10px] flex items-center gap-1">
-                  {demand.department === 'P_WAY' && <Train className="w-3 h-3 text-amber-400" />}
-                  {demand.department === 'OHE' && <Zap className="w-3 h-3 text-red-400" />}
-                  {demand.department === 'S_AND_T' && <Cpu className="w-3 h-3 text-cyan-400" />}
+              <div className="p-2.5 rounded-lg bg-[#f7f4ec] border border-[#e5dfd3]">
+                <div className="text-stone-500 text-[10px] flex items-center gap-1 font-semibold">
+                  {demand.department === 'P_WAY' && <Train className="w-3 h-3 text-amber-700" />}
+                  {demand.department === 'OHE' && <Zap className="w-3 h-3 text-rose-700" />}
+                  {demand.department === 'S_AND_T' && <Cpu className="w-3 h-3 text-emerald-700" />}
                   DEPARTMENT
                 </div>
-                <div className="text-slate-100 font-bold mt-1">
+                <div className="text-stone-900 font-bold mt-1">
                   {demand.department === 'P_WAY' && 'P-Way (Track)'}
                   {demand.department === 'OHE' && 'OHE (Traction)'}
                   {demand.department === 'S_AND_T' && 'S&T (Signals)'}
@@ -492,36 +493,36 @@ export const VoiceDispatchModal: React.FC<VoiceDispatchModalProps> = ({
               </div>
 
               {/* Track Line Token */}
-              <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
-                <div className="text-slate-500 text-[10px]">TRACK LINE</div>
-                <div className="text-cyan-300 font-bold mt-1">
+              <div className="p-2.5 rounded-lg bg-[#f7f4ec] border border-[#e5dfd3]">
+                <div className="text-stone-500 text-[10px] font-semibold">TRACK LINE</div>
+                <div className="text-emerald-800 font-bold mt-1">
                   {demand.track === 'DOWN' ? 'DOWN LINE' : demand.track === 'UP' ? 'UP LINE' : 'BOTH TRACKS'}
                 </div>
               </div>
 
               {/* Time Window */}
-              <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 col-span-2">
-                <div className="text-slate-500 text-[10px] flex items-center gap-1">
-                  <Clock className="w-3 h-3 text-amber-400" />
+              <div className="p-2.5 rounded-lg bg-[#f7f4ec] border border-[#e5dfd3] col-span-2">
+                <div className="text-stone-500 text-[10px] flex items-center gap-1 font-semibold">
+                  <Clock className="w-3 h-3 text-amber-700" />
                   REQUESTED BLOCK WINDOW
                 </div>
-                <div className="text-slate-100 font-bold mt-1">
+                <div className="text-stone-900 font-bold mt-1">
                   {demand.startTime} — {demand.endTime}
                 </div>
               </div>
 
               {/* Duration Token */}
-              <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
-                <div className="text-slate-500 text-[10px]">DURATION</div>
-                <div className="text-emerald-400 font-bold mt-1 text-sm">
+              <div className="p-2.5 rounded-lg bg-[#f7f4ec] border border-[#e5dfd3]">
+                <div className="text-stone-500 text-[10px] font-semibold">DURATION</div>
+                <div className="text-emerald-800 font-bold mt-1 text-sm">
                   {demand.durationMinutes} mins
                 </div>
               </div>
 
               {/* Work Scope */}
-              <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
-                <div className="text-slate-500 text-[10px]">WORK CODE</div>
-                <div className="text-slate-300 font-bold mt-1 truncate">
+              <div className="p-2.5 rounded-lg bg-[#f7f4ec] border border-[#e5dfd3]">
+                <div className="text-stone-500 text-[10px] font-semibold">WORK CODE</div>
+                <div className="text-stone-800 font-bold mt-1 truncate">
                   {demand.workDescription.split(' ')[0]}
                 </div>
               </div>
@@ -529,17 +530,17 @@ export const VoiceDispatchModal: React.FC<VoiceDispatchModalProps> = ({
             </div>
 
             {/* Scope Summary */}
-            <div className="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800/80 text-xs font-mono text-slate-300">
-              <span className="text-slate-500">Scope:</span> {demand.workDescription}
+            <div className="p-2.5 rounded-lg bg-[#f7f4ec] border border-[#e5dfd3] text-xs font-mono text-stone-700">
+              <span className="text-stone-500 font-semibold">Scope:</span> {demand.workDescription}
             </div>
           </div>
 
         </div>
 
         {/* Modal Footer */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-800 bg-slate-950/80 px-6 py-4">
-          <div className="flex items-center gap-2 text-[11px] text-slate-500 font-mono">
-            <AlertCircle className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-[#e5dfd3] bg-[#f4efe4] px-6 py-4 flex-shrink-0">
+          <div className="flex items-center gap-2 text-[11px] text-stone-500 font-mono">
+            <AlertCircle className="w-4 h-4 text-emerald-700 flex-shrink-0" />
             <span>Extracted tokens will be automatically routed to CP-SAT solver constraint matrix.</span>
           </div>
 
@@ -547,7 +548,7 @@ export const VoiceDispatchModal: React.FC<VoiceDispatchModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="w-full sm:w-auto px-4 py-2 text-xs font-mono rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors border border-slate-700 cursor-pointer"
+              className="w-full sm:w-auto px-4 py-2 text-xs font-mono rounded-xl bg-white hover:bg-[#eae4d5] text-stone-700 transition-colors border border-[#ded8c9] font-medium cursor-pointer shadow-sm"
             >
               Cancel
             </button>
@@ -556,11 +557,11 @@ export const VoiceDispatchModal: React.FC<VoiceDispatchModalProps> = ({
               type="button"
               onClick={handleSubmit}
               disabled={submittedSuccess}
-              className="w-full sm:w-auto px-5 py-2 text-xs font-mono font-bold rounded-lg bg-cyan-600 hover:bg-cyan-500 text-slate-950 hover:text-white transition-all duration-200 flex items-center justify-center gap-1.5 shadow-lg shadow-cyan-950/70 hover:scale-[1.02] cursor-pointer"
+              className="w-full sm:w-auto px-5 py-2 text-xs font-mono font-bold rounded-xl bg-emerald-800 hover:bg-emerald-700 text-white transition-all duration-200 flex items-center justify-center gap-1.5 shadow-md shadow-emerald-950/20 hover:scale-[1.02] cursor-pointer"
             >
               {submittedSuccess ? (
                 <>
-                  <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-200" />
                   <span>Submitted to Solver!</span>
                 </>
               ) : (
@@ -576,6 +577,10 @@ export const VoiceDispatchModal: React.FC<VoiceDispatchModalProps> = ({
       </div>
     </div>
   );
+
+  return typeof document !== 'undefined'
+    ? createPortal(modalContent, document.body)
+    : modalContent;
 };
 
 export default VoiceDispatchModal;

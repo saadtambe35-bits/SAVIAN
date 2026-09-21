@@ -68,9 +68,9 @@ const INITIAL_DEPARTMENTS: DepartmentRecord[] = [
     avgOverrunMinutes: 8,
     priorityWeight: 1.0,
     icon: Train,
-    accentClass: 'text-amber-400',
-    badgeClass: 'bg-amber-500/10 border-amber-500/30 text-amber-300',
-    borderClass: 'border-amber-500/40 hover:border-amber-500/70',
+    accentClass: 'text-amber-700',
+    badgeClass: 'bg-amber-50 border-amber-300 text-amber-800 font-bold',
+    borderClass: 'border-amber-300/80 bg-white hover:bg-[#fffdfa] shadow-sm',
     penaltyActive: false,
   },
   {
@@ -85,9 +85,9 @@ const INITIAL_DEPARTMENTS: DepartmentRecord[] = [
     avgOverrunMinutes: 14,
     priorityWeight: 0.85,
     icon: Cpu,
-    accentClass: 'text-cyan-400',
-    badgeClass: 'bg-cyan-500/10 border-cyan-500/30 text-cyan-300',
-    borderClass: 'border-cyan-500/40 hover:border-cyan-500/70',
+    accentClass: 'text-emerald-800',
+    badgeClass: 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold',
+    borderClass: 'border-[#ded8c9] bg-white hover:bg-[#faf8f3] shadow-sm',
     penaltyActive: false,
   },
   {
@@ -102,9 +102,9 @@ const INITIAL_DEPARTMENTS: DepartmentRecord[] = [
     avgOverrunMinutes: 36,
     priorityWeight: 0.45,
     icon: Zap,
-    accentClass: 'text-red-400',
-    badgeClass: 'bg-red-500/20 border-red-500/50 text-red-300 animate-pulse',
-    borderClass: 'border-red-500/50 hover:border-red-500/80 shadow-lg shadow-red-950/30',
+    accentClass: 'text-rose-700',
+    badgeClass: 'bg-rose-50 border-rose-300 text-rose-800 font-bold animate-pulse',
+    borderClass: 'border-rose-300 bg-[#fffafa] shadow-sm hover:bg-[#fff5f5]',
     penaltyActive: true,
   },
 ];
@@ -180,8 +180,9 @@ export const DepartmentTrustMatrix: React.FC<DepartmentTrustMatrixProps> = ({
             overrunCount: dept.overrunCount + 1,
             avgOverrunMinutes: Math.round((dept.avgOverrunMinutes * dept.overrunCount + 45) / (dept.overrunCount + 1)),
             priorityWeight: 0.60,
-            badgeClass: 'bg-orange-500/20 border-orange-500/50 text-orange-300 animate-pulse',
-            borderClass: 'border-orange-500/60 bg-orange-950/10 shadow-lg shadow-orange-950/40',
+            accentClass: 'text-orange-700',
+            badgeClass: 'bg-orange-50 border-orange-300 text-orange-800 animate-pulse font-bold',
+            borderClass: 'border-orange-300 bg-[#fffaf5] shadow-sm',
             penaltyActive: true,
           };
         }
@@ -224,27 +225,27 @@ export const DepartmentTrustMatrix: React.FC<DepartmentTrustMatrixProps> = ({
   }, [departments]);
 
   return (
-    <div className="w-full max-w-5xl mx-auto font-sans text-slate-100">
+    <div className="w-full max-w-5xl mx-auto font-sans text-stone-900">
       
       {/* Outer Cockpit Container */}
-      <div className="relative overflow-hidden rounded-2xl border border-slate-700/70 bg-slate-900/95 backdrop-blur-md shadow-2xl shadow-black/60">
+      <div className="relative overflow-hidden rounded-2xl border border-[#ded9cb] bg-[#faf8f3] shadow-lg shadow-stone-900/10">
         
         {/* Header Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 bg-slate-950/70 px-5 py-3.5 gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#e5dfd3] bg-[#f4efe4] px-5 py-3.5 gap-3">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 border border-amber-300 text-amber-800 shadow-sm">
               <Award className="h-5 w-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-sm sm:text-base font-bold tracking-tight text-white font-mono">
+                <h2 className="text-sm sm:text-base font-bold tracking-tight text-stone-900 font-mono">
                   DEPARTMENTAL TRUST MATRIX (DISCIPLINE ENGINE)
                 </h2>
-                <span className="rounded bg-slate-800 border border-slate-700 px-1.5 py-0.5 text-[10px] font-mono text-cyan-300">
+                <span className="rounded-md bg-stone-200/80 border border-stone-300 px-1.5 py-0.5 text-[10px] font-mono text-stone-700 font-semibold">
                   CP-SAT SOLVER WEIGHTED
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-stone-500 font-medium">
                 P-Way • S&T • OHE Block Overstay Governance & Mathematical Priority Penalties
               </p>
             </div>
@@ -256,19 +257,19 @@ export const DepartmentTrustMatrix: React.FC<DepartmentTrustMatrixProps> = ({
               <button
                 type="button"
                 onClick={handleSimulateSntOverstay}
-                className="px-3 py-1.5 rounded-lg text-xs font-mono font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all flex items-center gap-1.5 shadow-md shadow-amber-950/40 hover:scale-[1.02] cursor-pointer"
+                className="px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold bg-amber-500 hover:bg-amber-400 text-stone-950 transition-all flex items-center gap-1.5 shadow-sm shadow-amber-900/20 hover:scale-[1.02] cursor-pointer"
                 title="Simulate a 45-minute overstay by S&T to test automatic AI penalty de-rating"
               >
-                <Flame className="w-3.5 h-3.5 text-red-950" />
+                <Flame className="w-3.5 h-3.5 text-stone-950" />
                 <span>Simulate 45m Block Overstay (S&T)</span>
               </button>
             ) : (
               <button
                 type="button"
                 onClick={handleResetSimulation}
-                className="px-3 py-1.5 rounded-lg text-xs font-mono text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors flex items-center gap-1.5 cursor-pointer"
+                className="px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium text-stone-700 hover:text-stone-900 bg-white hover:bg-[#eae4d5] border border-[#ded8c9] transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
               >
-                <RotateCcw className="w-3.5 h-3.5 text-cyan-400" />
+                <RotateCcw className="w-3.5 h-3.5 text-stone-500" />
                 <span>Reset Simulation</span>
               </button>
             )}
@@ -278,12 +279,12 @@ export const DepartmentTrustMatrix: React.FC<DepartmentTrustMatrixProps> = ({
         {/* ========================================================================= */}
         {/* DEPARTMENTAL SCOREBOARD CARDS */}
         {/* ========================================================================= */}
-        <div className="p-5 sm:p-6 border-b border-slate-800 bg-slate-950/40 space-y-3">
+        <div className="p-5 sm:p-6 border-b border-[#e5dfd3] bg-[#faf8f3] space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-stone-600">
               Corridor Historical Trust Scores & Solver Scheduling Tiers
             </h3>
-            <span className="text-[11px] font-mono text-slate-500">
+            <span className="text-[11px] font-mono text-stone-500">
               Threshold for Daytime Priority: ≥ 85.0%
             </span>
           </div>
@@ -294,30 +295,30 @@ export const DepartmentTrustMatrix: React.FC<DepartmentTrustMatrixProps> = ({
               return (
                 <div
                   key={dept.code}
-                  className={`rounded-xl border ${dept.borderClass} bg-slate-800/40 p-4 space-y-3 transition-all duration-300`}
+                  className={`rounded-2xl border ${dept.borderClass} p-4 space-y-3 transition-all duration-300`}
                 >
                   {/* Card Header */}
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-2.5">
-                      <div className="p-2 rounded-lg bg-slate-900 border border-slate-700/60">
+                      <div className="p-2 rounded-xl bg-[#f4efe4] border border-[#ded8c9]">
                         <IconComp className={`w-5 h-5 ${dept.accentClass}`} />
                       </div>
                       <div>
                         <div className="flex items-center gap-1.5">
-                          <span className="font-mono font-bold text-sm text-slate-100">
+                          <span className="font-mono font-bold text-sm text-stone-900">
                             {dept.code}
                           </span>
                           {dept.penaltyActive && (
-                            <span className="h-2 w-2 rounded-full bg-red-500 animate-ping" />
+                            <span className="h-2 w-2 rounded-full bg-rose-600 animate-ping" />
                           )}
                         </div>
-                        <p className="text-[11px] text-slate-400 truncate max-w-[170px]">
+                        <p className="text-[11px] text-stone-500 truncate max-w-[170px]">
                           {dept.category}
                         </p>
                       </div>
                     </div>
 
-                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded border font-semibold ${dept.badgeClass}`}>
+                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border font-semibold ${dept.badgeClass}`}>
                       {dept.tierLabel}
                     </span>
                   </div>
@@ -325,30 +326,30 @@ export const DepartmentTrustMatrix: React.FC<DepartmentTrustMatrixProps> = ({
                   {/* Trust Score Percentage Bar */}
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between text-xs font-mono">
-                      <span className="text-slate-400">Historical Trust Score:</span>
+                      <span className="text-stone-500">Historical Trust Score:</span>
                       <div className="flex items-baseline gap-1">
                         <span className={`text-xl font-extrabold ${dept.accentClass}`}>
                           {dept.trustScore.toFixed(1)}%
                         </span>
                         {dept.trustScore >= 85 ? (
-                          <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
+                          <TrendingUp className="w-3.5 h-3.5 text-emerald-700" />
                         ) : (
-                          <TrendingDown className="w-3.5 h-3.5 text-red-400" />
+                          <TrendingDown className="w-3.5 h-3.5 text-rose-700" />
                         )}
                       </div>
                     </div>
 
                     {/* Visual Progress Bar with 85% marker */}
-                    <div className="relative h-2 w-full rounded-full bg-slate-950 border border-slate-800 overflow-hidden">
+                    <div className="relative h-2 w-full rounded-full bg-[#eee9dc] border border-[#ded8c9] overflow-hidden">
                       <div
                         className={`h-full transition-all duration-700 ${
                           dept.trustScore >= 90
-                            ? 'bg-amber-400'
+                            ? 'bg-amber-500'
                             : dept.trustScore >= 85
-                            ? 'bg-cyan-400'
+                            ? 'bg-emerald-600'
                             : dept.trustScore >= 75
-                            ? 'bg-orange-400'
-                            : 'bg-red-500'
+                            ? 'bg-orange-500'
+                            : 'bg-rose-600'
                         }`}
                         style={{ width: `${dept.trustScore}%` }}
                       />
@@ -357,26 +358,26 @@ export const DepartmentTrustMatrix: React.FC<DepartmentTrustMatrixProps> = ({
 
                   {/* Quantitative Track Record */}
                   <div className="grid grid-cols-3 gap-2 text-[11px] font-mono">
-                    <div className="p-2 rounded bg-slate-900/80 border border-slate-800">
-                      <div className="text-slate-500 text-[10px]">BLOCKS</div>
-                      <div className="text-slate-200 font-bold mt-0.5">{dept.totalBlocks}</div>
+                    <div className="p-2 rounded-xl bg-[#f7f4ec] border border-[#e5dfd3]">
+                      <div className="text-stone-500 text-[10px] font-semibold">BLOCKS</div>
+                      <div className="text-stone-800 font-bold mt-0.5">{dept.totalBlocks}</div>
                     </div>
-                    <div className="p-2 rounded bg-slate-900/80 border border-slate-800">
-                      <div className="text-slate-500 text-[10px]">OVERRUNS</div>
-                      <div className={`font-bold mt-0.5 ${dept.overrunCount > 10 ? 'text-red-400' : 'text-slate-200'}`}>
+                    <div className="p-2 rounded-xl bg-[#f7f4ec] border border-[#e5dfd3]">
+                      <div className="text-stone-500 text-[10px] font-semibold">OVERRUNS</div>
+                      <div className={`font-bold mt-0.5 ${dept.overrunCount > 10 ? 'text-rose-700' : 'text-stone-800'}`}>
                         {dept.overrunCount}
                       </div>
                     </div>
-                    <div className="p-2 rounded bg-slate-900/80 border border-slate-800">
-                      <div className="text-slate-500 text-[10px]">AVG OVER</div>
-                      <div className="text-slate-200 font-bold mt-0.5">{dept.avgOverrunMinutes}m</div>
+                    <div className="p-2 rounded-xl bg-[#f7f4ec] border border-[#e5dfd3]">
+                      <div className="text-stone-500 text-[10px] font-semibold">AVG OVER</div>
+                      <div className="text-stone-800 font-bold mt-0.5">{dept.avgOverrunMinutes}m</div>
                     </div>
                   </div>
 
                   {/* CP-SAT Weight Rating */}
-                  <div className="text-[11px] font-mono text-slate-400 flex items-center justify-between border-t border-slate-800 pt-2">
-                    <span className="text-slate-500">Solver Priority Weight:</span>
-                    <span className="text-slate-200 font-bold">W = {dept.priorityWeight.toFixed(2)}</span>
+                  <div className="text-[11px] font-mono text-stone-500 flex items-center justify-between border-t border-[#e5dfd3] pt-2">
+                    <span>Solver Priority Weight:</span>
+                    <span className="text-stone-800 font-bold">W = {dept.priorityWeight.toFixed(2)}</span>
                   </div>
                 </div>
               );
@@ -387,29 +388,29 @@ export const DepartmentTrustMatrix: React.FC<DepartmentTrustMatrixProps> = ({
         {/* ========================================================================= */}
         {/* SMART PENALTY RULE EXPLANATION (AI CP-SAT SOLVER CONSTRAINTS) */}
         {/* ========================================================================= */}
-        <div className="p-5 sm:p-6 border-b border-slate-800 bg-slate-900/80 space-y-3">
-          <div className="flex items-center gap-2 text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">
-            <ShieldAlert className="w-4 h-4 text-amber-400" />
+        <div className="p-5 sm:p-6 border-b border-[#e5dfd3] bg-[#f9f7f2] space-y-3">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-stone-700 uppercase tracking-wider">
+            <ShieldAlert className="w-4 h-4 text-amber-700" />
             <span>Automated AI Scheduling Penalty Consequences (CP-SAT Queue)</span>
           </div>
 
           {/* OHE Penalty Callout Banner */}
-          <div className="rounded-xl border border-red-500/40 bg-gradient-to-r from-red-950/40 via-slate-900/90 to-red-950/20 p-4 space-y-2">
+          <div className="rounded-2xl border border-rose-200 bg-rose-50/70 p-4 space-y-2 shadow-sm">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-mono font-bold text-red-300 flex items-center gap-1.5">
-                <AlertTriangle className="w-3.5 h-3.5 text-red-400" />
+              <span className="text-xs font-mono font-bold text-rose-800 flex items-center gap-1.5">
+                <AlertTriangle className="w-3.5 h-3.5 text-rose-700" />
                 ACTIVE DISCIPLINE PENALTY: OHE DEPARTMENT (TRUST SCORE 68.4%)
               </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-red-950 border border-red-500/50 text-red-200 font-semibold">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-rose-100 border border-rose-300 text-rose-800 font-bold">
                 NIGHT SHADOW ONLY
               </span>
             </div>
 
-            <p className="text-xs text-slate-300 font-mono leading-relaxed">
+            <p className="text-xs text-stone-800 font-mono leading-relaxed">
               &quot;OHE department is mathematically downgraded in the CP-SAT solver priority queue. Future daytime block requests are restricted; OHE work is forced into night shadow windows (01:00–04:30) until trust score exceeds 85%.&quot;
             </p>
 
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] font-mono text-slate-400 pt-1">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] font-mono text-stone-600 pt-1">
               <span>↳ Corridor Traffic Impact: Avoided 14 peak daytime express train loops.</span>
               <span>↳ Recovery Requirement: 12 consecutive on-time blocks (+1.4% trust gain per clean block).</span>
             </div>
@@ -417,20 +418,20 @@ export const DepartmentTrustMatrix: React.FC<DepartmentTrustMatrixProps> = ({
 
           {/* S&T Simulation Dynamic Alert (if triggered) */}
           {isSimulatedOverstay && sntRecord && (
-            <div className="rounded-xl border border-orange-500/50 bg-orange-950/20 p-4 space-y-2 animate-fadeIn">
+            <div className="rounded-2xl border border-orange-200 bg-orange-50/80 p-4 space-y-2 shadow-sm animate-fadeIn">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-mono font-bold text-orange-300 flex items-center gap-1.5">
-                  <Flame className="w-3.5 h-3.5 text-orange-400" />
+                <span className="text-xs font-mono font-bold text-orange-800 flex items-center gap-1.5">
+                  <Flame className="w-3.5 h-3.5 text-orange-700" />
                   SIMULATED PENALTY ENFORCED: S&T DEPARTMENT DE-RATED
                 </span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-orange-950 border border-orange-500/50 text-orange-200 font-semibold">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-orange-100 border border-orange-300 text-orange-800 font-bold">
                   TIER DEGRADED
                 </span>
               </div>
 
-              <p className="text-xs text-slate-300 font-mono leading-relaxed">
-                A 45-minute overstay on Vidisha Ghat dropped S&T from <strong className="text-cyan-400">88.5%</strong> to{' '}
-                <strong className="text-orange-400">76.4%</strong>. S&T daytime block allotment ceiling is immediately clamped to a maximum of 60 minutes.
+              <p className="text-xs text-stone-800 font-mono leading-relaxed">
+                A 45-minute overstay on Vidisha Ghat dropped S&T from <strong className="text-emerald-800">88.5%</strong> to{' '}
+                <strong className="text-orange-800">76.4%</strong>. S&T daytime block allotment ceiling is immediately clamped to a maximum of 60 minutes.
               </p>
             </div>
           )}
@@ -439,20 +440,20 @@ export const DepartmentTrustMatrix: React.FC<DepartmentTrustMatrixProps> = ({
         {/* ========================================================================= */}
         {/* AUDIT LOG HISTORY TABLE */}
         {/* ========================================================================= */}
-        <div className="p-5 sm:p-6 space-y-3">
+        <div className="p-5 sm:p-6 space-y-3 bg-[#faf8f3]">
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-              <FileText className="w-3.5 h-3.5 text-cyan-400" />
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-stone-700 flex items-center gap-2">
+              <FileText className="w-3.5 h-3.5 text-emerald-700" />
               <span>Immutable Corridor Block Duration Audit Log</span>
             </h3>
-            <span className="text-[11px] font-mono text-slate-500">
+            <span className="text-[11px] font-mono text-stone-400">
               Recorded via FOIS Digital Siding Clearing Interlock
             </span>
           </div>
 
-          <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/50">
+          <div className="overflow-x-auto rounded-2xl border border-[#ded8c9] bg-white shadow-sm">
             <table className="w-full text-left text-xs font-mono">
-              <thead className="border-b border-slate-800 bg-slate-900/80 text-[11px] text-slate-400 uppercase">
+              <thead className="border-b border-[#e5dfd3] bg-[#f4efe4] text-[11px] text-stone-600 uppercase font-semibold">
                 <tr>
                   <th className="px-4 py-2.5">Log ID / Time</th>
                   <th className="px-4 py-2.5">Dept</th>
@@ -463,21 +464,21 @@ export const DepartmentTrustMatrix: React.FC<DepartmentTrustMatrixProps> = ({
                   <th className="px-4 py-2.5 text-center">Compliance Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80">
+              <tbody className="divide-y divide-[#e5dfd3]">
                 {auditLogs.map((log) => {
                   const statusStyle = {
                     COMPLIANT: {
-                      badge: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300',
+                      badge: 'bg-emerald-50 border-emerald-200 text-emerald-800 font-semibold',
                       icon: CheckCircle2,
                       label: 'COMPLIANT',
                     },
                     MINOR_OVERRUN: {
-                      badge: 'bg-amber-500/10 border-amber-500/30 text-amber-300',
+                      badge: 'bg-amber-50 border-amber-200 text-amber-800 font-semibold',
                       icon: Clock,
                       label: 'MINOR OVERRUN',
                     },
                     SEVERE_PENALTY: {
-                      badge: 'bg-red-500/20 border-red-500/50 text-red-300 animate-pulse font-bold',
+                      badge: 'bg-rose-50 border-rose-300 text-rose-800 animate-pulse font-bold',
                       icon: XCircle,
                       label: 'PENALIZED',
                     },
@@ -486,32 +487,32 @@ export const DepartmentTrustMatrix: React.FC<DepartmentTrustMatrixProps> = ({
                   const IconStatus = statusStyle.icon;
 
                   return (
-                    <tr key={log.id} className="hover:bg-slate-800/40 transition-colors">
+                    <tr key={log.id} className="hover:bg-[#faf8f3] transition-colors">
                       <td className="px-4 py-3 whitespace-nowrap">
-                        <div className="font-bold text-slate-200">{log.id}</div>
-                        <div className="text-[10px] text-slate-500">{log.timestamp}</div>
+                        <div className="font-bold text-stone-900">{log.id}</div>
+                        <div className="text-[10px] text-stone-400">{log.timestamp}</div>
                       </td>
-                      <td className="px-4 py-3 whitespace-nowrap font-bold text-cyan-300">
+                      <td className="px-4 py-3 whitespace-nowrap font-bold text-emerald-800">
                         {log.departmentCode}
                       </td>
                       <td className="px-4 py-3">
-                        <div className="text-slate-200">{log.blockType}</div>
-                        <div className="text-[10px] text-slate-500">{log.locationKm}</div>
+                        <div className="text-stone-800">{log.blockType}</div>
+                        <div className="text-[10px] text-stone-400">{log.locationKm}</div>
                       </td>
-                      <td className="px-4 py-3 text-right text-slate-400 whitespace-nowrap">
+                      <td className="px-4 py-3 text-right text-stone-500 whitespace-nowrap">
                         {log.grantedDurationMins}m
                       </td>
-                      <td className="px-4 py-3 text-right text-slate-200 font-bold whitespace-nowrap">
+                      <td className="px-4 py-3 text-right text-stone-900 font-bold whitespace-nowrap">
                         {log.actualDurationMins}m
                       </td>
                       <td className="px-4 py-3 text-right whitespace-nowrap font-bold">
                         <span
                           className={
                             log.varianceMins > 15
-                              ? 'text-red-400'
+                              ? 'text-rose-700'
                               : log.varianceMins > 0
-                              ? 'text-amber-400'
-                              : 'text-emerald-400'
+                              ? 'text-amber-700'
+                              : 'text-emerald-700'
                           }
                         >
                           {log.varianceMins > 0 ? `+${log.varianceMins}m` : `${log.varianceMins}m`}
@@ -519,7 +520,7 @@ export const DepartmentTrustMatrix: React.FC<DepartmentTrustMatrixProps> = ({
                       </td>
                       <td className="px-4 py-3 text-center whitespace-nowrap">
                         <span
-                          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] border ${statusStyle.badge}`}
+                          className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] border ${statusStyle.badge}`}
                         >
                           <IconStatus className="w-3 h-3" />
                           {statusStyle.label}
@@ -534,12 +535,12 @@ export const DepartmentTrustMatrix: React.FC<DepartmentTrustMatrixProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-800 bg-slate-950 px-5 py-3 text-[11px] text-slate-500 font-mono">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-[#e5dfd3] bg-[#f4efe4] px-5 py-3 text-[11px] text-stone-500 font-mono">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
             <span>Ministry of Railways Integrated Block Management System (IBMS) Validated.</span>
           </div>
-          <div className="text-slate-400">
+          <div className="text-stone-600 font-medium">
             CP-SAT Solver Objective: Minimize Corridor Total Passenger Minutes of Delay (TPMD)
           </div>
         </div>

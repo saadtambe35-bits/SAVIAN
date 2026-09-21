@@ -223,45 +223,45 @@ export const WeatherTsrEngine: React.FC<WeatherTsrEngineProps> = ({
   const isTsrActive = currentScenario.tsrSpeedKmH < currentScenario.maxSpeedKmH;
 
   return (
-    <div className="w-full max-w-5xl mx-auto font-sans text-slate-100">
+    <div className="w-full max-w-5xl mx-auto font-sans text-stone-900">
       
       {/* Outer Cockpit Frame */}
-      <div className="relative overflow-hidden rounded-2xl border border-slate-700/70 bg-slate-900/95 backdrop-blur-md shadow-2xl shadow-black/60">
+      <div className="relative overflow-hidden rounded-2xl border border-[#ded9cb] bg-[#faf8f3] shadow-md transition-all">
         
         {/* Top Control Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 bg-slate-950/70 px-5 py-3.5 gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#e5dfd3] bg-[#f4efe4] px-5 py-3.5 gap-3">
           <div className="flex items-center gap-3">
             <div
-              className={`flex h-10 w-10 items-center justify-center rounded-xl border transition-colors ${
+              className={`flex h-10 w-10 items-center justify-center rounded-xl border transition-colors shadow-sm ${
                 isTsrActive
-                  ? 'bg-amber-500/10 border-amber-500/40 text-amber-400'
-                  : 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400'
+                  ? 'bg-amber-100 border-amber-300 text-amber-800'
+                  : 'bg-emerald-100 border-emerald-300 text-emerald-800'
               }`}
             >
               {currentScenario.id === 'CLOUDBURST' ? (
-                <CloudRain className="h-5 w-5 text-cyan-400" />
+                <CloudRain className="h-5 w-5 text-sky-700" />
               ) : currentScenario.id === 'FOG' ? (
-                <CloudFog className="h-5 w-5 text-amber-400" />
+                <CloudFog className="h-5 w-5 text-amber-700" />
               ) : (
-                <Sun className="h-5 w-5 text-emerald-400" />
+                <Sun className="h-5 w-5 text-emerald-700" />
               )}
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-sm sm:text-base font-bold tracking-tight text-white font-mono">
+                <h2 className="text-sm sm:text-base font-bold tracking-tight text-stone-900 font-mono">
                   WEATHER TSR & HEADWAY ENGINE (IMD AUTOMATED INGESTION)
                 </h2>
                 <span
-                  className={`rounded px-1.5 py-0.5 text-[10px] font-mono font-bold border ${
+                  className={`rounded px-2 py-0.5 text-[10px] font-mono font-bold border ${
                     isTsrActive
-                      ? 'bg-amber-950/60 border-amber-500/60 text-amber-300 animate-pulse'
-                      : 'bg-emerald-950/60 border-emerald-500/60 text-emerald-300'
+                      ? 'bg-amber-100 border-amber-300 text-amber-900 animate-pulse'
+                      : 'bg-emerald-100 border-emerald-300 text-emerald-900'
                   }`}
                 >
                   {isTsrActive ? 'TSR SPEED RESTRICTION ENFORCED' : 'SECTION CLEAR • FULL LINE SPEED'}
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-stone-500 font-medium">
                 Rule 4.08 & 3.61 GR/SR • Automatic Adhesion Calculation • Dynamic Headway Widening
               </p>
             </div>
@@ -269,11 +269,11 @@ export const WeatherTsrEngine: React.FC<WeatherTsrEngineProps> = ({
 
           {/* IMD Satellite Sync Indicator */}
           <div className="flex items-center gap-2 text-[11px] font-mono">
-            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800/80 border border-slate-700 text-slate-300">
-              <Radio className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-[#ded8c9] text-stone-700 shadow-sm">
+              <Radio className="w-3.5 h-3.5 text-sky-600 animate-pulse" />
               <span>IMD INSAT-3DR: LIVE</span>
             </span>
-            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800/80 border border-slate-700 text-emerald-400">
+            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold shadow-sm">
               <CheckCircle2 className="w-3.5 h-3.5" />
               <span>RADAR REFRESH 60s</span>
             </span>
@@ -281,9 +281,9 @@ export const WeatherTsrEngine: React.FC<WeatherTsrEngineProps> = ({
         </div>
 
         {/* One-Click Scenario Preset Buttons Bar */}
-        <div className="p-4 sm:p-5 border-b border-slate-800 bg-slate-950/40">
-          <div className="flex items-center gap-2 mb-2 text-xs font-mono text-slate-400">
-            <Sliders className="w-4 h-4 text-cyan-400" />
+        <div className="p-4 sm:p-5 border-b border-[#e5dfd3] bg-[#f7f3ea]">
+          <div className="flex items-center gap-2 mb-2 text-xs font-mono text-stone-500 font-bold">
+            <Sliders className="w-4 h-4 text-emerald-700" />
             <span className="uppercase tracking-wider">Atmospheric Simulation Presets:</span>
           </div>
 
@@ -297,26 +297,26 @@ export const WeatherTsrEngine: React.FC<WeatherTsrEngineProps> = ({
                   onClick={() => setSelectedScenarioId(scenario.id)}
                   className={`px-3.5 py-3 rounded-xl text-left transition-all duration-200 border cursor-pointer ${
                     isSelected
-                      ? 'bg-slate-800 border-cyan-500/80 shadow-lg shadow-cyan-950/40 ring-1 ring-cyan-500/40'
-                      : 'bg-slate-900/80 hover:bg-slate-800/70 border-slate-800 text-slate-400 hover:text-slate-200'
+                      ? 'bg-white border-2 border-emerald-700 shadow-md ring-1 ring-emerald-600/20 text-stone-900'
+                      : 'bg-[#f0ebe0] hover:bg-white/80 border-[#ded7c8] text-stone-600 hover:text-stone-900 shadow-sm'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono font-bold text-slate-200">
+                    <span className="text-xs font-mono font-bold text-stone-900">
                       {scenario.title}
                     </span>
-                    {scenario.id === 'STANDARD' && <Sun className="w-4 h-4 text-emerald-400" />}
-                    {scenario.id === 'CLOUDBURST' && <CloudRain className="w-4 h-4 text-cyan-400" />}
-                    {scenario.id === 'FOG' && <CloudFog className="w-4 h-4 text-amber-400" />}
+                    {scenario.id === 'STANDARD' && <Sun className="w-4 h-4 text-emerald-600" />}
+                    {scenario.id === 'CLOUDBURST' && <CloudRain className="w-4 h-4 text-sky-600" />}
+                    {scenario.id === 'FOG' && <CloudFog className="w-4 h-4 text-amber-600" />}
                   </div>
 
                   <div className="mt-1.5 flex items-center gap-2 text-[11px] font-mono">
-                    <span className="text-slate-400">
-                      TSR: <strong className="text-white">{scenario.tsrSpeedKmH} km/h</strong>
+                    <span className="text-stone-600">
+                      TSR: <strong className="text-stone-900">{scenario.tsrSpeedKmH} km/h</strong>
                     </span>
-                    <span className="text-slate-600">•</span>
-                    <span className="text-slate-400">
-                      Headway: <strong className="text-cyan-300">{scenario.headwayMinutes}m</strong>
+                    <span className="text-stone-400">•</span>
+                    <span className="text-stone-600">
+                      Headway: <strong className="text-emerald-800">{scenario.headwayMinutes}m</strong>
                     </span>
                   </div>
                 </button>
@@ -326,17 +326,17 @@ export const WeatherTsrEngine: React.FC<WeatherTsrEngineProps> = ({
         </div>
 
         {/* Dynamic Mathematical Impacts & Speedometer Display */}
-        <div className="p-5 sm:p-6 border-b border-slate-800 bg-slate-900/60">
+        <div className="p-5 sm:p-6 border-b border-[#e5dfd3] bg-[#faf8f3]">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             
             {/* Metric 1: Temporary Speed Restriction (TSR) Gauge */}
-            <div className="rounded-xl border border-slate-800 bg-slate-950/50 p-4 space-y-2">
-              <div className="flex items-center justify-between text-xs font-mono text-slate-400">
+            <div className="rounded-xl border border-[#ded8c9] bg-white/90 p-4 space-y-2 shadow-sm">
+              <div className="flex items-center justify-between text-xs font-mono text-stone-500 font-semibold">
                 <span className="flex items-center gap-1.5">
-                  <Gauge className="w-4 h-4 text-amber-400" />
+                  <Gauge className="w-4 h-4 text-amber-600" />
                   MANDATORY TSR SPEED CAP
                 </span>
-                <span className="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700">
+                <span className="text-[10px] bg-[#f0ebe0] px-1.5 py-0.5 rounded border border-[#ded8c9] text-stone-700">
                   {currentScenario.cautionOrderCode}
                 </span>
               </div>
@@ -344,28 +344,28 @@ export const WeatherTsrEngine: React.FC<WeatherTsrEngineProps> = ({
               <div className="flex items-baseline gap-2">
                 <span
                   className={`text-3xl sm:text-4xl font-extrabold font-mono tracking-tight ${
-                    isTsrActive ? 'text-amber-400' : 'text-emerald-400'
+                    isTsrActive ? 'text-amber-700' : 'text-emerald-700'
                   }`}
                 >
                   {currentScenario.tsrSpeedKmH}
                 </span>
-                <span className="text-xs font-mono text-slate-400">km/h</span>
-                <span className="text-[11px] font-mono text-slate-500 line-through ml-auto">
+                <span className="text-xs font-mono text-stone-500 font-bold">km/h</span>
+                <span className="text-[11px] font-mono text-stone-400 line-through ml-auto">
                   130 km/h Max
                 </span>
               </div>
 
               {/* Progress bar visual for speed cap */}
               <div className="space-y-1">
-                <div className="h-2 w-full rounded-full bg-slate-800 overflow-hidden">
+                <div className="h-2 w-full rounded-full bg-stone-200 overflow-hidden">
                   <div
                     className={`h-full transition-all duration-500 ${
-                      isTsrActive ? 'bg-amber-400' : 'bg-emerald-500'
+                      isTsrActive ? 'bg-amber-500' : 'bg-emerald-600'
                     }`}
                     style={{ width: `${(currentScenario.tsrSpeedKmH / currentScenario.maxSpeedKmH) * 100}%` }}
                   />
                 </div>
-                <div className="flex justify-between text-[10px] font-mono text-slate-500">
+                <div className="flex justify-between text-[10px] font-mono text-stone-400 font-semibold">
                   <span>0 km/h</span>
                   <span>Enforced Speed Restriction</span>
                   <span>130 km/h</span>
@@ -374,52 +374,52 @@ export const WeatherTsrEngine: React.FC<WeatherTsrEngineProps> = ({
             </div>
 
             {/* Metric 2: Dynamic Headway Buffer */}
-            <div className="rounded-xl border border-slate-800 bg-slate-950/50 p-4 space-y-2">
-              <div className="flex items-center justify-between text-xs font-mono text-slate-400">
+            <div className="rounded-xl border border-[#ded8c9] bg-white/90 p-4 space-y-2 shadow-sm">
+              <div className="flex items-center justify-between text-xs font-mono text-stone-500 font-semibold">
                 <span className="flex items-center gap-1.5">
-                  <Clock className="w-4 h-4 text-cyan-400" />
+                  <Clock className="w-4 h-4 text-sky-700" />
                   HEADWAY SAFETY BUFFER
                 </span>
-                <span className="text-[10px] text-cyan-400 bg-cyan-950/60 px-1.5 py-0.5 rounded border border-cyan-500/40">
+                <span className="text-[10px] text-sky-900 bg-sky-100 px-1.5 py-0.5 rounded border border-sky-300 font-bold">
                   WIDENED +{currentScenario.headwayMinutes - 7}m
                 </span>
               </div>
 
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl sm:text-4xl font-extrabold font-mono tracking-tight text-cyan-300">
+                <span className="text-3xl sm:text-4xl font-extrabold font-mono tracking-tight text-sky-800">
                   {currentScenario.headwayMinutes}
                 </span>
-                <span className="text-xs font-mono text-slate-400">minutes</span>
-                <span className="text-[11px] font-mono text-slate-500 ml-auto">
+                <span className="text-xs font-mono text-stone-500 font-bold">minutes</span>
+                <span className="text-[11px] font-mono text-stone-500 ml-auto">
                   Normal: 7 mins
                 </span>
               </div>
 
-              <p className="text-[11px] text-slate-400 font-mono leading-relaxed">
+              <p className="text-[11px] text-stone-600 font-mono leading-relaxed">
                 Prevents phantom stop-and-go waves by spacing consecutive rakes across signal blocks.
               </p>
             </div>
 
             {/* Metric 3: Emergency Braking Distance (EBD) Multiplier */}
-            <div className="rounded-xl border border-slate-800 bg-slate-950/50 p-4 space-y-2">
-              <div className="flex items-center justify-between text-xs font-mono text-slate-400">
+            <div className="rounded-xl border border-[#ded8c9] bg-white/90 p-4 space-y-2 shadow-sm">
+              <div className="flex items-center justify-between text-xs font-mono text-stone-500 font-semibold">
                 <span className="flex items-center gap-1.5">
-                  <Activity className="w-4 h-4 text-emerald-400" />
+                  <Activity className="w-4 h-4 text-emerald-700" />
                   BRAKING DISTANCE MULTIPLIER
                 </span>
-                <span className="text-[10px] text-slate-400 bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700">
+                <span className="text-[10px] text-stone-700 bg-[#f0ebe0] px-1.5 py-0.5 rounded border border-[#ded8c9] font-bold">
                   EBD PHYSICS
                 </span>
               </div>
 
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl sm:text-4xl font-extrabold font-mono tracking-tight text-slate-100">
+                <span className="text-3xl sm:text-4xl font-extrabold font-mono tracking-tight text-stone-900">
                   {currentScenario.brakingDistanceMultiplier.toFixed(2)}×
                 </span>
-                <span className="text-xs font-mono text-slate-400">nominal distance</span>
+                <span className="text-xs font-mono text-stone-500 font-bold">nominal distance</span>
               </div>
 
-              <p className="text-[11px] text-slate-400 font-mono leading-relaxed">
+              <p className="text-[11px] text-stone-600 font-mono leading-relaxed">
                 Adhesion coefficient degradation requires {Math.round((currentScenario.brakingDistanceMultiplier - 1) * 100)}% extended track stopping length for 4,000T rakes.
               </p>
             </div>
@@ -428,13 +428,13 @@ export const WeatherTsrEngine: React.FC<WeatherTsrEngineProps> = ({
         </div>
 
         {/* Live Weather Telemetry Cards for Key Stations */}
-        <div className="p-5 sm:p-6 space-y-3">
+        <div className="p-5 sm:p-6 space-y-3 bg-[#f7f3ea]">
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-stone-700 flex items-center gap-2">
+              <Sparkles className="w-3.5 h-3.5 text-emerald-700" />
               Corridor Weather Radar Stations (Bina - Vidisha - Bhopal)
             </h3>
-            <span className="text-[11px] font-mono text-slate-500">
+            <span className="text-[11px] font-mono text-stone-500">
               Live Sensor Ingestion: 3 Stations Active
             </span>
           </div>
@@ -442,68 +442,68 @@ export const WeatherTsrEngine: React.FC<WeatherTsrEngineProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
             {currentScenario.stations.map((station) => {
               const alertColor = {
-                GREEN: 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300',
-                YELLOW: 'bg-amber-500/20 border-amber-500/40 text-amber-300',
-                ORANGE: 'bg-orange-500/20 border-orange-500/40 text-orange-300',
-                RED: 'bg-red-500/20 border-red-500/50 text-red-300 animate-pulse',
+                GREEN: 'bg-emerald-100 border-emerald-300 text-emerald-800',
+                YELLOW: 'bg-amber-100 border-amber-300 text-amber-800',
+                ORANGE: 'bg-orange-100 border-orange-300 text-orange-800',
+                RED: 'bg-rose-100 border-rose-300 text-rose-800 animate-pulse',
               }[station.imdAlertLevel];
 
               return (
                 <div
                   key={station.stationCode}
-                  className="rounded-xl border border-slate-800 bg-slate-800/40 p-4 transition-all hover:border-slate-700 space-y-3"
+                  className="rounded-xl border border-[#ded8c9] bg-white/95 p-4 transition-all hover:border-[#cfc7b4] shadow-sm space-y-3"
                 >
                   <div className="flex items-start justify-between">
                     <div>
                       <div className="flex items-center gap-1.5">
-                        <span className="font-mono font-bold text-sm text-slate-100">
+                        <span className="font-mono font-bold text-sm text-stone-900">
                           {station.stationName}
                         </span>
-                        <span className="text-[10px] font-mono px-1 py-0.2 rounded bg-slate-900 text-cyan-300 border border-slate-700">
+                        <span className="text-[10px] font-mono px-1 py-0.5 rounded bg-[#f0ebe0] text-stone-700 border border-[#ded8c9] font-bold">
                           {station.stationCode}
                         </span>
                       </div>
-                      <span className="text-[11px] font-mono text-slate-500">{station.kmPosition}</span>
+                      <span className="text-[11px] font-mono text-stone-500">{station.kmPosition}</span>
                     </div>
 
-                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded border font-semibold ${alertColor}`}>
+                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded border font-bold ${alertColor}`}>
                       IMD {station.imdAlertLevel}
                     </span>
                   </div>
 
                   {/* Atmospheric Snapshot */}
                   <div className="grid grid-cols-2 gap-2 text-[11px] font-mono">
-                    <div className="p-2 rounded bg-slate-900/80 border border-slate-800">
-                      <div className="text-slate-500 text-[10px]">VISIBILITY</div>
-                      <div className={`font-bold mt-0.5 ${station.visibilityM < 200 ? 'text-red-400' : 'text-slate-200'}`}>
+                    <div className="p-2 rounded-lg bg-[#f7f4ec] border border-[#e5dfd3]">
+                      <div className="text-stone-400 text-[10px] font-bold">VISIBILITY</div>
+                      <div className={`font-bold mt-0.5 ${station.visibilityM < 200 ? 'text-rose-700' : 'text-stone-800'}`}>
                         {station.visibilityM.toLocaleString('en-IN')} m
                       </div>
                     </div>
-                    <div className="p-2 rounded bg-slate-900/80 border border-slate-800">
-                      <div className="text-slate-500 text-[10px]">RAINFALL</div>
-                      <div className={`font-bold mt-0.5 ${station.rainfallMmHr > 50 ? 'text-cyan-400' : 'text-slate-200'}`}>
+                    <div className="p-2 rounded-lg bg-[#f7f4ec] border border-[#e5dfd3]">
+                      <div className="text-stone-400 text-[10px] font-bold">RAINFALL</div>
+                      <div className={`font-bold mt-0.5 ${station.rainfallMmHr > 50 ? 'text-sky-700' : 'text-stone-800'}`}>
                         {station.rainfallMmHr} mm/h
                       </div>
                     </div>
-                    <div className="p-2 rounded bg-slate-900/80 border border-slate-800">
-                      <div className="text-slate-500 text-[10px]">RAIL ADHESION (µ)</div>
-                      <div className={`font-bold mt-0.5 ${station.brakingFrictionMu < 0.20 ? 'text-amber-400' : 'text-emerald-400'}`}>
+                    <div className="p-2 rounded-lg bg-[#f7f4ec] border border-[#e5dfd3]">
+                      <div className="text-stone-400 text-[10px] font-bold">RAIL ADHESION (µ)</div>
+                      <div className={`font-bold mt-0.5 ${station.brakingFrictionMu < 0.20 ? 'text-amber-700' : 'text-emerald-700'}`}>
                         {station.brakingFrictionMu.toFixed(2)}
                       </div>
                     </div>
-                    <div className="p-2 rounded bg-slate-900/80 border border-slate-800">
-                      <div className="text-slate-500 text-[10px]">AMBIENT TEMP</div>
-                      <div className="text-slate-200 font-bold mt-0.5">{station.temperatureC}°C</div>
+                    <div className="p-2 rounded-lg bg-[#f7f4ec] border border-[#e5dfd3]">
+                      <div className="text-stone-400 text-[10px] font-bold">AMBIENT TEMP</div>
+                      <div className="text-stone-800 font-bold mt-0.5">{station.temperatureC}°C</div>
                     </div>
                   </div>
 
-                  <div className="text-[11px] font-mono text-slate-400 flex items-center gap-1.5">
+                  <div className="text-[11px] font-mono text-stone-600 flex items-center gap-1.5 font-medium">
                     {station.weatherType === 'RAIN' ? (
-                      <CloudRain className="w-3.5 h-3.5 text-cyan-400" />
+                      <CloudRain className="w-3.5 h-3.5 text-sky-600" />
                     ) : station.weatherType === 'FOG' ? (
-                      <CloudFog className="w-3.5 h-3.5 text-amber-400" />
+                      <CloudFog className="w-3.5 h-3.5 text-amber-600" />
                     ) : (
-                      <Sun className="w-3.5 h-3.5 text-emerald-400" />
+                      <Sun className="w-3.5 h-3.5 text-emerald-600" />
                     )}
                     <span>{station.conditionName}</span>
                   </div>
@@ -514,26 +514,26 @@ export const WeatherTsrEngine: React.FC<WeatherTsrEngineProps> = ({
         </div>
 
         {/* Mandatory TSR Order Banner */}
-        <div className="p-4 sm:p-5 bg-slate-950/80 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="p-4 sm:p-5 bg-[#f4efe4] border-t border-[#e5dfd3] flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 flex-shrink-0">
+            <div className="p-2 rounded-xl bg-amber-100 border border-amber-300 text-amber-800 shadow-sm flex-shrink-0">
               <FileText className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-xs font-mono font-bold text-slate-200 flex items-center gap-2">
+              <div className="text-xs font-mono font-bold text-stone-900 flex items-center gap-2">
                 <span>FORM T/409 CAUTION ORDER TRANSMITTED TO SECTION CONTROLLER</span>
-                <span className="text-[10px] text-emerald-400 bg-emerald-950/50 px-1.5 py-0.5 rounded border border-emerald-500/40">
+                <span className="text-[10px] text-emerald-800 bg-emerald-100 px-1.5 py-0.5 rounded border border-emerald-300 font-bold">
                   DIGITALLY SIGNED
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400 font-mono mt-0.5">
-                Target Speed: <strong className="text-amber-400">{currentScenario.tsrSpeedKmH} km/h</strong> • Headway Buffer: <strong className="text-cyan-400">{currentScenario.headwayMinutes} mins</strong> • {currentScenario.description}
+              <p className="text-[11px] text-stone-600 font-mono mt-0.5">
+                Target Speed: <strong className="text-amber-800">{currentScenario.tsrSpeedKmH} km/h</strong> • Headway Buffer: <strong className="text-sky-800">{currentScenario.headwayMinutes} mins</strong> • {currentScenario.description}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-mono text-slate-400 flex-shrink-0">
-            <ShieldAlert className="w-4 h-4 text-emerald-400" />
+          <div className="flex items-center gap-2 text-xs font-mono text-stone-600 font-semibold flex-shrink-0">
+            <ShieldAlert className="w-4 h-4 text-emerald-700" />
             <span>Kavach / TCAS Synced</span>
           </div>
         </div>
