@@ -15,7 +15,7 @@ engine = create_async_engine(settings.DATABASE_URL, echo=False)
 # Sync engine for scripts/seed_data/sync operations
 sync_db_url = settings.DATABASE_URL.replace("+aiosqlite", "")
 sync_connect_args = {"check_same_thread": False} if sync_db_url.startswith("sqlite") else {}
-sync_engine = create_engine(sync_db_url, echo=False, connect_args=sync_connect_args)
+sync_engine = create_engine(sync_db_url, echo=False, connect_args=sync_connect_args, pool_pre_ping=True)
 
 # Async session factory
 async_session = sessionmaker(

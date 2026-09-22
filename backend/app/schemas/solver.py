@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from typing import List, Dict, Any, Optional
 
 class TrainScheduleOutput(BaseModel):
@@ -30,6 +30,13 @@ class SolveRequest(BaseModel):
     chaos_mode: bool = False
     section: str = "BINA-ITARSI"
     max_solve_time_sec: float = 8.0
+
+    @field_validator("max_solve_time_sec")
+    @classmethod
+    def validate_max_solve_time(cls, v: float) -> float:
+        if v is None or v <= 0.0:
+            return 8.0
+        return max(1.0, min(float(v), 300.0))
 
 class SolveResponse(BaseModel):
     solve_id: str

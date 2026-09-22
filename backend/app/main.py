@@ -2,10 +2,17 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.core.database import engine, Base
+from app.database import init_db
 from app.api.router import api_router
+from app.routers.corridor import router as corridor_router
+from app.routers.lifecycle import router as lifecycle_router
+from app.routers.pdf import router as pdf_router
+from app.routers.solver import router as background_solver_router
+from app.routers.telemetry import router as telemetry_router
 
-# Initialize database schema
+# Initialize database schema (both Core SQLAlchemy and SQLModel)
 Base.metadata.create_all(bind=engine)
+init_db()
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -24,8 +31,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount API Endpoints
+# Mount Core API Endpoints
 app.include_router(api_router, prefix=settings.API_V1_STR)
+
+# Mount Supplementary Endpoints: Corridor, Lifecycle, PDF, Telemetry SSE, and Background Solver
+app.include_router(corridor_router, prefix=f"{settings.API_V1_STR}/corridor", tags=["Corridor Infrastructure"])
+app.include_router(lifecycle_router, prefix=f"{settings.API_V1_STR}/lifecycle", tags=["Lifecycle Governance"])
+app.include_router(lifecycle_router, prefix=settings.API_V1_STR, tags=["Lifecycle Governance"], include_in_schema=False)
+app.include_router(pdf_router, prefix=f"{settings.API_V1_STR}/pdf", tags=["PDF Generation"])
+app.include_router(telemetry_router, prefix=f"{settings.API_V1_STR}/telemetry", tags=["Block Telemetry SSE"])
+app.include_router(background_solver_router, prefix=f"{settings.API_V1_STR}/solve", tags=["Background Solver"])
+
 
 @app.get("/")
 def root():

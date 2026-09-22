@@ -82,6 +82,8 @@ export const DemandForm: React.FC<DemandFormProps> = ({
     });
   };
 
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   const validate = (): boolean => {
     const errs: Record<string, string> = {};
     if (!form.demand_code.trim()) errs.demand_code = 'Required';
@@ -89,18 +91,28 @@ export const DemandForm: React.FC<DemandFormProps> = ({
     if (!form.section_to) errs.section_to = 'Required';
     if (form.section_from === form.section_to && form.section_from)
       errs.section_to = 'Must differ from origin';
+    if (form.start_km >= form.end_km)
+      errs.end_km = 'End km must be greater than start km';
     if (!form.activity_description.trim()) errs.activity_description = 'Required';
     if (form.required_minutes <= 0) errs.required_minutes = 'Must be > 0';
     if (form.requested_start_minutes >= form.requested_end_minutes)
       errs.requested_end_minutes = 'End must be after start';
+    else if (form.required_minutes > (form.requested_end_minutes - form.requested_start_minutes))
+      errs.required_minutes = 'Required duration exceeds requested window';
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting || isLoading) return;
     if (!validate()) return;
-    onSubmit(form);
+    try {
+      setIsSubmitting(true);
+      await onSubmit(form);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const minutesToHHMM = (m: number) => {
@@ -388,10 +400,10 @@ export const DemandForm: React.FC<DemandFormProps> = ({
             </Button>
             <Button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || isSubmitting}
               className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold"
             >
-              {isLoading ? 'Saving…' : editingDemand ? 'Update Demand' : 'Create Demand'}
+              {isLoading || isSubmitting ? 'Saving…' : editingDemand ? 'Update Demand' : 'Create Demand'}
             </Button>
           </DialogFooter>
         </form>

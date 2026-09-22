@@ -230,6 +230,7 @@ def generate_t409_caution_order(
     )
 
 
+@router.get("/permit/{demand_id:path}", summary="Generate Digital Possession Record PDF (alias)", include_in_schema=False)
 @router.get("/possession/{demand_id:path}", summary="Generate Digital Possession Record PDF")
 def generate_possession_record(
     demand_id: str,

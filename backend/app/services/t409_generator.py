@@ -21,7 +21,7 @@ class T409Generator:
         end_min: int,
         power_block: bool
     ) -> dict:
-        auth_number = f"WCR/BPL/LC-2026/{str(demand_id)[-4:]}"
+        auth_number = f"WCR/BPL/LC-2026/{str(demand_id)[-4:]}-{int(time.time() * 1000) % 1000000:06d}"
         now = datetime.utcnow()
         timestamp_str = now.strftime("%Y-%m-%d %H:%M:%S UTC")
 

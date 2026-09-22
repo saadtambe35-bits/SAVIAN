@@ -1,4 +1,4 @@
-import { Station, BlockDemand, SolverResult, GrantedBlock, TelemetryEvent } from '@/types';
+import type { Station, BlockDemand, SolverResult, GrantedBlock, TelemetryEvent } from '../types/index.ts';
 
 export const MOCK_STATIONS: Station[] = [
   { id: 1, code: 'BINA', name: 'Bina Junction', distance_km: 0.0, division: 'BPL', zone: 'WCR', kavach_status: 'COMMISSIONED' },

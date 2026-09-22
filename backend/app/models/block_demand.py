@@ -66,9 +66,11 @@ class BlockDemand(SQLModel, table=True):
         description="Data confidence score from source system (0.0 to 1.0)",
     )
     severity_tier: str = Field(
+        default="MEDIUM",
         description="Severity classification: CRITICAL | HIGH | MEDIUM | LOW",
     )
     priority_weight: int = Field(
+        default=5,
         description="Numerical priority weight for optimization solver",
     )
     power_block_required: bool = Field(

@@ -171,6 +171,7 @@ async def _run_solver_background(
         telemetry_bus.broadcast("solve_error", {"solve_id": solve_id, "error": str(ex)})
 
 
+@router.post("", summary="Trigger optimization solve in background", include_in_schema=False)
 @router.post("/", summary="Trigger optimization solve in background")
 async def trigger_solve(
     body: SolveRequest,
