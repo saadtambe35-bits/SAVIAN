@@ -66,4 +66,20 @@ export const generateT409Api = async (demand: BlockDemand): Promise<any | null> 
   }
 };
 
+export const transcribeAudioApi = async (wavBlob: Blob): Promise<string | null> => {
+  try {
+    const formData = new FormData();
+    formData.append('file', wavBlob, 'recording.wav');
+    const res = await api.post('/api/voice/transcribe', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      timeout: 12000,
+    });
+    return res.data?.transcript || null;
+  } catch (err) {
+    return null;
+  }
+};
+
 export default api;
