@@ -35,10 +35,6 @@ export const RAILWAY_PHRASES: { en: string; hi: string; mr: string }[] = [
   { en: 'ICMS', hi: 'आईसीएमएस (ICMS)', mr: 'आईसीएमएस (ICMS)' },
   { en: 'FOIS', hi: 'एफओआईएस (FOIS)', mr: 'एफओआईएस (FOIS)' },
   { en: 'NavIC', hi: 'नाविक (NavIC)', mr: 'नाविक (NavIC)' },
-  { en: 'BPL', hi: 'भोपाल (BPL)', mr: 'भोपाळ (BPL)' },
-  { en: 'ET', hi: 'इटारसी (ET)', mr: 'इटारसी (ET)' },
-  { en: 'BINA', hi: 'बीना (BINA)', mr: 'बीना (BINA)' },
-  { en: 'RKMP', hi: 'रानी कमलापति (RKMP)', mr: 'राणी कमलापती (RKMP)' },
   { en: 'ROI', hi: 'आरओआई (लाभ)', mr: 'आरओआई (परतावा)' },
   { en: 'Non-Conventional', hi: 'गैर-पारंपरिक', mr: 'गैर-पारंपारिक' },
   { en: 'Non Conventional', hi: 'गैर-पारंपरिक', mr: 'गैर-पारंपारिक' },
@@ -269,7 +265,7 @@ export const SINGLE_WORDS_DICT: Record<string, { hi: string; mr: string }> = {
   bonus: { hi: 'बोनस', mr: 'बोनस' },
   bound: { hi: 'की ओर', mr: 'च्या दिशेने' },
   boxn: { hi: 'बीओएक्सएन', mr: 'बीओएक्सएन' },
-  bpl: { hi: 'भोपाल (BPL)', mr: 'भोपाळ (BPL)' },
+  bpl: { hi: 'भोपाल', mr: 'भोपाळ' },
   breach: { hi: 'उल्लंघन', mr: 'उल्लंघन' },
   breakdown: { hi: 'खराबी', mr: 'बिघाड' },
   buffer: { hi: 'बफर', mr: 'बफर' },
@@ -380,7 +376,7 @@ export const SINGLE_WORDS_DICT: Record<string, { hi: string; mr: string }> = {
   engineer: { hi: 'अभियंता', mr: 'अभियंता' },
   engineering: { hi: 'इंजीनियरिंग', mr: 'अभियांत्रिकी' },
   equivalent: { hi: 'समतुल्य', mr: 'सममूल्य' },
-  et: { hi: 'इटारसी (ET)', mr: 'इटारसी (ET)' },
+  et: { hi: 'इटारसी', mr: 'इटारसी' },
   execute: { hi: 'निष्पादित करें', mr: 'अंमलात आणा' },
   executed: { hi: 'निष्पादित', mr: 'अंमलात आणले' },
   executing: { hi: 'जारी है', mr: 'सुरू आहे' },
@@ -607,7 +603,7 @@ export const SINGLE_WORDS_DICT: Record<string, { hi: string; mr: string }> = {
   reviewed: { hi: 'समीक्षित', mr: 'पुनरावलोकन' },
   rfid: { hi: 'आरएफआईडी', mr: 'आरएफआईडी' },
   risk: { hi: 'जोखिम', mr: 'धोका' },
-  rkmp: { hi: 'रानी कमलापति (RKMP)', mr: 'राणी कमलापती (RKMP)' },
+  rkmp: { hi: 'रानी कमलापति', mr: 'राणी कमलापती' },
   roi: { hi: 'निवेश पर लाभ (ROI)', mr: 'गुंतवणूक परतावा (ROI)' },
   rotate: { hi: 'घुमाएं', mr: 'फिरवा' },
   route: { hi: 'मार्ग', mr: 'मार्ग' },
@@ -788,7 +784,14 @@ export function translateText(rawText: string, targetLang: SupportedLanguage): s
     }
   }
 
-  // Step 2: Replace individual word tokens (preserving punctuation, brackets, numbers)
+  // Step 2: Protect any content inside parentheses from being re-translated in Step 3
+  const placeholders: string[] = [];
+  text = text.replace(/\([^()]*\)/g, (parenMatch) => {
+    placeholders.push(parenMatch);
+    return `__PAREN_${placeholders.length - 1}__`;
+  });
+
+  // Step 3: Replace individual word tokens (preserving punctuation, brackets, numbers)
   // Matches words consisting of letters, apostrophes, and hyphens
   text = text.replace(/\b([A-Za-z]+(?:'[a-z]+)?)\b/g, (match) => {
     // If word is already Devanagari or number, leave intact
@@ -801,6 +804,11 @@ export function translateText(rawText: string, targetLang: SupportedLanguage): s
     }
 
     return match;
+  });
+
+  // Step 4: Restore protected parenthesized tokens
+  text = text.replace(/__PAREN_(\d+)__/g, (_, idx) => {
+    return placeholders[parseInt(idx, 10)] || '';
   });
 
   return text;

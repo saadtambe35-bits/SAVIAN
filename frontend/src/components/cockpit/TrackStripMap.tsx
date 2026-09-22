@@ -13,18 +13,18 @@ export interface StationNode {
 }
 
 export const STRIP_STATIONS: StationNode[] = [
-  { code: 'BINA', shortCode: 'BINA', name: 'Bina Jn', km: 8, topKm: '18', status: 'green' },
+  { code: 'BINA', shortCode: 'BINA', name: 'Bina Jn', km: 0, topKm: '0.0', status: 'green' },
   { code: 'KIKA', shortCode: 'KIKA', name: 'Kurwai Kethora', km: 8.4, topKm: '15.0', status: 'amber' },
-  { code: 'MNDR', shortCode: 'MNO', name: 'Mandi Bamora', km: 19.8, topKm: '25.0', status: 'amber' },
+  { code: 'MABA', shortCode: 'MABA', name: 'Mandi Bamora', km: 19.8, topKm: '25.0', status: 'amber' },
   { code: 'BAQ', shortCode: 'BAQ', name: 'Ganj Basoda', km: 31.1, topKm: '35.0', status: 'green' },
-  { code: 'GLG', shortCode: '8U5', name: 'Gulabganj', km: 45.7, topKm: '45.0', status: 'blue' },
-  { code: 'BNS', shortCode: 'BHS', name: 'Vidisha', km: 61.9, topKm: '51.0', status: 'blue' },
-  { code: 'SCI', shortCode: 'SQ', name: 'Sanchi', km: 72.4, topKm: '75.0', status: 'blue' },
+  { code: 'GLG', shortCode: 'GLG', name: 'Gulabganj', km: 45.7, topKm: '45.0', status: 'blue' },
+  { code: 'BHS', shortCode: 'BHS', name: 'Vidisha', km: 61.9, topKm: '51.0', status: 'blue' },
+  { code: 'SCI', shortCode: 'SCI', name: 'Sanchi', km: 72.4, topKm: '75.0', status: 'blue' },
   { code: 'BPL', shortCode: 'BPL', name: 'Bhopal Jn', km: 92.2, topKm: '92.0', status: 'green' },
-  { code: 'RKMP', shortCode: 'RKM', name: 'Rani Kamlapati', km: 80.7, topKm: '99.0', status: 'green' },
-  { code: 'MDDP', shortCode: 'MDD', name: 'Mandideep', km: 114.2, topKm: '100.0', status: 'rose' },
-  { code: 'BKA', shortCode: 'BKA', name: 'Barkhera (Ghat)', km: 129.5, topKm: '125.0', status: 'rose' },
-  { code: 'ODG', shortCode: 'ODG', name: 'Obaidullaganj', km: 141.0, topKm: '125.0', status: 'rose' },
+  { code: 'RKMP', shortCode: 'RKMP', name: 'Rani Kamlapati', km: 99.0, topKm: '99.0', status: 'green' },
+  { code: 'MDDP', shortCode: 'MDDP', name: 'Mandideep', km: 114.2, topKm: '100.0', status: 'rose' },
+  { code: 'ODG', shortCode: 'ODG', name: 'Obaidullaganj', km: 125.0, topKm: '125.0', status: 'rose' },
+  { code: 'BKA', shortCode: 'BKA', name: 'Barkhera (Ghat)', km: 139.5, topKm: '139.0', status: 'rose' },
   { code: 'ET', shortCode: 'ET', name: 'Itarsi Jn', km: 155.4, topKm: '155.0', status: 'green' },
 ];
 
@@ -134,7 +134,7 @@ export const TrackStripMap: React.FC = () => {
         <div className="absolute top-0 left-0 right-0 flex justify-center z-20 px-4">
           <div className="flex flex-wrap items-center gap-3 sm:gap-5 rounded-full border border-stone-200/90 bg-white/95 px-5 py-1.5 shadow-[0_6px_16px_rgba(180,170,155,0.22)] backdrop-blur-md">
             {/* Station & Chainage Pill */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 notranslate" translate="no">
               <span className="font-extrabold text-stone-900 text-xs font-mono">
                 {currentStation.code}
               </span>
@@ -148,7 +148,7 @@ export const TrackStripMap: React.FC = () => {
             {/* Live Section */}
             <div className="flex items-center gap-1.5 text-xs">
               <span className="text-stone-400 font-medium text-[11px]">Live:</span>
-              <span className="font-bold text-stone-900 font-mono text-[11px]">{currentStation.code}</span>
+              <span className="font-bold text-stone-900 font-mono text-[11px] notranslate" translate="no">{currentStation.code}</span>
             </div>
 
             <div className="h-3 w-[1px] bg-stone-200 hidden sm:block" />
@@ -181,8 +181,8 @@ export const TrackStripMap: React.FC = () => {
         </div>
 
         {/* Active Block Maintenance Safety Envelope between BINA and KIKA */}
-        <div className="absolute top-[135px] left-[3%] w-[11%] h-[24px] rounded-lg border border-dashed border-amber-500 bg-amber-300/25 flex items-center justify-center z-5 shadow-[0_0_12px_rgba(245,158,11,0.3)] animate-pulse pointer-events-none">
-          <span className="text-[8px] font-mono font-black text-amber-950 bg-amber-100/90 px-1 py-0.5 rounded shadow-xs border border-amber-300">
+        <div className="absolute top-[135px] left-[3%] w-[11%] h-[24px] rounded-lg border border-dashed border-amber-500 bg-amber-300/25 flex items-center justify-center z-5 shadow-[0_0_12px_rgba(245,158,11,0.3)] animate-pulse pointer-events-none notranslate" translate="no">
+          <span className="text-[8px] font-mono font-black text-amber-950 bg-amber-100/90 px-1 py-0.5 rounded shadow-xs border border-amber-300 whitespace-nowrap">
             ⚠ BLOCK km 2.5-6.8 (OHE CUT)
           </span>
         </div>
@@ -338,24 +338,25 @@ export const TrackStripMap: React.FC = () => {
                   )}
                   <div
                     className={cn(
-                      'flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border-[2.5px] text-[10px] sm:text-[11px] font-extrabold font-mono transition-transform duration-200 group-hover:scale-110 shadow-sm z-10',
+                      'flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border-[2.5px] text-[10px] sm:text-[11px] font-extrabold font-mono transition-transform duration-200 group-hover:scale-110 shadow-sm z-10 notranslate select-none',
                       isGreen && 'border-[#75be96] bg-[#a8e0c0] text-[#14482e]',
                       isAmber && 'border-[#e0aa6d] bg-[#f9cf9c] text-[#6d3e0c]',
                       isBlue && 'border-[#76bdd6] bg-[#aee2f4] text-[#124d63]',
                       isRose && 'border-[#df9182] bg-[#f7bfb4] text-[#67251a]',
                       currentStation.code === st.code && 'ring-2 ring-emerald-500 ring-offset-2'
                     )}
+                    translate="no"
                   >
                     {st.shortCode}
                   </div>
                 </div>
 
                 {/* Station Code Below */}
-                <span className="text-[11px] font-extrabold text-stone-900 mt-2 font-mono">
+                <span className="text-[11px] font-extrabold text-stone-900 mt-2 font-mono notranslate" translate="no">
                   {st.code}
                 </span>
                 {/* KM below code */}
-                <span className="text-[10px] text-stone-500 font-mono font-semibold">
+                <span className="text-[10px] text-stone-500 font-mono font-semibold notranslate" translate="no">
                   {st.km}k
                 </span>
               </div>
