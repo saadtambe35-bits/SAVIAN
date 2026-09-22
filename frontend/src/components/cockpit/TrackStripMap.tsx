@@ -15,7 +15,7 @@ export interface StationNode {
 export const STRIP_STATIONS: StationNode[] = [
   { code: 'BINA', shortCode: 'BINA', name: 'Bina Jn', km: 0, topKm: '0.0', status: 'green' },
   { code: 'KIKA', shortCode: 'KIKA', name: 'Kurwai Kethora', km: 8.4, topKm: '15.0', status: 'amber' },
-  { code: 'MABA', shortCode: 'MABA', name: 'Mandi Bamora', km: 19.8, topKm: '25.0', status: 'amber' },
+  { code: 'MABA', shortCode: 'MABA', name: 'Mandi Bamora', km: 19.8, topKm: '25.0', status: 'green' },
   { code: 'BAQ', shortCode: 'BAQ', name: 'Ganj Basoda', km: 31.1, topKm: '35.0', status: 'green' },
   { code: 'GLG', shortCode: 'GLG', name: 'Gulabganj', km: 45.7, topKm: '45.0', status: 'blue' },
   { code: 'BHS', shortCode: 'BHS', name: 'Vidisha', km: 61.9, topKm: '51.0', status: 'blue' },
@@ -86,7 +86,9 @@ export const TrackStripMap: React.FC = () => {
   }, []);
 
   const currentStation = STRIP_STATIONS[activeStationIndex] || STRIP_STATIONS[0];
-  const isTsrZone = trainLeftPct >= 1 && trainLeftPct <= 16;
+  // 30 km/h TSR applies strictly between BINA and KIKA (active OHE block possession km 2.5-6.8)
+  // Once train clears KIKA (activeStationIndex >= 2: MABA, BAQ, etc.), speed returns to normal 130 km/h
+  const isTsrZone = activeStationIndex === 0 || activeStationIndex === 1;
   const currentSpeed = isTsrZone ? 30 : 130;
 
   return (
@@ -168,11 +170,11 @@ export const TrackStripMap: React.FC = () => {
                 {currentSpeed} km/h
               </span>
               {isTsrZone ? (
-                <span className="text-[9px] bg-amber-100 text-amber-900 border border-amber-300 font-extrabold px-1.5 py-0.2 rounded-full animate-pulse">
+                <span className="text-[9px] bg-amber-100 text-amber-900 border border-amber-300 font-extrabold px-1.5 py-0.5 rounded-full animate-pulse notranslate" translate="no">
                   ⚠ TSR 30km/h
                 </span>
               ) : (
-                <span className="text-[9px] bg-emerald-50 text-emerald-800 border border-emerald-200 font-extrabold px-1.5 py-0.2 rounded-full">
+                <span className="text-[9px] bg-emerald-50 text-emerald-800 border border-emerald-200 font-extrabold px-1.5 py-0.5 rounded-full notranslate" translate="no">
                   Normal
                 </span>
               )}
