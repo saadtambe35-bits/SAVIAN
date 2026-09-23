@@ -23,7 +23,7 @@ By combining **Google OR-Tools CP-SAT constraint programming**, **explainable AI
 - Unlocks **Shadow Block Possessions**: Automatically co-aligns electrical (OHE) and signaling (S&T) possessions under civil track (P-Way) closures to eliminate unnecessary corridor possession downtime.
 - Real-time explainable heuristics (XAI) detailing every concession, delay penalty, and trade-off made by the optimizer.
 
-### 2. 🎙️ Voice Dispatch Assistant (JARVIS-IR)
+### 2. 🎙️ Voice Dispatch Assistant (BHOLU)
 - **Universal Cross-Browser PCM WAV Audio Capture**: Built on Web Audio API (`16kHz Mono linear PCM`) with zero browser siloing (Chrome, Edge, Brave, Firefox, Safari).
 - **Domain-Specific NLP Parser & Phonetic Healing**:
   - 100% resilient against noisy control-room ambient sound, regional Indian accents, and Hinglish phrasing.

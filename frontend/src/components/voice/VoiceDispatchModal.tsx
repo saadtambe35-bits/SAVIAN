@@ -32,7 +32,7 @@ export type { ExtractedVoiceDemand, DetectedKeyword };
 
 /**
  * LINE CLEAR (SAVIAN) - Indian Railways AI Operations Cockpit
- * VoiceDispatchModal.tsx: JARVIS-Style Voice Block Extraction & Dispatch Tokenizer
+ * VoiceDispatchModal.tsx: BHOLU-Style Voice Block Extraction & Dispatch Tokenizer
  */
 
 export interface VoiceDispatchModalProps {
@@ -479,7 +479,7 @@ export const VoiceDispatchModal: React.FC<VoiceDispatchModalProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <h2 id="voice-modal-title" className="text-base sm:text-lg font-bold tracking-tight text-stone-900">
-                  Voice Dispatch Assistant (JARVIS-IR)
+                  Voice Dispatch Assistant (BHOLU)
                 </h2>
                 <span className="rounded-md bg-emerald-100 border border-emerald-300 px-2 py-0.5 text-[10px] font-mono text-emerald-800 font-bold">
                   NLP V2.4

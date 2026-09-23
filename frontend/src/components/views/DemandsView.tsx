@@ -251,7 +251,7 @@ export const DemandsView: React.FC<DemandsViewProps> = ({
               size="sm"
               onClick={() => setShowVoiceModal(true)}
               className="text-xs font-bold border-cyan-500/40 bg-cyan-50/90 hover:bg-cyan-100 text-cyan-950 rounded-xl shadow-sm transition-all transform active:scale-95 flex items-center gap-1.5"
-              title="Voice Dispatch Assistant (JARVIS)"
+              title="Voice Dispatch Assistant (BHOLU)"
             >
               <Mic className="h-3.5 w-3.5 text-cyan-600 animate-pulse" />
               <span>Voice Dispatch</span>
@@ -959,7 +959,7 @@ export const DemandsView: React.FC<DemandsViewProps> = ({
         onConfirm={handleConfirmFormT409}
       />
 
-      {/* JARVIS-Style NLP Voice Dispatch Modal */}
+      {/* BHOLU-Style NLP Voice Dispatch Modal */}
       <VoiceDispatchModal
         isOpen={showVoiceModal}
         onClose={() => setShowVoiceModal(false)}
