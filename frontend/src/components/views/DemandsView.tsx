@@ -14,6 +14,7 @@ import {
   Check,
   Trash2,
   Mic,
+  Info,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -318,59 +319,61 @@ export const DemandsView: React.FC<DemandsViewProps> = ({
       {/* Main Demands Grid / Master-Detail Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Demands List (2 Columns) */}
-        <div className="lg:col-span-2 space-y-3.5">
+        <div className="lg:col-span-2 space-y-3">
           {filteredDemands.length > 0 ? (
             filteredDemands.map((demand) => {
               const isSelected = selectedDemand?.id === demand.id;
+
+              const getAccentBorder = () => {
+                if (demand.severity_tier === 'CRITICAL') return 'border-l-4 border-l-rose-600';
+                if (demand.severity_tier === 'HIGH') return 'border-l-4 border-l-amber-600';
+                if (demand.status === 'APPROVED') return 'border-l-4 border-l-emerald-600';
+                return 'border-l-4 border-l-blue-600';
+              };
 
               return (
                 <div
                   key={demand.id}
                   onClick={() => setSelectedDemand(demand)}
-                  className={`cursor-pointer rounded-2xl p-4 transition-all duration-200 ${
+                  className={`cursor-pointer rounded-lg p-3.5 transition-all duration-150 border border-stone-200/80 bg-white ${getAccentBorder()} ${
                     isSelected
-                      ? 'neumorphic-card ring-2 ring-emerald-500/80 shadow-[0_8px_20px_rgba(16,185,129,0.15)] bg-white'
-                      : 'neumorphic-card neumorphic-card-hover'
+                      ? 'ring-2 ring-emerald-600/80 shadow-md bg-stone-50/50'
+                      : 'hover:border-stone-300 hover:shadow-sm'
                   }`}
                 >
-                  {/* Header Row: ID, Department Pill, Severity Pill, Time Capsule */}
+                  {/* Level 1: Primary Status & Operational Identity */}
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div className="flex items-center space-x-2">
-                      <span className="font-mono text-sm font-black text-stone-900 tracking-tight">
+                      <span className="font-mono text-xs font-bold text-stone-900 tracking-tight">
                         {demand.demand_code}
                       </span>
-                      {/* Pastel Category Pill */}
+
+                      {/* Restrained Severity Badge */}
                       <span
-                        className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${
-                          demand.department === 'P_WAY'
-                            ? 'bg-sky-100/90 text-sky-800 border-sky-300/80'
-                            : demand.department === 'OHE'
-                            ? 'bg-amber-100/90 text-amber-800 border-amber-300/80'
-                            : 'bg-indigo-100/90 text-indigo-800 border-indigo-300/80'
-                        }`}
-                      >
-                        {demand.department}
-                      </span>
-                      {/* Pastel Severity Pill */}
-                      <span
-                        className={`text-[11px] font-extrabold px-2.5 py-0.5 rounded-full border ${
+                        className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
                           demand.severity_tier === 'CRITICAL'
-                            ? 'bg-rose-100/90 text-rose-700 border-rose-300/80'
+                            ? 'bg-rose-50 text-rose-800 border-rose-200'
                             : demand.severity_tier === 'HIGH'
-                            ? 'bg-rose-50 text-rose-600 border-rose-200'
-                            : 'bg-stone-100 text-stone-600 border-stone-200'
+                            ? 'bg-amber-50 text-amber-900 border-amber-200'
+                            : 'bg-stone-100 text-stone-700 border-stone-200'
                         }`}
                       >
                         {demand.severity_tier}
                       </span>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-stone-100 text-stone-600 border border-stone-200">
+
+                      {/* Department Tag */}
+                      <span className="text-[10px] font-medium text-stone-500 bg-stone-100 px-1.5 py-0.5 rounded border border-stone-200">
+                        {demand.department === 'P_WAY' ? 'P-Way' : demand.department === 'S_AND_T' ? 'S&T' : demand.department}
+                      </span>
+
+                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-stone-50 text-stone-600 border border-stone-200">
                         {demand.status}
                       </span>
                     </div>
 
-                    {/* Time Range Capsule & Withdraw Action */}
+                    {/* Time Window & Action */}
                     <div className="flex items-center space-x-2 self-end sm:self-auto">
-                      <div className="bg-white/95 border border-stone-200/90 px-3 py-1 rounded-full shadow-sm font-mono text-xs font-extrabold text-stone-800">
+                      <div className="font-mono text-xs font-semibold text-stone-700 bg-stone-100/80 px-2.5 py-0.5 rounded border border-stone-200">
                         {formatMinutesToTime(demand.requested_start_minutes)} – {formatMinutesToTime(demand.requested_end_minutes)}
                       </div>
                       <button
@@ -380,37 +383,44 @@ export const DemandsView: React.FC<DemandsViewProps> = ({
                           e.stopPropagation();
                           handleDeleteDemand(demand.id, demand.demand_code);
                         }}
-                        className="p-1 rounded-lg text-stone-400 hover:text-rose-600 hover:bg-rose-50 border border-transparent hover:border-rose-200 transition-all"
+                        className="p-1 rounded text-stone-400 hover:text-rose-600 hover:bg-rose-50 transition-all"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                       </button>
                     </div>
                   </div>
 
-                  {/* Description Body */}
-                  <p className="mt-2.5 text-xs text-stone-700 font-medium leading-relaxed">
+                  {/* Level 2: Operational Event / Activity Description */}
+                  <p className="mt-2 text-xs text-stone-900 font-semibold leading-snug">
                     {demand.activity_description}
                   </p>
 
-                  {/* Bottom Row: Section km, Duration & Trust */}
-                  <div className="mt-3 flex flex-wrap items-center justify-between gap-2 pt-2.5 border-t border-[#ebe6dc] text-[11px]">
-                    <div className="flex items-center space-x-3 text-stone-500 font-medium">
+                  {/* Level 3: Inline Supporting Metadata */}
+                  <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-stone-100 text-[11px] text-stone-600">
+                    <div className="flex items-center space-x-2">
                       <span>
-                        Section: <strong className="text-stone-800 font-semibold">{demand.section_from} – {demand.section_to}</strong> (km {demand.start_km} – {demand.end_km})
+                        <strong className="font-semibold text-stone-800">{demand.section_from}–{demand.section_to}</strong> (KM {demand.start_km}–{demand.end_km})
                       </span>
+                      <span>·</span>
+                      <span>{demand.required_minutes} min</span>
+                      {demand.machinery_type && (
+                        <>
+                          <span>·</span>
+                          <span>{demand.machinery_type}</span>
+                        </>
+                      )}
                       {demand.power_block_required && (
-                        <span className="flex items-center gap-1 text-amber-700 font-bold bg-amber-50 px-1.5 py-0.5 rounded-md border border-amber-200">
+                        <span className="inline-flex items-center gap-0.5 text-amber-800 font-bold bg-amber-50 px-1.5 py-0.2 rounded border border-amber-200 text-[10px]">
                           <PowerOff className="h-3 w-3" /> Power Block
                         </span>
                       )}
                     </div>
 
-                    <div className="flex items-center space-x-3 font-mono">
-                      <span className="text-stone-500 font-medium">
-                        Duration: <strong className="text-stone-800">{demand.required_minutes}m</strong>
-                      </span>
-                      <span className="text-emerald-700 font-black text-[12px] bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                        Trust: {demand.trust_score}%
+                    <div className="flex items-center space-x-1 font-mono text-[11px]">
+                      <span className="text-stone-500 font-medium">AI Confidence:</span>
+                      <span className="font-bold text-emerald-700">{demand.trust_score}%</span>
+                      <span title="AI confidence calculated from crew availability, block window efficiency, and historical track release timelines.">
+                        <Info className="h-3 w-3 text-stone-400 cursor-help inline ml-0.5" />
                       </span>
                     </div>
                   </div>
@@ -418,49 +428,49 @@ export const DemandsView: React.FC<DemandsViewProps> = ({
               );
             })
           ) : (
-            <div className="neumorphic-card rounded-2xl p-12 text-center text-stone-400 text-xs">
+            <div className="rounded-lg border border-stone-200 bg-white p-12 text-center text-stone-400 text-xs">
               No matching demands found for search filter.
             </div>
           )}
         </div>
 
         {/* Selected Demand Detail Card (1 Column Inspector) */}
-        <div className="neumorphic-card rounded-2xl p-5 space-y-4 h-fit sticky top-20 bg-[#fbf9f4]">
+        <div className="rounded-lg border border-stone-200 bg-white p-4 space-y-4 h-fit sticky top-20 shadow-sm">
           {selectedDemand ? (
             <>
-              <div className="flex items-center justify-between pb-3 border-b border-[#e8e2d4]">
+              <div className="flex items-center justify-between pb-2.5 border-b border-stone-200">
                 <div>
-                  <h3 className="text-sm font-extrabold text-stone-900 font-mono">
+                  <h3 className="text-sm font-bold text-stone-900 font-mono">
                     {selectedDemand.demand_code}
                   </h3>
-                  <span className="text-xs text-stone-500 font-medium">Demand Inspector</span>
+                  <span className="text-[11px] text-stone-500 font-medium">Operational Demand Inspector</span>
                 </div>
-                <span className="text-[11px] font-bold bg-sky-100 text-sky-800 px-2.5 py-0.5 rounded-full border border-sky-300">
+                <span className="text-[10px] font-bold bg-stone-100 text-stone-800 px-2 py-0.5 rounded border border-stone-200">
                   {selectedDemand.department}
                 </span>
               </div>
 
-              <div className="space-y-3.5 text-xs">
+              <div className="space-y-3 text-xs">
                 <div>
-                  <span className="text-stone-400 uppercase text-[10px] font-extrabold tracking-wider">
+                  <span className="text-stone-500 uppercase text-[10px] font-bold tracking-wider">
                     Activity Description
                   </span>
-                  <p className="mt-1 text-stone-800 font-semibold leading-relaxed">
+                  <p className="mt-1 text-stone-900 font-semibold leading-relaxed">
                     {selectedDemand.activity_description}
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 pt-2.5 border-t border-[#e8e2d4]">
+                <div className="grid grid-cols-2 gap-2 pt-2 border-t border-stone-100">
                   <div>
-                    <span className="text-stone-400 uppercase text-[10px] font-extrabold tracking-wider">
+                    <span className="text-stone-500 uppercase text-[10px] font-bold tracking-wider">
                       Section
                     </span>
-                    <p className="font-mono text-stone-800 font-bold">
+                    <p className="font-mono text-stone-900 font-bold">
                       {selectedDemand.section_from} – {selectedDemand.section_to}
                     </p>
                   </div>
                   <div>
-                    <span className="text-stone-400 uppercase text-[10px] font-extrabold tracking-wider">
+                    <span className="text-stone-500 uppercase text-[10px] font-bold tracking-wider">
                       Chainage Range
                     </span>
                     <p className="font-mono text-stone-700 font-medium">
@@ -469,55 +479,60 @@ export const DemandsView: React.FC<DemandsViewProps> = ({
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 pt-2.5 border-t border-[#e8e2d4]">
+                <div className="grid grid-cols-2 gap-2 pt-2 border-t border-stone-100">
                   <div>
-                    <span className="text-stone-400 uppercase text-[10px] font-extrabold tracking-wider">
-                      Requested Slot
+                    <span className="text-stone-500 uppercase text-[10px] font-bold tracking-wider">
+                      Requested Window
                     </span>
-                    <p className="font-mono text-emerald-700 font-extrabold">
+                    <p className="font-mono text-emerald-800 font-bold">
                       {formatMinutesToTime(selectedDemand.requested_start_minutes)} – {formatMinutesToTime(selectedDemand.requested_end_minutes)}
                     </p>
                   </div>
                   <div>
-                    <span className="text-stone-400 uppercase text-[10px] font-extrabold tracking-wider">
+                    <span className="text-stone-500 uppercase text-[10px] font-bold tracking-wider">
                       Duration Required
                     </span>
-                    <p className="font-mono text-stone-800 font-bold">
+                    <p className="font-mono text-stone-900 font-bold">
                       {selectedDemand.required_minutes} Minutes
                     </p>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 pt-2.5 border-t border-[#e8e2d4]">
+                <div className="grid grid-cols-2 gap-2 pt-2 border-t border-stone-100">
                   <div>
-                    <span className="text-stone-400 uppercase text-[10px] font-extrabold tracking-wider">
+                    <span className="text-stone-500 uppercase text-[10px] font-bold tracking-wider">
                       Machinery
                     </span>
-                    <p className="text-stone-700 font-medium">
+                    <p className="text-stone-800 font-medium">
                       {selectedDemand.machinery_type || 'Manual Gang'}
                     </p>
                   </div>
                   <div>
-                    <span className="text-stone-400 uppercase text-[10px] font-extrabold tracking-wider">
+                    <span className="text-stone-500 uppercase text-[10px] font-bold tracking-wider">
                       Machine ID
                     </span>
-                    <p className="font-mono text-stone-700 font-medium">
+                    <p className="font-mono text-stone-800 font-medium">
                       {selectedDemand.machinery_id || 'N/A'}
                     </p>
                   </div>
                 </div>
 
-                {/* Historical Trust Score Box */}
-                <div className="rounded-xl bg-[#ede9df] p-3.5 border border-[#ded6c7] space-y-2 shadow-inner">
+                {/* AI Confidence Box */}
+                <div className="rounded-md bg-stone-50 p-3 border border-stone-200 space-y-2">
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-stone-600 font-medium">Historical Trust Score</span>
-                    <span className="font-mono font-black text-emerald-700">
+                    <span className="text-stone-700 font-semibold flex items-center gap-1">
+                      AI Confidence Score
+                      <span title="Calculated from past execution adherence, machine readiness, and punctual handover record.">
+                        <Info className="h-3 w-3 text-stone-400 cursor-help" />
+                      </span>
+                    </span>
+                    <span className="font-mono font-bold text-emerald-700">
                       {selectedDemand.trust_score}%
                     </span>
                   </div>
-                  <div className="h-2 w-full bg-[#dcd4c6] rounded-full overflow-hidden">
+                  <div className="h-1.5 w-full bg-stone-200 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-emerald-500 rounded-full"
+                      className="h-full bg-emerald-600 rounded-full"
                       style={{ width: `${selectedDemand.trust_score}%` }}
                     />
                   </div>
@@ -531,7 +546,7 @@ export const DemandsView: React.FC<DemandsViewProps> = ({
                     variant="railway"
                     size="sm"
                     onClick={() => setShowCoalignModal(true)}
-                    className="w-full text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-sm transition-all"
+                    className="w-full text-xs font-bold bg-emerald-700 hover:bg-emerald-800 text-white rounded-md shadow-sm transition-all"
                   >
                     <Layers className="mr-1.5 h-3.5 w-3.5" />
                     Co-align Shadow Window
@@ -540,18 +555,18 @@ export const DemandsView: React.FC<DemandsViewProps> = ({
                     variant="outline"
                     size="sm"
                     onClick={() => setShowFormT409(true)}
-                    className="w-full text-xs font-semibold rounded-xl border-[#dcd4c6] bg-white text-stone-700 hover:bg-[#f5f3ec] transition-all"
+                    className="w-full text-xs font-semibold rounded-md border-stone-300 bg-white text-stone-800 hover:bg-stone-50 transition-all"
                   >
-                    <ShieldCheck className="mr-1.5 h-3.5 w-3.5 text-emerald-600" />
+                    <ShieldCheck className="mr-1.5 h-3.5 w-3.5 text-emerald-700" />
                     Inspect Form T/409 Authority
                   </Button>
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => handleDeleteDemand(selectedDemand.id, selectedDemand.demand_code)}
-                    className="w-full text-xs font-semibold rounded-xl border-rose-200 bg-rose-50/60 text-rose-700 hover:bg-rose-100 hover:border-rose-300 transition-all"
+                    className="w-full text-xs font-semibold rounded-md border-rose-200 bg-rose-50/50 text-rose-800 hover:bg-rose-100 transition-all"
                   >
-                    <Trash2 className="mr-1.5 h-3.5 w-3.5 text-rose-600" />
+                    <Trash2 className="mr-1.5 h-3.5 w-3.5 text-rose-700" />
                     Withdraw / Delete Demand
                   </Button>
                 </div>
