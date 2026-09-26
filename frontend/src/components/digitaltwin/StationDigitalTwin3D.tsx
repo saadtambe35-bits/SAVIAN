@@ -1138,10 +1138,11 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       1,
       6000
     );
-    // Framed directly onto the central station yard and platforms
+    // Framed directly onto the central station yard and platforms (Identical to Recenter View)
     camera.position.set(400, 440, 400);
     camera.lookAt(0, 0, -25);
-    camera.zoom = 1.25; // Default zoomed-in: bold 2x tracks, trains, and 3D station immediately visible!
+    camera.zoom = 1.25; // Matches Recenter View zoom perfectly
+    camera.updateProjectionMatrix();
     cameraRef.current = camera;
 
     // 3. Renderer
@@ -1163,6 +1164,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     controls.minZoom = 0.35; // Allows zooming out to see full corridor
     controls.maxZoom = 3.5;  // Allows zooming in close to train details
     controls.target.set(0, 0, -25);
+    controls.update();
     controlsRef.current = controls;
 
     // Camera Pan Bounding Box Clamping (Allows viewing full 5000-unit corridor from end to end)
@@ -2200,6 +2202,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       if (!container || !rendererRef.current || !cameraRef.current) return;
       const w = container.clientWidth;
       const h = container.clientHeight;
+      if (w === 0 || h === 0) return;
       const newAspect = w / h;
       cameraRef.current.left = (-viewSize * newAspect) / 2;
       cameraRef.current.right = (viewSize * newAspect) / 2;
@@ -2210,11 +2213,16 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     };
 
     window.addEventListener('resize', handleResize);
+    const resizeObserver = new ResizeObserver(() => {
+      handleResize();
+    });
+    resizeObserver.observe(container);
 
     return () => {
       isRunning = false;
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
       window.removeEventListener('resize', handleResize);
+      resizeObserver.disconnect();
       controls.removeEventListener('change', restrictPan);
       controls.removeEventListener('start', handleControlsStart);
       controls.dispose();
