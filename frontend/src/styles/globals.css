@@ -359,36 +359,41 @@
    ========================================================================= */
 .corridor-radar-sweep {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 20px;
-  right: 20px;
+  top: 76px;
+  bottom: 10px;
+  left: 16px;
+  right: 16px;
   overflow: hidden;
   pointer-events: none;
   z-index: 5;
+  border-radius: 12px;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
 }
 .corridor-radar-sweep::before {
   content: '';
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 140px;
+  width: 88px;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(16, 185, 129, 0.03) 25%,
-    rgba(16, 185, 129, 0.14) 75%,
-    rgba(16, 185, 129, 0.35) 96%,
-    rgba(5, 150, 105, 0.75) 100%
+    rgba(16, 185, 129, 0.01) 25%,
+    rgba(16, 185, 129, 0.04) 60%,
+    rgba(16, 185, 129, 0.10) 85%,
+    rgba(16, 185, 129, 0.20) 97%,
+    rgba(16, 185, 129, 0.38) 100%
   );
-  box-shadow: 2px 0 12px rgba(16, 185, 129, 0.5);
+  border-right: 1.5px solid rgba(16, 185, 129, 0.55);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
   animation: radar-sweep-kf 11s linear infinite;
   pointer-events: none;
 }
 @keyframes radar-sweep-kf {
   /* Active Sweep: 6.0s (0% to 54.55%) */
   0% {
-    left: -140px;
+    left: -90px;
     opacity: 0;
   }
   2% {
@@ -398,16 +403,16 @@
     opacity: 1;
   }
   54.55% {
-    left: calc(100% - 140px);
+    left: calc(100% - 90px);
     opacity: 0;
   }
   54.56% {
-    left: -140px;
+    left: -90px;
     opacity: 0;
   }
   /* 5.0s Idle Pause (54.55% to 100% = 45.45% of 11s) */
   100% {
-    left: -140px;
+    left: -90px;
     opacity: 0;
   }
 }
