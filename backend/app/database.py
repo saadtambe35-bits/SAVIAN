@@ -3,11 +3,20 @@ SAVIAN — Async Database Engine & Session Factory
 Uses SQLAlchemy async engine with aiosqlite for SQLite.
 """
 
+import os
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import SQLModel, create_engine
 
 from app.config import settings
+
+# Ensure database directory exists if using SQLite
+if "sqlite" in settings.DATABASE_URL:
+    db_file = settings.DATABASE_URL.split(":///")[-1]
+    db_dir = os.path.dirname(db_file)
+    if db_dir:
+        os.makedirs(db_dir, exist_ok=True)
+os.makedirs("./data", exist_ok=True)
 
 # Async engine — aiosqlite driver for SQLite
 engine = create_async_engine(settings.DATABASE_URL, echo=False)
