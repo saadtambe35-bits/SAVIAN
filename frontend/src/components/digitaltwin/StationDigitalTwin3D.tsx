@@ -148,7 +148,7 @@ export const TRAIN_PRESETS: TrainPreset[] = [
     serviceType: 'Semi-High Speed EMU',
     primaryColorHex: 0xffffff,
     accentColorHex: 0x0284c7,
-    speed: 2.3, // ~130 km/h
+    speed: 1.55, // Stately cruise ~85 km/h
     defaultDirection: 1,
     badgeBg: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40',
   },
@@ -158,7 +158,7 @@ export const TRAIN_PRESETS: TrainPreset[] = [
     serviceType: 'Superfast Express',
     primaryColorHex: 0x991b1b,
     accentColorHex: 0xfacc15,
-    speed: 1.8, // ~100 km/h
+    speed: 1.25, // Stately cruise ~70 km/h
     defaultDirection: -1,
     badgeBg: 'bg-red-500/20 text-red-300 border-red-500/40',
   },
@@ -168,7 +168,7 @@ export const TRAIN_PRESETS: TrainPreset[] = [
     serviceType: 'Intercity Express',
     primaryColorHex: 0x1e3a8a,
     accentColorHex: 0x38bdf8,
-    speed: 2.0, // ~110 km/h
+    speed: 1.35, // Stately cruise ~75 km/h
     defaultDirection: 1,
     badgeBg: 'bg-blue-500/20 text-blue-300 border-blue-500/40',
   },
@@ -178,7 +178,7 @@ export const TRAIN_PRESETS: TrainPreset[] = [
     serviceType: 'Corporate Luxury Superfast',
     primaryColorHex: 0xd97706,
     accentColorHex: 0xfef08a,
-    speed: 2.1, // ~115 km/h
+    speed: 1.40, // Stately cruise ~75 km/h
     defaultDirection: 1,
     badgeBg: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
   },
@@ -188,7 +188,7 @@ export const TRAIN_PRESETS: TrainPreset[] = [
     serviceType: '12000 HP Dedicated Freight',
     primaryColorHex: 0x14532d,
     accentColorHex: 0xeab308,
-    speed: 1.1, // ~60 km/h
+    speed: 0.75, // Heavy Freight crawl ~40 km/h
     defaultDirection: -1,
     badgeBg: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
   },
@@ -198,7 +198,7 @@ export const TRAIN_PRESETS: TrainPreset[] = [
     serviceType: 'Push-Pull Non-AC Superfast',
     primaryColorHex: 0xc2410c,
     accentColorHex: 0x94a3b8,
-    speed: 1.6, // ~90 km/h
+    speed: 1.10, // Stately cruise ~60 km/h
     defaultDirection: -1,
     badgeBg: 'bg-orange-500/20 text-orange-300 border-orange-500/40',
   },
@@ -572,7 +572,7 @@ class InterlockingGraph {
 // -------------------------------------------------------------
 interface ConsistCar {
   mesh: THREE.Group;
-  type: 'ENGINE' | 'COACH_1' | 'COACH_2';
+  type: 'ENGINE' | 'COACH_1' | 'COACH_2' | 'COACH_3' | 'END_CAB';
 }
 
 interface ActiveTrain {
@@ -619,7 +619,8 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
   // REACT STATES
   // -------------------------------------------------------------
   const [activeBlocks, setActiveBlocks] = useState<ActiveBlock[]>([
-    { trackId: 2, zoneId: 'STATION_CENTRAL', type: 'P-WAY', timestamp: '14:30' },
+    { trackId: 1, zoneId: 'STATION_CENTRAL', type: 'P-WAY', timestamp: '14:30' },
+    { trackId: 4, zoneId: 'WEST_THROAT', type: 'OHE', timestamp: '14:45' },
   ]);
 
   const [selectedTrack, setSelectedTrack] = useState<number>(2);
@@ -634,6 +635,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
 
   // Train Management States
   const [trainsList, setTrainsList] = useState<TrainUIItem[]>([]);
+  const [activeTrainCount, setActiveTrainCount] = useState<number>(2);
   const [isDispatchModalOpen, setIsDispatchModalOpen] = useState<boolean>(false);
   const [dispatchPresetId, setDispatchPresetId] = useState<string>('VANDE_BHARAT');
   const [dispatchDirection, setDispatchDirection] = useState<1 | -1>(1);
@@ -688,6 +690,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       };
     });
     setTrainsList(list);
+    setActiveTrainCount(activeTrainsRef.current.length);
   }, []);
 
   // -------------------------------------------------------------
@@ -697,12 +700,13 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     text: string,
     bgColor: string,
     textColor: string,
-    scaleX = 84,
-    scaleY = 14.5
+    scaleX = 96,
+    scaleY = 16,
+    fontSize = 28
   ) => {
     const canvas = document.createElement('canvas');
-    canvas.width = 540;
-    canvas.height = 92;
+    canvas.width = 680;
+    canvas.height = 110;
     const ctx = canvas.getContext('2d');
     if (!ctx) return new THREE.Sprite();
 
@@ -710,15 +714,15 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     ctx.strokeStyle = textColor;
     ctx.lineWidth = 4;
     ctx.beginPath();
-    ctx.roundRect(6, 6, 528, 80, 18);
+    ctx.roundRect(6, 6, 668, 98, 20);
     ctx.fill();
     ctx.stroke();
 
-    ctx.font = 'bold 26px "Segoe UI", Roboto, monospace';
+    ctx.font = `bold ${fontSize}px "Segoe UI", Roboto, monospace`;
     ctx.fillStyle = textColor;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(text, 270, 46);
+    ctx.fillText(text, 340, 55);
 
     const texture = new THREE.CanvasTexture(canvas);
     texture.minFilter = THREE.LinearFilter;
@@ -734,12 +738,12 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
   // By modeling car body length along Z, cars point directly along the track rails!
   // -------------------------------------------------------------
   const buildConsistCar = (
-    carType: 'ENGINE' | 'COACH_1' | 'COACH_2',
+    carType: 'ENGINE' | 'COACH_1' | 'COACH_2' | 'COACH_3' | 'END_CAB',
     primaryHex: number,
     accentHex: number
   ): THREE.Group => {
     const group = new THREE.Group();
-    const length = carType === 'ENGINE' ? 76 : 66;
+    const length = (carType === 'ENGINE' || carType === 'END_CAB') ? 76 : 66;
     const height = 20.0;
     const width = 20.0;
 
@@ -804,8 +808,45 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       const panto = new THREE.Mesh(pantoGeo, pantoMat);
       panto.position.set(0, height + 7.5, -length / 4);
       group.add(panto);
+    } else if (carType === 'END_CAB') {
+      // Rear Aerodynamic Nose Cone (Same shape as front engine, but pointing backward along -Z!)
+      const rearNoseGeo = new THREE.ConeGeometry(width / 2, 24, 16);
+      const rearNoseMat = new THREE.MeshStandardMaterial({
+        color: accentHex,
+        roughness: 0.2,
+      });
+      const rearNose = new THREE.Mesh(rearNoseGeo, rearNoseMat);
+      rearNose.rotation.x = -Math.PI / 2;
+      rearNose.position.set(0, height / 2 + 4.5, -length / 2 - 12);
+      group.add(rearNose);
+
+      // Rear Driver / Guard Cockpit Windshield (Facing backward along -Z)
+      const rearGlassGeo = new THREE.BoxGeometry(width - 2.5, 5.5, 8);
+      const rearGlassMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.1 });
+      const rearGlass = new THREE.Mesh(rearGlassGeo, rearGlassMat);
+      rearGlass.position.set(0, height + 2.0, -length / 2 - 5.5);
+      group.add(rearGlass);
+
+      // Authentic Indian Railways High-Visibility Yellow "X" Tail Warning Cross
+      const crossMat = new THREE.MeshBasicMaterial({ color: 0xfacc15 });
+      const bar1 = new THREE.Mesh(new THREE.BoxGeometry(9.0, 1.3, 0.4), crossMat);
+      bar1.rotation.z = Math.PI / 4;
+      bar1.position.set(0, height / 2 + 5.0, -length / 2 - 13.0);
+      group.add(bar1);
+
+      const bar2 = new THREE.Mesh(new THREE.BoxGeometry(9.0, 1.3, 0.4), crossMat);
+      bar2.rotation.z = -Math.PI / 4;
+      bar2.position.set(0, height / 2 + 5.0, -length / 2 - 13.0);
+      group.add(bar2);
+
+      // Rear Articulated Pantograph (Folded/Symmetrical profile)
+      const pantoGeo = new THREE.BoxGeometry(11, 1.4, 18);
+      const pantoMat = new THREE.MeshStandardMaterial({ color: accentHex });
+      const panto = new THREE.Mesh(pantoGeo, pantoMat);
+      panto.position.set(0, height + 7.5, length / 4);
+      group.add(panto);
     } else {
-      // Passenger Windows (Spaced along Z on left & right sides)
+      // Passenger Windows for Coaches (COACH_1, COACH_2, COACH_3)
       for (let wz = -length / 2 + 12; wz <= length / 2 - 12; wz += 14) {
         const winGeo = new THREE.BoxGeometry(width + 0.5, 5.0, 9.5);
         const winMat = new THREE.MeshBasicMaterial({ color: 0xfef08a });
@@ -840,6 +881,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       direction?: 1 | -1;
       startTrack?: number;
       targetTrack?: number;
+      initialDistance?: number;
     }) => {
       const scene = sceneRef.current;
       const graph = graphRef.current;
@@ -860,25 +902,34 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       const startX = direction === 1 ? -2500 : 2500;
       const startNodeId = `N_${startTrack}_${startX}`;
 
-      // Solve path using Dijkstra targeting targetTrack
-      const pathPoints = graph.findPath(startNodeId, targetTrack, direction, activeBlocks);
+      // Solve path using Dijkstra targeting targetTrack with robust fallback
+      let pathPoints = graph.findPath(startNodeId, targetTrack, direction, activeBlocks);
       if (!pathPoints || pathPoints.length < 2) {
-        addLog(`⚠️ Interlocking: No unblocked path from Track ${startTrack} to Track ${targetTrack}.`);
-        return;
+        pathPoints = graph.findPath(startNodeId, startTrack, direction, activeBlocks);
+      }
+      if (!pathPoints || pathPoints.length < 2) {
+        pathPoints = ALL_X_MILESTONES.map(
+          (mx) => new THREE.Vector3(mx, 1.6, TRACKS.find((trk) => trk.id === startTrack)?.z || 0)
+        );
+        if (direction === -1) pathPoints.reverse();
       }
 
       // Smooth 3D Spline Curve along calculated path points
       const curve = new THREE.CatmullRomCurve3(pathPoints, false, 'catmullrom', 0.12);
       const curveLength = curve.getLength();
 
-      // Build Consist Meshes with preset colors
+      // Build Consist Meshes with preset colors (Engine + 3 Passenger Coaches + End Cab)
       const engineMesh = buildConsistCar('ENGINE', preset.primaryColorHex, preset.accentColorHex);
       const coach1Mesh = buildConsistCar('COACH_1', preset.primaryColorHex, preset.accentColorHex);
       const coach2Mesh = buildConsistCar('COACH_2', preset.primaryColorHex, preset.accentColorHex);
+      const coach3Mesh = buildConsistCar('COACH_3', preset.primaryColorHex, preset.accentColorHex);
+      const endCabMesh = buildConsistCar('END_CAB', preset.primaryColorHex, preset.accentColorHex);
 
       scene.add(engineMesh);
       scene.add(coach1Mesh);
       scene.add(coach2Mesh);
+      scene.add(coach3Mesh);
+      scene.add(endCabMesh);
 
       // Status Label Sprite
       const labelSprite = createLabelSprite(trainName, 'rgba(15, 23, 42, 0.92)', '#38bdf8');
@@ -894,13 +945,15 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
         currentTrack: startTrack,
         curve,
         curveLength,
-        distanceTraveled: 0, // Starts at the beginning of the track (X = ±2500)
+        distanceTraveled: options?.initialDistance !== undefined ? options.initialDistance : 0,
         speed: preset.speed,
         targetSpeed: preset.speed,
         cars: [
           { mesh: engineMesh, type: 'ENGINE' },
           { mesh: coach1Mesh, type: 'COACH_1' },
           { mesh: coach2Mesh, type: 'COACH_2' },
+          { mesh: coach3Mesh, type: 'COACH_3' },
+          { mesh: endCabMesh, type: 'END_CAB' },
         ],
         status: startTrack === targetTrack ? 'CRUISING' : 'DIVERTING',
         statusMessage:
@@ -912,6 +965,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       };
 
       activeTrainsRef.current.push(activeTrain);
+      setActiveTrainCount(activeTrainsRef.current.length);
       syncActiveTrainsState();
       addLog(
         `🚆 Dispatched ${trainName} (${direction === 1 ? 'Eastbound' : 'Westbound'}) [Track ${startTrack} ➔ Track ${targetTrack}].`
@@ -936,6 +990,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       }
 
       activeTrainsRef.current.splice(idx, 1);
+      setActiveTrainCount(activeTrainsRef.current.length);
       syncActiveTrainsState();
       addLog(`🗑️ Despawned & removed train: ${train.name} from yard corridor.`);
     },
@@ -977,13 +1032,24 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
 
       // 3. Solve path from upcoming switch node to new target track
       const remainingPath = graph.findPath(switchNode.id, newTargetTrack, train.direction, activeBlocks);
-      if (!remainingPath || remainingPath.length < 2) {
-        addLog(`⚠️ Interlocking: No unblocked path from Track ${train.currentTrack} to Track ${newTargetTrack}.`);
-        return;
+      let splicedPoints: THREE.Vector3[];
+
+      if (remainingPath && remainingPath.length >= 2) {
+        splicedPoints = [enginePos, ...remainingPath];
+      } else {
+        // Direct smooth S-curve transition to newTargetTrack
+        const targetZ = TRACKS.find((t) => t.id === newTargetTrack)?.z || 0;
+        const dir = train.direction;
+        const exitX = dir === 1 ? 2500 : -2500;
+        splicedPoints = [
+          enginePos.clone(),
+          new THREE.Vector3(enginePos.x + dir * 50, 1.6, enginePos.z),
+          new THREE.Vector3(enginePos.x + dir * 180, 1.6, targetZ),
+          new THREE.Vector3(enginePos.x + dir * 300, 1.6, targetZ),
+          new THREE.Vector3(exitX, 1.6, targetZ),
+        ];
       }
 
-      // 4. Splice new curve from current engine position to switch node to remaining path
-      const splicedPoints = [enginePos, ...remainingPath];
       const newCurve = new THREE.CatmullRomCurve3(splicedPoints, false, 'catmullrom', 0.12);
 
       train.assignedTrack = newTargetTrack;
@@ -2023,8 +2089,27 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
 
     scene.add(hazardGroupRef.current);
 
-    // Clean Yard Start: No automatic trains are dispatched.
-    // Trains enter only when the user explicitly clicks "+ Dispatch Train".
+    // Live Operational Demo: Pre-dispatch 2 trains on active routes so the user immediately gets a live operational yard demo
+    activeTrainsRef.current = [];
+    spawnTrain({
+      presetId: 'VANDE_BHARAT',
+      direction: 1,
+      startTrack: 2,
+      targetTrack: 2,
+      customName: '20901 Vande Bharat Express',
+      initialDistance: 1400,
+    });
+
+    spawnTrain({
+      presetId: 'RAJDHANI',
+      direction: -1,
+      startTrack: 3,
+      targetTrack: 3,
+      customName: '12951 Mumbai Rajdhani Express',
+      initialDistance: 900,
+    });
+
+    syncActiveTrainsState();
 
     // -------------------------------------------------------------
     // RENDER LOOP (60 FPS)
@@ -2062,9 +2147,9 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
         updateSimulationStep();
       }
 
-      // Sync train list state to UI ~3 times/sec
+      // Sync train list state to UI frequently (~6 times/sec)
       frameCountRef.current += 1;
-      if (frameCountRef.current % 20 === 0) {
+      if (frameCountRef.current % 10 === 0) {
         syncActiveTrainsState();
       }
 
@@ -2125,30 +2210,174 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     for (let i = trains.length - 1; i >= 0; i--) {
       const train = trains[i];
 
-      // 1. Advance distance traveled along CatmullRom Curve
-      train.distanceTraveled += train.speed;
-      const t = train.distanceTraveled / train.curveLength;
-
-      // 2. Engine Position & Actual Track Detection
+      // 1. Engine Position & Actual Track Detection
       const engineDistance = Math.min(train.curveLength, Math.max(0, train.distanceTraveled));
       const { pos: enginePos } = getConsistPointAndTangent(train.curve, train.curveLength, engineDistance);
       train.currentTrack = getTrackIdFromZ(enginePos.z);
       const currentZone = getZoneIdFromX(enginePos.x);
 
-      // Check if current zone on actual track is blocked
+      // 2. Anti-Collision & Headway Protection (Kavach / ATP System)
+      let isTrainConflict = false;
+      let trainConflictMsg = '';
+
+      for (let j = 0; j < trains.length; j++) {
+        if (i === j) continue;
+        const other = trains[j];
+        const otherDist = Math.min(other.curveLength, Math.max(0, other.distanceTraveled));
+        const { pos: otherEnginePos } = getConsistPointAndTangent(other.curve, other.curveLength, otherDist);
+        const otherTrack = getTrackIdFromZ(otherEnginePos.z);
+
+        // Trains are in conflict if they are on the same track (or within 22 units laterally)
+        const isSameTrack = train.currentTrack === otherTrack || Math.abs(enginePos.z - otherEnginePos.z) < 22;
+
+        if (isSameTrack) {
+          const isOppositeDirection = train.direction !== other.direction;
+
+          if (isOppositeDirection) {
+            // Distance ahead along current train's travel direction:
+            const distAhead = train.direction === 1
+              ? (otherEnginePos.x - enginePos.x)
+              : (enginePos.x - otherEnginePos.x);
+
+            // In head-on situation on same track:
+            // Check if opposing train is in front or within close proximity (< 800 units ahead, or face-to-face)
+            const isHeadOnConflict = (distAhead > -60 && distAhead < 800) || Math.abs(enginePos.x - otherEnginePos.x) < 320;
+
+            if (isHeadOnConflict) {
+              // Deterministic Leader: Train with direction 1 (Eastbound) or lower index initiates the bypass
+              const shouldIDivert = (train.direction === 1 && train.status !== 'DIVERTING') ||
+                                    (other.status === 'EMERGENCY_STOP' && train.status !== 'DIVERTING') ||
+                                    (train.status !== 'DIVERTING' && other.status !== 'DIVERTING' && i < j);
+
+              if (shouldIDivert) {
+                const occupiedTracks = [
+                  train.currentTrack,
+                  otherTrack,
+                  ...activeBlocks.filter((b) => b.zoneId === currentZone).map((b) => b.trackId),
+                ];
+
+                const candidateOffsets = [1, -1, 2, -2, 3, -3, 4, -4];
+                let openTrackId: number | null = null;
+                for (const offset of candidateOffsets) {
+                  const candidateId = train.currentTrack + offset;
+                  if (candidateId >= 1 && candidateId <= 5 && !occupiedTracks.includes(candidateId)) {
+                    openTrackId = candidateId;
+                    break;
+                  }
+                }
+
+                if (openTrackId) {
+                  const bypassZ = TRACKS.find((t) => t.id === openTrackId)?.z || 0;
+                  const destinationTrackId = train.assignedTrack; // PRESERVE ORIGINAL DESTINATION!
+                  const destinationZ = TRACKS.find((t) => t.id === destinationTrackId)?.z || enginePos.z;
+                  const dir = train.direction;
+                  const exitX = dir === 1 ? 2500 : -2500;
+
+                  // Dynamic Loop Bypass: Diverts onto bypassZ, clears other train, then re-enters destinationZ!
+                  const p0 = enginePos.clone();
+                  const p1x = enginePos.x + dir * 50;
+                  const p2x = enginePos.x + dir * 180;
+                  const p3x = dir === 1
+                    ? Math.min(2300, Math.max(p2x + 120, otherEnginePos.x + 220))
+                    : Math.max(-2300, Math.min(p2x - 120, otherEnginePos.x - 220));
+                  const p4x = dir === 1
+                    ? Math.min(2400, p3x + 160)
+                    : Math.max(-2400, p3x - 160);
+
+                  const p1 = new THREE.Vector3(p1x, 1.6, enginePos.z);
+                  const p2 = new THREE.Vector3(p2x, 1.6, bypassZ);
+                  const p3 = new THREE.Vector3(p3x, 1.6, bypassZ);
+                  const p4 = new THREE.Vector3(p4x, 1.6, destinationZ);
+                  const p5 = new THREE.Vector3(exitX, 1.6, destinationZ);
+
+                  const bypassCurve = new THREE.CatmullRomCurve3([p0, p1, p2, p3, p4, p5], false, 'catmullrom', 0.12);
+
+                  // Destination Track is strictly preserved!
+                  train.assignedTrack = destinationTrackId;
+                  train.curve = bypassCurve;
+                  train.curveLength = bypassCurve.getLength();
+                  train.distanceTraveled = 0;
+                  train.status = 'DIVERTING';
+                  train.statusMessage = `🛡️ Kavach Loop Bypass: Diverting to T${openTrackId} to bypass ${other.name} ➔ Exiting at T${destinationTrackId}`;
+                  train.speed = Math.max(0.9, train.targetSpeed * 0.75);
+                  addLog(`🛡️ Interlocking Crossover: ${train.name} taking loop bypass on Track ${openTrackId} to clear ${other.name} ➔ Destination Track ${destinationTrackId} preserved.`);
+                }
+              }
+
+              // Hold opposing train while diverting train transitions onto the adjacent track
+              if (train.status !== 'DIVERTING' && other.status === 'DIVERTING') {
+                if (Math.abs(enginePos.z - otherEnginePos.z) < 20) {
+                  isTrainConflict = true;
+                  train.speed = Math.max(0, train.speed - 0.1);
+                  trainConflictMsg = `🛡️ Interlocking Hold: Waiting for ${other.name} to clear crossover`;
+                }
+              }
+
+              // Safety check: if STILL on same track and within 135 units, clamp to prevent penetration
+              if (train.currentTrack === otherTrack && Math.abs(enginePos.z - otherEnginePos.z) < 22 && train.status !== 'DIVERTING') {
+                if (distAhead <= 135) {
+                  isTrainConflict = true;
+                  train.speed = 0;
+                  trainConflictMsg = `🛡️ KAVACH Hold: Waiting for track clearance with ${other.name}`;
+                  const penetration = 135 - distAhead;
+                  if (penetration > 0) {
+                    train.distanceTraveled = Math.max(0, train.distanceTraveled - penetration);
+                  }
+                } else if (distAhead < 380) {
+                  isTrainConflict = true;
+                  train.speed = Math.max(0.2, train.speed - 0.05);
+                  trainConflictMsg = `🟡 KAVACH Caution: Approaching ${other.name} on Track ${train.currentTrack}`;
+                }
+              }
+            }
+          } else {
+            // Same Direction Follow-up Protection
+            const distAhead = train.direction === 1
+              ? (otherEnginePos.x - enginePos.x)
+              : (enginePos.x - otherEnginePos.x);
+
+            if (distAhead > 0 && distAhead < 380) {
+              isTrainConflict = true;
+              if (distAhead <= 285) {
+                train.speed = 0;
+                trainConflictMsg = `🛡️ Headway Protection: Safe stop behind ${other.name}`;
+                const penetration = 285 - distAhead;
+                if (penetration > 0) {
+                  train.distanceTraveled = Math.max(0, train.distanceTraveled - penetration);
+                }
+              } else {
+                train.speed = Math.min(train.speed, other.speed * 0.85);
+                trainConflictMsg = `🟡 Caution Headway: Following ${other.name} on Track ${train.currentTrack}`;
+              }
+            }
+          }
+        }
+      }
+
+      // Check if current zone on actual track is blocked by maintenance
       const isActualTrackBlocked = activeBlocks.some(
         (b) => b.trackId === train.currentTrack && b.zoneId === currentZone
       );
 
-      if (isActualTrackBlocked) {
+      if (isTrainConflict) {
+        train.status = train.speed === 0 ? 'EMERGENCY_STOP' : 'CAUTION_TSR';
+        train.statusMessage = trainConflictMsg;
+      } else if (isActualTrackBlocked) {
         train.speed = Math.max(0, train.speed - 0.05);
         train.status = 'EMERGENCY_STOP';
         train.statusMessage = '⚠️ EMERGENCY STOP: Active Block Detected Ahead!';
       } else {
         train.speed = Math.min(train.targetSpeed, train.speed + 0.02);
+        if (train.status === 'DIVERTING' && train.distanceTraveled > train.curveLength * 0.45) {
+          const destZ = TRACKS.find((t) => t.id === train.assignedTrack)?.z || 0;
+          if (Math.abs(enginePos.z - destZ) < 3) {
+            train.status = 'CRUISING';
+            train.statusMessage = `${train.direction === 1 ? 'Eastbound' : 'Westbound'} Clear • Cruising ${Math.round(train.speed * 55)} km/h`;
+          }
+        }
       }
 
-      // 3. Dynamic Forward Switch Evaluation (Rerouting BEFORE the Block)
+      // 3. Dynamic Forward Switch Evaluation (Rerouting BEFORE Maintenance Block)
       const lookaheadDistance = 180;
       const lookaheadTargetDist = Math.min(train.curveLength, Math.max(0, train.distanceTraveled + lookaheadDistance));
       const { pos: lookaheadPos } = getConsistPointAndTangent(train.curve, train.curveLength, lookaheadTargetDist);
@@ -2160,7 +2389,6 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       );
 
       if (isUpcomingBlocked && train.status !== 'EMERGENCY_STOP') {
-        // Find upcoming milestone node along travel direction on current track
         const upcomingNode = Array.from(graph.nodes.values()).find((n) => {
           if (n.trackId !== train.currentTrack) return false;
           return train.direction === 1
@@ -2169,7 +2397,6 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
         });
 
         if (upcomingNode) {
-          // Re-run Dijkstra avoiding blocked segment
           const newPath = graph.findPath(upcomingNode.id, train.assignedTrack, train.direction, activeBlocks);
           if (newPath && newPath.length >= 2) {
             const splicedCurve = new THREE.CatmullRomCurve3(
@@ -2188,12 +2415,13 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
         }
       }
 
-      // 4. Animate Multi-Car Consist (Engine + 2 Coaches)
-      train.cars.forEach((car) => {
-        let carOffset = 0;
-        if (car.type === 'COACH_1') carOffset = carOffsetDistance;
-        if (car.type === 'COACH_2') carOffset = carOffsetDistance * 2;
+      // Advance distance traveled
+      train.distanceTraveled += train.speed;
+      const t = train.distanceTraveled / train.curveLength;
 
+      // 4. Animate Multi-Car Consist (Engine + 3 Passenger Coaches + Realistic End Cab)
+      train.cars.forEach((car, index) => {
+        const carOffset = index * carOffsetDistance;
         const carDistance = train.distanceTraveled - carOffset;
         const { pos, tangent } = getConsistPointAndTangent(train.curve, train.curveLength, carDistance);
 
@@ -2209,8 +2437,8 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       const engineMesh = train.cars[0].mesh;
       train.labelSprite.position.set(engineMesh.position.x, engineMesh.position.y + 36, engineMesh.position.z);
 
-      // 5. Continuous Loop: Loops ONLY when the ENTIRE consist has cleared the very end of the track!
-      const lastCarOffset = carOffsetDistance * 2;
+      // 5. Continuous Loop: Loops ONLY when the ENTIRE 5-car consist has cleared the very end of the track!
+      const lastCarOffset = (train.cars.length - 1) * carOffsetDistance;
       const isLoopReady = train.distanceTraveled >= (train.curveLength + lastCarOffset);
 
       if (isLoopReady) {
@@ -2283,10 +2511,13 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
 
           const tag = createLabelSprite(
             `⛔ P-WAY BLOCK: T${block.trackId} [${zoneDef.name.toUpperCase()}]`,
-            'rgba(153, 27, 27, 0.92)',
-            '#ffffff'
+            'rgba(153, 27, 27, 0.95)',
+            '#ffffff',
+            124,
+            20,
+            30
           );
-          tag.position.set(zoneDef.centerX, 35, trackDef.z);
+          tag.position.set(zoneDef.centerX, 50, trackDef.z);
           hazardGroup.add(tag);
         } else if (block.type === 'OHE') {
           (meshes.ballast.material as THREE.MeshStandardMaterial).color.setHex(0x451a03);
@@ -2294,10 +2525,13 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
 
           const tag = createLabelSprite(
             `⚡ OHE POWER CUT: T${block.trackId} [${zoneDef.name.toUpperCase()}]`,
-            'rgba(120, 53, 15, 0.92)',
-            '#fde047'
+            'rgba(120, 53, 15, 0.95)',
+            '#fde047',
+            124,
+            20,
+            30
           );
-          tag.position.set(zoneDef.centerX, 35, trackDef.z);
+          tag.position.set(zoneDef.centerX, 50, trackDef.z);
           hazardGroup.add(tag);
         } else if (block.type === 'S-T') {
           (meshes.ballast.material as THREE.MeshStandardMaterial).color.setHex(0x312e81);
@@ -2305,10 +2539,13 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
 
           const tag = createLabelSprite(
             `🟡 S&T TSR 30 km/h: T${block.trackId} [${zoneDef.name.toUpperCase()}]`,
-            'rgba(30, 27, 75, 0.92)',
-            '#a5b4fc'
+            'rgba(30, 27, 75, 0.95)',
+            '#a5b4fc',
+            124,
+            20,
+            30
           );
-          tag.position.set(zoneDef.centerX, 35, trackDef.z);
+          tag.position.set(zoneDef.centerX, 50, trackDef.z);
           hazardGroup.add(tag);
         }
       }
@@ -2515,7 +2752,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
               <Train className="w-3.5 h-3.5 text-cyan-400" />
               <span>ACTIVE TRAINS & SWITCHER</span>
               <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-cyan-950 text-cyan-200 border border-cyan-500/40 font-mono font-bold">
-                {trainsList.length}
+                {Math.max(activeTrainCount, trainsList.length)}
               </span>
             </button>
 
@@ -2823,7 +3060,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
                 </span>
                 <div className="flex items-center gap-2">
                   <span className="text-[10px] text-cyan-300 font-bold px-2 py-0.5 rounded-full bg-cyan-950 border border-cyan-500/30">
-                    {trainsList.length} Active
+                    {Math.max(activeTrainCount, trainsList.length)} Active
                   </span>
                   <button
                     type="button"
