@@ -101,16 +101,16 @@ export const GeofenceSafetyLock: React.FC<GeofenceSafetyLockProps> = ({
     <div className="w-full max-w-5xl mx-auto font-sans text-stone-900">
       
       {/* Outer Cockpit Card */}
-      <div className="relative overflow-hidden rounded-2xl border border-[#ded9cb] bg-[#faf8f3] shadow-lg shadow-stone-900/10">
+      <div className="relative overflow-hidden rounded-2xl skin-glass-card skin-glass-elevated specular-sheen">
         
         {/* Top Control Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#e5dfd3] bg-[#f5f0e6]/70 px-5 py-3.5 gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-stone-200/60 bg-white/40 px-5 py-3.5 gap-3">
           <div className="flex items-center gap-3">
             <div
-              className={`flex h-10 w-10 items-center justify-center rounded-xl border transition-colors shadow-sm ${
+              className={`flex h-10 w-10 items-center justify-center rounded-xl border transition-colors shadow-xs ${
                 isHazardZoneOccupied
-                  ? 'bg-rose-100 border-rose-300 text-rose-700'
-                  : 'bg-emerald-100 border-emerald-300 text-emerald-800'
+                  ? 'bg-rose-500/10 border-rose-300/40 text-rose-700'
+                  : 'bg-emerald-500/10 border-emerald-300/40 text-emerald-800'
               }`}
             >
               {isHazardZoneOccupied ? (
@@ -125,12 +125,13 @@ export const GeofenceSafetyLock: React.FC<GeofenceSafetyLockProps> = ({
                   GEOFENCE SAFETY INTERLOCK (RULE 4.09 GR/SR)
                 </h2>
                 <span
-                  className={`rounded-lg px-2 py-0.5 text-[10px] font-mono font-bold border shadow-sm ${
+                  className={`cockpit-dark-chip text-[10px] font-mono font-bold ${
                     isHazardZoneOccupied
-                      ? 'bg-rose-100 border-rose-300 text-rose-800 animate-pulse'
-                      : 'bg-emerald-100 border-emerald-300 text-emerald-800'
+                      ? 'cockpit-dark-rose animate-pulse'
+                      : 'text-emerald-300'
                   }`}
                 >
+                  <span className={`h-1.5 w-1.5 rounded-full ${isHazardZoneOccupied ? 'bg-rose-400 led-glow-rose' : 'bg-emerald-400 led-glow-emerald'}`} />
                   {isHazardZoneOccupied ? 'RELAY INTERLOCK INHIBITED' : 'INTERLOCK ENERGIZED & CLEAR'}
                 </span>
               </div>
@@ -142,13 +143,13 @@ export const GeofenceSafetyLock: React.FC<GeofenceSafetyLockProps> = ({
 
           {/* NavIC Satellite Lock Badge */}
           <div className="flex items-center gap-2 text-[11px] font-mono">
-            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-white border border-[#ded8c9] text-stone-700 shadow-sm">
-              <Compass className="w-3.5 h-3.5 text-emerald-700" />
+            <span className="cockpit-dark-chip flex items-center gap-1.5 text-stone-300">
+              <Compass className="w-3.5 h-3.5 text-emerald-400" />
               <span>NavIC RTK: ±0.3m</span>
             </span>
-            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-white border border-[#ded8c9] shadow-sm">
-              <Zap className="w-3.5 h-3.5 text-amber-600" />
-              <span className={isHazardZoneOccupied ? 'text-rose-700 font-bold' : 'text-emerald-700 font-bold'}>
+            <span className="cockpit-dark-chip flex items-center gap-1.5">
+              <Zap className="w-3.5 h-3.5 text-amber-400" />
+              <span className={isHazardZoneOccupied ? 'text-rose-400 font-bold' : 'text-emerald-300 font-bold'}>
                 OHE 25kV: {isHazardZoneOccupied ? 'POWER OFF' : 'PERMITTED'}
               </span>
             </span>
@@ -312,7 +313,7 @@ export const GeofenceSafetyLock: React.FC<GeofenceSafetyLockProps> = ({
                     <Users className="w-3.5 h-3.5" />
                   </div>
                   {/* Tooltip */}
-                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block z-30 bg-slate-900 border border-slate-700 text-[10px] font-mono px-2 py-1 rounded shadow-xl whitespace-nowrap text-emerald-300">
+                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block z-30 bg-slate-900 border border-slate-700 text-[10px] font-mono px-2 py-1 rounded-[7px] shadow-xl whitespace-nowrap text-emerald-300">
                     Gang No. 4 (Km 49.100 - Cleared)
                   </div>
                 </div>
@@ -335,7 +336,7 @@ export const GeofenceSafetyLock: React.FC<GeofenceSafetyLockProps> = ({
                     <User className="w-4 h-4" />
                   </div>
                   {/* Floating Indicator */}
-                  <div className="absolute -top-7 left-1/2 -translate-x-1/2 bg-slate-900 border border-slate-700 text-[10px] font-mono px-2 py-0.5 rounded shadow-xl whitespace-nowrap">
+                  <div className="absolute -top-7 left-1/2 -translate-x-1/2 bg-slate-900 border border-slate-700 text-[10px] font-mono px-2 py-0.5 rounded-[7px] shadow-xl whitespace-nowrap">
                     <span className={isSseInHazard ? 'text-red-400 font-bold' : 'text-emerald-400 font-bold'}>
                       SSE: Km {sseKm.toFixed(2)}
                     </span>

@@ -460,20 +460,20 @@ export const VoiceDispatchModal: React.FC<VoiceDispatchModalProps> = ({
 
   const modalContent = (
     <div
-      className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 bg-stone-900/60 backdrop-blur-sm overflow-y-auto"
+      className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 bg-stone-900/60 backdrop-blur-md overflow-y-auto"
       role="dialog"
       aria-modal="true"
       aria-labelledby="voice-modal-title"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-2xl sm:max-w-3xl rounded-2xl border border-[#ded9cb] bg-[#faf8f3] shadow-2xl shadow-stone-900/25 overflow-hidden text-stone-900 my-auto flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-200"
+        className="relative w-full max-w-2xl sm:max-w-3xl rounded-3xl border border-stone-200/80 bg-[#FAF7F2]/95 backdrop-blur-2xl shadow-2xl overflow-hidden text-stone-900 my-auto flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-200 skin-glass-elevated"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between border-b border-[#e5dfd3] bg-[#f4efe4] px-6 py-4 flex-shrink-0">
+        <div className="flex items-center justify-between border-b border-stone-200/60 bg-white/40 px-6 py-4 flex-shrink-0">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 border border-emerald-300 text-emerald-800 shadow-sm">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-300/40 text-emerald-800 shadow-xs">
               <Volume2 className="h-5 w-5" />
             </div>
             <div>
@@ -481,7 +481,8 @@ export const VoiceDispatchModal: React.FC<VoiceDispatchModalProps> = ({
                 <h2 id="voice-modal-title" className="text-base sm:text-lg font-bold tracking-tight text-stone-900">
                   Voice Dispatch Assistant (BHOLU)
                 </h2>
-                <span className="rounded-md bg-emerald-100 border border-emerald-300 px-2 py-0.5 text-[10px] font-mono text-emerald-800 font-bold">
+                <span className="cockpit-dark-chip text-[10px] font-mono text-emerald-300 font-bold">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 led-glow-emerald" />
                   NLP V2.4
                 </span>
               </div>

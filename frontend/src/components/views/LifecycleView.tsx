@@ -125,9 +125,9 @@ export const LifecycleView: React.FC<LifecycleViewProps> = ({
       )}
 
       {/* Header Bar */}
-      <div className="neumorphic-card rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="skin-glass-card skin-glass-elevated specular-sheen rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center space-x-3.5">
-          <div className="rounded-xl bg-emerald-100 p-2.5 text-emerald-800 border border-emerald-300/70 shadow-sm">
+          <div className="rounded-xl bg-emerald-500/10 p-2.5 text-emerald-800 border border-emerald-300/40 shadow-xs">
             <GitBranch className="h-5 w-5" />
           </div>
           <div>
@@ -140,9 +140,9 @@ export const LifecycleView: React.FC<LifecycleViewProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center space-x-2 text-xs font-mono text-stone-600 bg-white/80 px-3 py-1.5 rounded-full border border-stone-200/90 shadow-sm">
-          <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="font-semibold">Syncing with FOIS & ICMS</span>
+        <div className="cockpit-dark-chip flex items-center space-x-2 text-xs font-mono text-stone-200">
+          <span className="h-2 w-2 rounded-full bg-emerald-400 led-glow-emerald" />
+          <span className="font-semibold">FOIS & ICMS Live Sync</span>
         </div>
       </div>
 
@@ -154,15 +154,15 @@ export const LifecycleView: React.FC<LifecycleViewProps> = ({
           return (
             <div
               key={stage.key}
-              className="neumorphic-card rounded-2xl p-3.5 flex flex-col min-h-[460px] bg-[#fbf9f4]"
+              className="skin-glass-card rounded-2xl p-3.5 flex flex-col min-h-[460px] border border-stone-200/60"
             >
               {/* Stage Header */}
-              <div className="pb-3 border-b border-[#e8e2d4] space-y-1">
+              <div className="pb-3 border-b border-stone-200/60 space-y-1">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-xs font-black text-stone-900">
                     {stage.label}
                   </span>
-                  <span className="text-[11px] font-mono font-bold bg-[#ede9df] text-stone-700 px-2 py-0.5 rounded-full border border-[#ded6c7] transition-all">
+                  <span className="cockpit-dark-chip text-[10px] font-mono font-bold text-emerald-300">
                     {items.length}
                   </span>
                 </div>
@@ -181,7 +181,7 @@ export const LifecycleView: React.FC<LifecycleViewProps> = ({
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.85, x: 25 }}
                         transition={{ duration: 0.28, ease: 'easeOut' }}
-                        className="rounded-xl bg-white/95 border border-stone-200/90 p-3 space-y-2 hover:border-emerald-500/60 shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col justify-between"
+                        className="rounded-xl skin-glass-sub p-3 space-y-2 hover:border-emerald-500/60 shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
                       >
                         <div className="space-y-1.5">
                           <div className="flex justify-between items-start">
@@ -192,10 +192,10 @@ export const LifecycleView: React.FC<LifecycleViewProps> = ({
                             <span
                               className={`text-[9px] font-bold px-2 py-0.5 rounded-full border ${
                                 demand.department === 'P_WAY'
-                                  ? 'bg-sky-100/90 text-sky-800 border-sky-300'
+                                  ? 'bg-sky-50 text-sky-800 border-sky-200'
                                   : demand.department === 'OHE'
-                                  ? 'bg-amber-100/90 text-amber-800 border-amber-300'
-                                  : 'bg-indigo-100/90 text-indigo-800 border-indigo-300'
+                                  ? 'bg-amber-50 text-amber-800 border-amber-200'
+                                  : 'bg-indigo-50 text-indigo-800 border-indigo-200'
                               }`}
                             >
                               {demand.department}
@@ -206,9 +206,9 @@ export const LifecycleView: React.FC<LifecycleViewProps> = ({
                             {demand.activity_description}
                           </p>
 
-                          <div className="text-[10px] font-mono text-stone-500 flex justify-between pt-1.5 border-t border-stone-100 font-medium">
+                          <div className="text-[10px] font-mono text-stone-500 flex justify-between pt-1.5 border-t border-stone-200/50 font-medium">
                             <span className="text-stone-700 font-semibold">{demand.section_from}–{demand.section_to}</span>
-                            <span className="text-emerald-800 font-extrabold bg-emerald-50 px-1.5 py-0.5 rounded-full border border-emerald-200">
+                            <span className="cockpit-dark-chip text-[9px] font-bold text-emerald-300">
                               {formatMinutesToTime(demand.requested_start_minutes)}
                             </span>
                           </div>

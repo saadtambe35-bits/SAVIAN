@@ -250,12 +250,12 @@ export const MareyChart: React.FC<MareyChartProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`relative flex flex-col rounded-2xl border border-[#ded9cb] bg-[#faf8f3] p-4 shadow-lg shadow-stone-900/10 select-none ${className}`}
+      className={`relative flex flex-col rounded-2xl skin-glass-card skin-glass-elevated specular-sheen p-4 select-none ${className}`}
     >
       {/* Top Header & Interactive Toolbar */}
-      <div className="mb-3 flex flex-wrap items-center justify-between gap-3 border-b border-[#e5dfd3] pb-3">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3 border-b border-stone-200/60 pb-3">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100/80 border border-emerald-300 text-emerald-800 shadow-sm">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-300/40 text-emerald-700 shadow-xs">
             <Train className="h-4.5 w-4.5" />
           </div>
           <div>
@@ -263,13 +263,13 @@ export const MareyChart: React.FC<MareyChartProps> = ({
               <h3 className="text-sm font-bold tracking-tight text-stone-900 font-mono">
                 Corridor Stringline Diagram (Marey Chart)
               </h3>
-              <span className="rounded-lg bg-stone-200/80 px-2 py-0.5 font-mono text-[10px] text-stone-700 border border-stone-300">
+              <span className="cockpit-dark-chip font-mono text-[10px] text-stone-300">
                 231.5 km · 27 Stations · 24h
               </span>
               {chaosMode && (
-                <span className="flex items-center gap-1 rounded-full bg-rose-100 px-2.5 py-0.5 text-[10px] font-bold text-rose-700 border border-rose-300 shadow-sm animate-pulse">
-                  <Zap className="h-3 w-3 fill-current text-rose-600" />
-                  Chaos Mode Active ({clashingBlocksCount} Clashes)
+                <span className="cockpit-dark-rose flex items-center gap-1 text-[10px] font-bold">
+                  <span className="h-1.5 w-1.5 rounded-full bg-rose-400 led-glow-rose" />
+                  Chaos Active ({clashingBlocksCount} Clashes)
                 </span>
               )}
             </div>
@@ -283,32 +283,32 @@ export const MareyChart: React.FC<MareyChartProps> = ({
         <div className="flex flex-wrap items-center gap-2">
           {/* Cursor Time Pill */}
           {cursorMinute !== null && (
-            <div className="flex items-center gap-1.5 rounded-xl bg-white px-3 py-1 text-xs font-mono font-bold text-emerald-800 border border-[#ded8c9] shadow-sm">
-              <Clock className="h-3.5 w-3.5 text-emerald-700" />
+            <div className="cockpit-dark-chip flex items-center gap-1.5 text-xs font-mono font-bold text-emerald-300">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 led-glow-emerald" />
               <span>{formatMinutesToHHMM(cursorMinute)}</span>
             </div>
           )}
 
           {/* Zoom Controls */}
-          <div className="flex items-center rounded-xl border border-[#ded8c9] bg-white p-1 shadow-sm gap-0.5">
+          <div className="flex items-center rounded-xl skin-glass-sub p-1 shadow-xs gap-0.5 border border-stone-300/40">
             <button
               onClick={handleZoomIn}
               title="Zoom In (or Mouse Wheel)"
-              className="rounded-lg p-1.5 text-stone-600 hover:bg-[#eae4d5] hover:text-stone-900 transition-colors cursor-pointer"
+              className="rounded-lg p-1.5 text-stone-600 hover:bg-white hover:text-stone-900 transition-colors cursor-pointer"
             >
               <ZoomIn className="h-3.5 w-3.5" />
             </button>
             <button
               onClick={handleZoomOut}
               title="Zoom Out (or Mouse Wheel)"
-              className="rounded-lg p-1.5 text-stone-600 hover:bg-[#eae4d5] hover:text-stone-900 transition-colors cursor-pointer"
+              className="rounded-lg p-1.5 text-stone-600 hover:bg-white hover:text-stone-900 transition-colors cursor-pointer"
             >
               <ZoomOut className="h-3.5 w-3.5" />
             </button>
             <button
               onClick={handleResetZoom}
               title="Reset Zoom & Pan"
-              className="rounded-lg p-1.5 text-stone-600 hover:bg-[#eae4d5] hover:text-stone-900 transition-colors cursor-pointer"
+              className="rounded-lg p-1.5 text-stone-600 hover:bg-white hover:text-stone-900 transition-colors cursor-pointer"
             >
               <RotateCcw className="h-3.5 w-3.5" />
             </button>

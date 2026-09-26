@@ -179,12 +179,12 @@ export const CrewDutyGuard: React.FC<CrewDutyGuardProps> = ({
     <div className="w-full max-w-5xl mx-auto font-sans text-stone-900">
       
       {/* Outer Cockpit Container */}
-      <div className="relative overflow-hidden rounded-2xl border border-[#ded9cb] bg-[#faf8f3] shadow-lg shadow-stone-900/10">
+      <div className="relative overflow-hidden rounded-2xl skin-glass-card skin-glass-elevated specular-sheen">
         
         {/* Top Control Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#e5dfd3] bg-[#f4efe4] px-5 py-3.5 gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-stone-200/60 bg-white/40 px-5 py-3.5 gap-3">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-100 border border-amber-300 text-amber-800 shadow-sm">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-300/40 text-amber-800 shadow-xs">
               <ShieldAlert className="h-5 w-5" />
             </div>
             <div>
@@ -192,7 +192,7 @@ export const CrewDutyGuard: React.FC<CrewDutyGuardProps> = ({
                 <h2 className="text-sm sm:text-base font-bold tracking-tight text-stone-900 font-mono">
                   CREW DUTY GUARD (GR/SR 10-HR COMPLIANCE)
                 </h2>
-                <span className="rounded-md bg-stone-200/80 border border-stone-300 px-1.5 py-0.5 text-[10px] font-mono text-stone-700 font-semibold">
+                <span className="cockpit-dark-chip text-[10px] font-mono text-stone-300">
                   HOER SEC. 130
                 </span>
               </div>
@@ -204,27 +204,27 @@ export const CrewDutyGuard: React.FC<CrewDutyGuardProps> = ({
 
           {/* Aggregate Telemetry Status Pills */}
           <div className="flex items-center gap-2 text-[11px] font-mono">
-            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-white border border-[#ded8c9] text-stone-700 shadow-sm">
-              <Users className="w-3.5 h-3.5 text-stone-500" />
+            <span className="cockpit-dark-chip flex items-center gap-1.5 text-stone-300">
+              <Users className="w-3.5 h-3.5 text-stone-400" />
               <span className="font-semibold">{summary.total} CREWS</span>
             </span>
 
             {summary.critical > 0 && (
-              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-rose-50 border border-rose-300 text-rose-800 animate-pulse font-bold shadow-sm">
-                <span className="h-2 w-2 rounded-full bg-rose-600" />
+              <span className="cockpit-dark-rose flex items-center gap-1.5 animate-pulse font-bold">
+                <span className="h-1.5 w-1.5 rounded-full bg-rose-400 led-glow-rose" />
                 {summary.critical} CRITICAL
               </span>
             )}
 
             {summary.warning > 0 && (
-              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-amber-50 border border-amber-300 text-amber-800 font-semibold shadow-sm">
-                <span className="h-2 w-2 rounded-full bg-amber-500" />
+              <span className="cockpit-dark-amber flex items-center gap-1.5 font-semibold">
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-400 led-glow-amber" />
                 {summary.warning} AT RISK
               </span>
             )}
 
-            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 font-semibold shadow-sm">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
+            <span className="cockpit-dark-chip flex items-center gap-1.5 text-emerald-300 font-semibold">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
               {summary.normal} NORMAL
             </span>
           </div>

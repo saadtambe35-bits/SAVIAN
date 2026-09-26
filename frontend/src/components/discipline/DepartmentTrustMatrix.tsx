@@ -228,12 +228,12 @@ export const DepartmentTrustMatrix: React.FC<DepartmentTrustMatrixProps> = ({
     <div className="w-full max-w-5xl mx-auto font-sans text-stone-900">
       
       {/* Outer Cockpit Container */}
-      <div className="relative overflow-hidden rounded-2xl border border-[#ded9cb] bg-[#faf8f3] shadow-lg shadow-stone-900/10">
+      <div className="relative overflow-hidden rounded-2xl skin-glass-card skin-glass-elevated specular-sheen">
         
         {/* Header Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#e5dfd3] bg-[#f4efe4] px-5 py-3.5 gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-stone-200/60 bg-white/40 px-5 py-3.5 gap-3">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 border border-amber-300 text-amber-800 shadow-sm">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-300/40 text-amber-800 shadow-xs">
               <Award className="h-5 w-5" />
             </div>
             <div>
@@ -241,7 +241,7 @@ export const DepartmentTrustMatrix: React.FC<DepartmentTrustMatrixProps> = ({
                 <h2 className="text-sm sm:text-base font-bold tracking-tight text-stone-900 font-mono">
                   DEPARTMENTAL TRUST MATRIX (DISCIPLINE ENGINE)
                 </h2>
-                <span className="rounded-md bg-stone-200/80 border border-stone-300 px-1.5 py-0.5 text-[10px] font-mono text-stone-700 font-semibold">
+                <span className="cockpit-dark-chip text-[10px] font-mono text-stone-300">
                   CP-SAT SOLVER WEIGHTED
                 </span>
               </div>

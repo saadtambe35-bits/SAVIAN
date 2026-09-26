@@ -19,6 +19,7 @@ import { formatMinutesToTime } from '@/lib/utils';
 import { TrackStripMap } from '@/components/cockpit/TrackStripMap';
 import { WeatherTsrEngine } from '@/components/weather/WeatherTsrEngine';
 import { useTranslation } from '@/i18n/LanguageContext';
+import { RollingNumber } from '@/components/common/RollingNumber';
 
 interface DashboardViewProps {
   chaosMode: boolean;
@@ -167,20 +168,19 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       {/* Hero KPI Cards (4 Grid Columns) - Neumorphic with count-up & hover elevation */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {/* Card 1: Total Demands -> Navigates to Demands */}
-        {/* Card 1: Total Demands -> Navigates to Demands */}
         <motion.div
           whileHover={{ y: -3 }}
           onClick={() => onNavigate('demands')}
           title="Click to manage and review corridor demands"
-          className="neumorphic-card neumorphic-card-hover group cursor-pointer rounded-2xl p-4 flex flex-col justify-between transition-all hover:border-sky-300"
+          className="skin-glass-card skin-glass-elevated specular-sheen glass-specular-shimmer tactile-spring group cursor-pointer rounded-2xl p-4 flex flex-col justify-between transition-all hover:border-sky-400/50 hover:shadow-[0_12px_28px_-6px_rgba(14,165,233,0.18)]"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-1.5">
-              <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">{t('total_demands')}</span>
+              <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider">{t('total_demands')}</span>
               <ArrowUpRight className="h-3.5 w-3.5 text-stone-400 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <div className="rounded-xl bg-sky-100 p-2 text-sky-700 border border-sky-200/70 shadow-sm group-hover:scale-105 transition-transform">
-              <Activity className="h-4 w-4" />
+            <div className="rounded-xl bg-sky-500/10 p-2 text-sky-700 border border-sky-300/40 shadow-xs group-hover:scale-105 transition-transform backdrop-blur-xs">
+              <Activity className="h-4 w-4 text-sky-600" />
             </div>
           </div>
 
@@ -188,10 +188,11 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <div>
               <div className="flex items-baseline space-x-2">
                 <span className="text-3xl font-black tracking-tight text-stone-900 font-mono">
-                  {demands.length}
+                  <RollingNumber value={demands.length} />
                 </span>
-                <span className="text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-300">
-                  Active Demands
+                <span className="cockpit-dark-chip text-[10px] font-mono font-bold border-sky-500/40 aura-breathe-sky" style={{ animationDelay: '0s' }}>
+                  <span className="h-1.5 w-1.5 rounded-full bg-sky-400 led-glow-sky" />
+                  <span className="text-[#38bdf8]">Active Demands</span>
                 </span>
               </div>
               <div className="mt-2 text-[11px] text-stone-500 font-medium">
@@ -200,7 +201,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
 
             {/* Blue SVG Sparkline */}
-            <svg className="w-20 h-10 text-sky-600 overflow-visible" viewBox="0 0 70 30" fill="none">
+            <svg className="w-20 h-10 text-sky-600 overflow-visible drop-shadow-xs" viewBox="0 0 70 30" fill="none">
               <path
                 d="M 2 24 Q 18 6, 36 20 T 68 8"
                 stroke="currentColor"
@@ -217,15 +218,15 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           whileHover={{ y: -3 }}
           onClick={() => onNavigate('solver')}
           title="Click to view shadow block optimization cockpit"
-          className="neumorphic-card neumorphic-card-hover group cursor-pointer rounded-2xl p-4 flex flex-col justify-between transition-all hover:border-emerald-300"
+          className="skin-glass-card skin-glass-elevated specular-sheen glass-specular-shimmer tactile-spring group cursor-pointer rounded-2xl p-4 flex flex-col justify-between transition-all hover:border-emerald-400/50 hover:shadow-[0_12px_28px_-6px_rgba(7,138,104,0.18)]"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-1.5">
-              <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">{t('shadow_savings')}</span>
+              <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider">{t('shadow_savings')}</span>
               <ArrowUpRight className="h-3.5 w-3.5 text-stone-400 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <div className="rounded-xl bg-emerald-100 p-2 text-emerald-700 border border-emerald-200/70 shadow-sm group-hover:scale-105 transition-transform">
-              <Layers className="h-4 w-4" />
+            <div className="rounded-xl bg-emerald-500/10 p-2 text-emerald-700 border border-emerald-300/40 shadow-xs group-hover:scale-105 transition-transform backdrop-blur-xs">
+              <Layers className="h-4 w-4 text-emerald-600" />
             </div>
           </div>
 
@@ -233,10 +234,11 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <div>
               <div className="flex items-baseline space-x-2">
                 <span className="text-3xl font-black tracking-tight text-emerald-800 font-mono">
-                  {totalShadowSaved} hrs
+                  <RollingNumber value={totalShadowSaved} suffix=" hrs" />
                 </span>
-                <span className="text-[11px] font-bold text-emerald-900 bg-emerald-100/90 px-2 py-0.5 rounded-full border border-emerald-300">
-                  {solverResult.shadow_merges} Merges
+                <span className="cockpit-dark-chip text-[10px] font-mono font-bold text-emerald-300 border-emerald-500/30 aura-breathe-emerald" style={{ animationDelay: '0s' }}>
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 led-glow-emerald" />
+                  <RollingNumber value={solverResult.shadow_merges} suffix=" Merges" />
                 </span>
               </div>
               <p className="mt-2 text-[11px] text-stone-500 font-medium leading-tight">
@@ -245,7 +247,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
 
             {/* Emerald SVG Sparkline */}
-            <svg className="w-20 h-10 text-emerald-600 overflow-visible" viewBox="0 0 70 30" fill="none">
+            <svg className="w-20 h-10 text-emerald-600 overflow-visible drop-shadow-xs" viewBox="0 0 70 30" fill="none">
               <path
                 d="M 2 26 Q 20 24, 38 12 T 68 4"
                 stroke="currentColor"
@@ -262,15 +264,15 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           whileHover={{ y: -3 }}
           onClick={() => onNavigate('solver')}
           title="Click to view train punctuality & delay reasoning"
-          className="neumorphic-card neumorphic-card-hover group cursor-pointer rounded-2xl p-4 flex flex-col justify-between transition-all hover:border-indigo-300"
+          className="skin-glass-card skin-glass-elevated specular-sheen glass-specular-shimmer tactile-spring group cursor-pointer rounded-2xl p-4 flex flex-col justify-between transition-all hover:border-indigo-400/50 hover:shadow-[0_12px_28px_-6px_rgba(99,102,241,0.18)]"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-1.5">
-              <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">{t('train_delay_impact')}</span>
+              <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider">{t('train_delay_impact')}</span>
               <ArrowUpRight className="h-3.5 w-3.5 text-stone-400 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <div className="rounded-xl bg-indigo-100 p-2 text-indigo-700 border border-indigo-200/70 shadow-sm group-hover:scale-105 transition-transform">
-              <TrendingDown className="h-4 w-4" />
+            <div className="rounded-xl bg-indigo-500/10 p-2 text-indigo-700 border border-indigo-300/40 shadow-xs group-hover:scale-105 transition-transform backdrop-blur-xs">
+              <TrendingDown className="h-4 w-4 text-indigo-600" />
             </div>
           </div>
 
@@ -278,10 +280,11 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <div>
               <div className="flex items-baseline space-x-2">
                 <span className="text-3xl font-black tracking-tight text-stone-900 font-mono">
-                  5.2 min
+                  <RollingNumber value={5.2} suffix=" min" />
                 </span>
-                <span className="text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-300">
-                  -62% vs manual
+                <span className="cockpit-dark-chip text-[10px] font-mono font-bold border-violet-500/40 aura-breathe-violet" style={{ animationDelay: '0s' }}>
+                  <span className="h-1.5 w-1.5 rounded-full bg-violet-400 led-glow-violet" />
+                  <span className="text-[#a78bfa]">-62% vs manual</span>
                 </span>
               </div>
               <p className="mt-2 text-[11px] text-stone-500 font-medium leading-tight">
@@ -290,7 +293,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
 
             {/* Indigo SVG Sparkline */}
-            <svg className="w-20 h-10 text-indigo-600 overflow-visible" viewBox="0 0 70 30" fill="none">
+            <svg className="w-20 h-10 text-indigo-600 overflow-visible drop-shadow-xs" viewBox="0 0 70 30" fill="none">
               <path
                 d="M 2 8 Q 20 26, 38 14 T 68 22"
                 stroke="currentColor"
@@ -307,15 +310,15 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           whileHover={{ y: -3 }}
           onClick={() => onNavigate('settings')}
           title="Click to view Kavach safety parameters"
-          className="neumorphic-card neumorphic-card-hover group cursor-pointer rounded-2xl p-4 flex flex-col justify-between transition-all hover:border-teal-300"
+          className="skin-glass-card skin-glass-elevated specular-sheen glass-specular-shimmer tactile-spring group cursor-pointer rounded-2xl p-4 flex flex-col justify-between transition-all hover:border-teal-400/50 hover:shadow-[0_12px_28px_-6px_rgba(20,184,166,0.18)]"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-1.5">
-              <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">{t('kavach_commissioned')}</span>
+              <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider">{t('kavach_commissioned')}</span>
               <ArrowUpRight className="h-3.5 w-3.5 text-stone-400 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <div className="rounded-xl bg-teal-100 p-2 text-teal-700 border border-teal-200/70 shadow-sm group-hover:scale-105 transition-transform">
-              <ShieldCheck className="h-4 w-4" />
+            <div className="rounded-xl bg-teal-500/10 p-2 text-teal-700 border border-teal-300/40 shadow-xs group-hover:scale-105 transition-transform backdrop-blur-xs">
+              <ShieldCheck className="h-4 w-4 text-teal-600" />
             </div>
           </div>
 
@@ -323,7 +326,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <div>
               <div className="flex items-baseline space-x-1.5">
                 <span className="text-3xl font-black tracking-tight text-teal-800 font-mono">
-                  98.7 km
+                  <RollingNumber value={98.7} suffix=" km" />
                 </span>
                 <span className="text-xs text-stone-400 font-mono font-semibold">
                   / 152.4 km
@@ -335,7 +338,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
 
             {/* Teal SVG Sparkline */}
-            <svg className="w-20 h-10 text-teal-600 overflow-visible" viewBox="0 0 70 30" fill="none">
+            <svg className="w-20 h-10 text-teal-600 overflow-visible drop-shadow-xs" viewBox="0 0 70 30" fill="none">
               <path
                 d="M 2 22 Q 22 4, 42 18 T 68 8"
                 stroke="currentColor"
@@ -359,19 +362,24 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       {/* Bottom Operational Split Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Card (2/3 width) - Granted Maintenance Blocks */}
-        <div className="lg:col-span-2 neumorphic-card rounded-2xl p-5 space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-[#e8e4d8]">
+        <div className="lg:col-span-2 skin-glass-card specular-sheen rounded-2xl p-5 space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-stone-200/60">
             <div className="flex items-center space-x-2.5">
-              <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-              <h3 className="text-sm font-bold text-stone-900 font-sans">
-                Granted Maintenance Blocks
-              </h3>
+              <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-700 border border-emerald-300/40">
+                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-stone-900 font-sans tracking-tight">
+                  Granted Maintenance Blocks
+                </h3>
+                <p className="text-[11px] text-stone-500">Live corridor possession authorizations</p>
+              </div>
             </div>
             <Button
               variant="outline"
               size="sm"
               onClick={() => onNavigate('demands')}
-              className="text-xs text-emerald-800 border-[#d8d3c5] hover:bg-emerald-50 rounded-xl font-bold"
+              className="text-xs text-stone-700 bg-white/60 hover:bg-white border-stone-300/60 rounded-xl font-bold transition-all shadow-xs"
             >
               View All Demands ↗
             </Button>
@@ -381,7 +389,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             {demands.slice(0, 3).map((demand) => (
               <div
                 key={demand.id}
-                className="flex flex-col sm:flex-row sm:items-center justify-between rounded-xl neumorphic-inset p-3.5 hover:border-stone-400 transition-all gap-3"
+                className="flex flex-col sm:flex-row sm:items-center justify-between rounded-xl skin-glass-sub p-3.5 hover:border-stone-400/40 transition-all gap-3 group"
               >
                 <div className="space-y-1">
                   <div className="flex items-center space-x-2">
@@ -390,13 +398,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                     </span>
                     <Badge
                       variant="outline"
-                      className="text-[10px] bg-blue-100 text-blue-900 border-blue-300 font-bold"
+                      className="text-[10px] bg-sky-50 text-sky-800 border-sky-300 font-bold"
                     >
                       {demand.department}
                     </Badge>
                     <Badge
                       variant="outline"
-                      className="text-[10px] bg-rose-100 text-rose-900 border-rose-300 font-bold"
+                      className="text-[10px] bg-rose-50 text-rose-800 border-rose-300 font-bold"
                     >
                       {demand.severity_tier}
                     </Badge>
@@ -409,14 +417,15 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   </p>
                 </div>
 
-                <div className="flex sm:flex-col items-end justify-between sm:justify-center border-t sm:border-t-0 pt-2 sm:pt-0 border-[#d8d3c5]">
-                  <div className="font-mono text-xs text-stone-900 font-bold bg-[#ffffff] px-3 py-1 rounded-lg shadow-sm border border-[#d8d3c5]">
+                <div className="flex sm:flex-col items-end justify-between sm:justify-center border-t sm:border-t-0 pt-2 sm:pt-0 border-stone-200/50">
+                  <div className="font-mono text-xs text-stone-900 font-bold bg-white/90 px-3 py-1 rounded-lg shadow-xs border border-stone-200/70">
                     {formatMinutesToTime(demand.requested_start_minutes)} – {formatMinutesToTime(demand.requested_end_minutes)}
                   </div>
                   <div className="text-[11px] text-stone-500 mt-1 font-medium">
                     Duration: <span className="text-stone-800 font-mono font-bold">{demand.required_minutes}m</span>
                   </div>
-                  <div className="text-[10px] text-emerald-700 font-mono font-bold">
+                  <div className="text-[10px] text-emerald-700 font-mono font-bold flex items-center gap-1">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                     Trust: {demand.trust_score}%
                   </div>
                 </div>
@@ -426,15 +435,18 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
 
         {/* Right Card (1/3 width) - AI Conflict Reasoning (XAI) */}
-        <div className="neumorphic-card rounded-2xl p-5 space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-[#e8e4d8]">
+        <div className="skin-glass-card specular-sheen rounded-2xl p-5 space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-stone-200/60">
             <div className="flex items-center space-x-2">
-              <Sparkles className="h-4 w-4 text-emerald-600" />
-              <h3 className="text-sm font-bold text-stone-900 font-sans">
+              <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-700 border border-emerald-300/40">
+                <Sparkles className="h-4 w-4 text-emerald-600" />
+              </div>
+              <h3 className="text-sm font-bold text-stone-900 font-sans tracking-tight">
                 AI Conflict Reasoning (XAI)
               </h3>
             </div>
-            <span className="text-[10px] font-mono font-bold bg-[#ede9df] text-stone-700 px-2 py-0.5 rounded-full border border-[#d8d3c5]">
+            <span className="cockpit-dark-chip text-[10px] font-mono font-bold text-emerald-300">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 led-glow-emerald" />
               CP-SAT
             </span>
           </div>
@@ -443,13 +455,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             {MOCK_SOLVER_RESULT.xai.conflict_resolutions.map((res, idx) => (
               <div
                 key={idx}
-                className="rounded-xl neumorphic-inset p-3 space-y-1.5"
+                className="rounded-xl skin-glass-sub p-3 space-y-1.5 hover:border-amber-400/40 transition-all"
               >
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-mono font-bold text-stone-900">
                     {res.block_id}
                   </span>
-                  <span className="text-[10px] font-bold text-amber-900 bg-amber-100 px-2 py-0.5 rounded-full border border-amber-300">
+                  <span className="cockpit-dark-amber text-[10px] font-bold">
                     {res.shifted_minutes > 0 ? `+${res.shifted_minutes}m shift` : `${res.shifted_minutes}m shift`}
                   </span>
                 </div>
@@ -468,27 +480,27 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               <div>
                 <div className="flex justify-between text-[11px] text-stone-600 mb-1 font-semibold">
                   <span>Train Punctuality Priority</span>
-                  <span className="font-mono font-bold text-emerald-800">87.6%</span>
+                  <span className="font-mono font-bold text-emerald-700">87.6%</span>
                 </div>
-                <div className="h-2 w-full bg-[#ede9df] rounded-full overflow-hidden shadow-inner">
-                  <div className="h-full bg-emerald-500 rounded-full w-[87.6%]" />
+                <div className="h-2 w-full bg-stone-200/50 rounded-full overflow-hidden skin-glass-inset">
+                  <div className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full w-[87.6%]" />
                 </div>
               </div>
 
               <div>
                 <div className="flex justify-between text-[11px] text-stone-600 mb-1 font-semibold">
                   <span>Shadow Opportunity Harvest</span>
-                  <span className="font-mono font-bold text-sky-800">92.0%</span>
+                  <span className="font-mono font-bold text-sky-700">92.0%</span>
                 </div>
-                <div className="h-2 w-full bg-[#ede9df] rounded-full overflow-hidden shadow-inner">
-                  <div className="h-full bg-sky-500 rounded-full w-[92%]" />
+                <div className="h-2 w-full bg-stone-200/50 rounded-full overflow-hidden skin-glass-inset">
+                  <div className="h-full bg-gradient-to-r from-sky-500 to-indigo-500 rounded-full w-[92%]" />
                 </div>
               </div>
             </div>
           </div>
 
           <Button
-            className="w-full text-xs bg-stone-900 hover:bg-stone-800 text-white rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.15)] font-bold py-2.5"
+            className="w-full text-xs bg-stone-900 hover:bg-stone-800 text-white rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.15)] font-bold py-2.5 transition-all"
             onClick={() => onNavigate('solver')}
           >
             Launch AI Solver Console

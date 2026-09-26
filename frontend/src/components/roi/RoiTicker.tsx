@@ -213,31 +213,28 @@ export const RoiTicker: React.FC<RoiTickerProps> = ({
           }}
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
-          className="group relative flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-white/95 hover:bg-[#f5f1e8] border border-[#ded7c8] hover:border-[#cfc7b4] transition-all duration-200 cursor-pointer shadow-sm select-none"
+          className="group relative flex items-center gap-1.5 px-2.5 py-1 rounded-full skin-glass-elevated border border-stone-300/60 hover:border-emerald-400/50 transition-all duration-200 cursor-pointer select-none"
           title="Click to view Railway Board ROI audit breakdown"
           aria-label={`Current Metric: ${currentSlide.value}. Click for Railway Board breakdown.`}
         >
           {/* Live Pulsing Beacon */}
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600" />
+          <span className="relative flex h-1.5 w-1.5 shrink-0">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500 led-glow-emerald" />
           </span>
 
           {/* Metric Icon */}
-          <div className="p-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-sm">
-            <IconComponent className="w-3.5 h-3.5" />
+          <div className="p-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-sm shrink-0">
+            <IconComponent className="w-3 h-3" />
           </div>
 
-          {/* Rolling Value & Subtext */}
+          {/* Rolling Value */}
           <div
-            className={`flex items-center gap-2 transition-all duration-200 ${isTransitioning ? 'opacity-0 translate-y-1' : 'opacity-100 translate-y-0'
+            className={`flex items-center gap-1.5 transition-all duration-200 ${isTransitioning ? 'opacity-0 translate-y-1' : 'opacity-100 translate-y-0'
               }`}
           >
-            <span className="text-xs font-bold tracking-wide text-stone-900 font-mono">
+            <span className="text-[11px] font-bold tracking-wide text-stone-900 font-mono whitespace-nowrap">
               {currentSlide.value}
-            </span>
-            <span className="hidden sm:inline-block text-[10px] text-stone-500 border-l border-[#ded7c8] pl-2">
-              {currentSlide.subtitle}
             </span>
           </div>
 
@@ -469,20 +466,20 @@ const BreakdownModal: React.FC<BreakdownModalProps> = ({
 
   const modalContent = (
     <div
-      className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 bg-stone-900/60 backdrop-blur-sm overflow-y-auto"
+      className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 bg-stone-900/60 backdrop-blur-md overflow-y-auto"
       role="dialog"
       aria-modal="true"
       aria-labelledby="roi-modal-title"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-2xl sm:max-w-3xl rounded-2xl border border-[#ded9cb] bg-[#faf8f3] shadow-2xl shadow-stone-900/25 overflow-hidden text-stone-900 my-auto animate-in fade-in zoom-in-95 duration-200"
+        className="relative w-full max-w-2xl sm:max-w-3xl rounded-3xl border border-stone-200/80 bg-[#FAF7F2]/95 backdrop-blur-2xl shadow-2xl overflow-hidden text-stone-900 my-auto animate-in fade-in zoom-in-95 duration-200 skin-glass-elevated"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between border-b border-[#e5dfd3] bg-[#f4efe4] px-6 py-4">
+        <div className="flex items-center justify-between border-b border-stone-200/60 bg-white/40 px-6 py-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 border border-emerald-300 text-emerald-800 shadow-sm">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-300/40 text-emerald-800 shadow-xs">
               <Train className="h-5 w-5" />
             </div>
             <div>
@@ -490,7 +487,8 @@ const BreakdownModal: React.FC<BreakdownModalProps> = ({
                 <h2 id="roi-modal-title" className="text-base sm:text-lg font-bold tracking-tight text-stone-900">
                   LINE CLEAR (SAVIAN) ROI Audit
                 </h2>
-                <span className="rounded-md bg-emerald-100 border border-emerald-300 px-2 py-0.5 text-[10px] font-mono text-emerald-800 font-bold">
+                <span className="cockpit-dark-chip text-[10px] font-mono text-emerald-300 font-bold">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 led-glow-emerald" />
                   LIVE COCKPIT
                 </span>
               </div>

@@ -36,11 +36,11 @@ export const SolverView: React.FC<SolverViewProps> = ({
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       {/* Top Banner Control Cockpit */}
-      <div className="neumorphic-card rounded-2xl p-5 border-[#e2dcd0]">
+      <div className="skin-glass-card skin-glass-elevated specular-sheen rounded-2xl p-5">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center space-x-2.5">
-              <div className="rounded-xl bg-emerald-100 p-2.5 text-emerald-800 border border-emerald-300/70 shadow-sm">
+              <div className="rounded-xl bg-emerald-500/10 p-2.5 text-emerald-800 border border-emerald-300/40 shadow-xs">
                 <Cpu className="h-5 w-5" />
               </div>
               <h2 className="text-base font-bold text-stone-900 tracking-tight font-sans">
@@ -58,7 +58,7 @@ export const SolverView: React.FC<SolverViewProps> = ({
               size="default"
               onClick={onRunSolver}
               disabled={solverStatus === 'solving'}
-              className="font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-[0_4px_12px_rgba(16,185,129,0.35)] transition-all transform active:scale-95"
+              className="font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-[0_4px_12px_rgba(7,138,104,0.35)] transition-all transform active:scale-95"
             >
               {solverStatus === 'solving' ? (
                 <>
@@ -77,7 +77,7 @@ export const SolverView: React.FC<SolverViewProps> = ({
 
         {/* Live Solving Stage Visualizer (Shown when solving) */}
         {solverStatus === 'solving' && (
-          <div className="mt-4 rounded-xl bg-amber-50/90 border border-amber-300/90 p-3.5 space-y-2 animate-in fade-in">
+          <div className="mt-4 rounded-xl skin-glass-sub border border-amber-300/90 p-3.5 space-y-2 animate-in fade-in">
             <div className="flex items-center justify-between text-xs font-mono font-bold text-amber-900">
               <span className="flex items-center gap-2">
                 <RefreshCw className="h-3.5 w-3.5 animate-spin text-amber-600" />
@@ -85,7 +85,7 @@ export const SolverView: React.FC<SolverViewProps> = ({
               </span>
               <span>{Math.round(solvingProgress)}%</span>
             </div>
-            <div className="h-2 w-full bg-amber-200/80 rounded-full overflow-hidden">
+            <div className="h-2 w-full bg-amber-200/50 rounded-full overflow-hidden skin-glass-inset">
               <div
                 className="h-full bg-gradient-to-r from-amber-500 to-emerald-600 rounded-full transition-all duration-300"
                 style={{ width: `${solvingProgress}%` }}
@@ -97,34 +97,34 @@ export const SolverView: React.FC<SolverViewProps> = ({
           </div>
         )}
 
-        {/* Solver Metrics Strip - Warm Neumorphic Cards */}
-        <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-4 border-t border-[#e8e2d4]">
-          <div className="rounded-xl bg-white/90 p-3 border border-stone-200/90 shadow-sm">
+        {/* Solver Metrics Strip - AeroSkin Glass & Dark Cockpit Chips */}
+        <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-4 border-t border-stone-200/60">
+          <div className="rounded-xl skin-glass-sub p-3 space-y-1">
             <span className="text-[10px] uppercase font-bold text-stone-400 font-mono">Solve Status</span>
             <div className="mt-1 flex items-center space-x-1.5">
               <span
                 className={`h-2 w-2 rounded-full ${
                   solverStatus === 'solving'
-                    ? 'bg-amber-500 animate-ping'
-                    : 'bg-emerald-500 animate-pulse'
+                    ? 'bg-amber-400 led-glow-amber'
+                    : 'bg-emerald-400 led-glow-emerald'
                 }`}
               />
-              <span className="text-xs font-black text-emerald-800 font-mono">
+              <span className="text-xs font-black text-stone-900 font-mono">
                 {solverStatus === 'solving' ? 'SOLVING' : solverResult.status}
               </span>
             </div>
           </div>
 
-          <div className="rounded-xl bg-white/90 p-3 border border-stone-200/90 shadow-sm">
+          <div className="rounded-xl skin-glass-sub p-3 space-y-1">
             <span className="text-[10px] uppercase font-bold text-stone-400 font-mono">Optimality Gap</span>
-            <div className="mt-1 text-xs font-black text-sky-800 font-mono">
+            <div className="mt-1 text-xs font-black text-sky-700 font-mono">
               {solverStatus === 'solving'
                 ? `${Math.max(0, 14.8 - (solvingProgress / 100) * 14.8).toFixed(2)}%`
                 : `${solverResult.optimality_gap.toFixed(2)}%`}
             </div>
           </div>
 
-          <div className="rounded-xl bg-white/90 p-3 border border-stone-200/90 shadow-sm">
+          <div className="rounded-xl skin-glass-sub p-3 space-y-1">
             <span className="text-[10px] uppercase font-bold text-stone-400 font-mono">Wall Time</span>
             <div className="mt-1 text-xs font-black text-stone-900 font-mono">
               {solverStatus === 'solving'
@@ -133,23 +133,23 @@ export const SolverView: React.FC<SolverViewProps> = ({
             </div>
           </div>
 
-          <div className="rounded-xl bg-white/90 p-3 border border-stone-200/90 shadow-sm">
+          <div className="rounded-xl skin-glass-sub p-3 space-y-1">
             <span className="text-[10px] uppercase font-bold text-stone-400 font-mono">Objective Value</span>
-            <div className="mt-1 text-xs font-black text-indigo-800 font-mono">
+            <div className="mt-1 text-xs font-black text-indigo-700 font-mono">
               {solverResult.objective_value}
             </div>
           </div>
 
-          <div className="rounded-xl bg-white/90 p-3 border border-stone-200/90 shadow-sm">
+          <div className="rounded-xl skin-glass-sub p-3 space-y-1">
             <span className="text-[10px] uppercase font-bold text-stone-400 font-mono">Shadow Merges</span>
             <div className="mt-1 text-xs font-black text-emerald-700 font-mono">
               {solverResult.shadow_merges} Blocks
             </div>
           </div>
 
-          <div className="rounded-xl bg-white/90 p-3 border border-stone-200/90 shadow-sm">
+          <div className="rounded-xl skin-glass-sub p-3 space-y-1">
             <span className="text-[10px] uppercase font-bold text-stone-400 font-mono">Clashes Detected</span>
-            <div className="mt-1 text-xs font-black text-stone-600 font-mono">
+            <div className="mt-1 text-xs font-black text-stone-700 font-mono">
               {solverResult.clashes_detected}
             </div>
           </div>
@@ -159,16 +159,18 @@ export const SolverView: React.FC<SolverViewProps> = ({
       {/* Two Column Layout: Explainable AI & Telemetry Iterations */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Col: XAI Conflict Resolutions & Shadow Merges */}
-        <div className="neumorphic-card rounded-2xl p-5 space-y-4 bg-[#fbf9f4]">
-          <div className="flex items-center justify-between pb-3 border-b border-[#e8e2d4]">
+        <div className="skin-glass-card specular-sheen rounded-2xl p-5 space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-stone-200/60">
             <div className="flex items-center space-x-2">
-              <Sparkles className="h-4 w-4 text-emerald-600" />
-              <h3 className="text-sm font-bold text-stone-900 font-sans">
+              <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-800 border border-emerald-300/40">
+                <Sparkles className="h-4 w-4 text-emerald-600" />
+              </div>
+              <h3 className="text-sm font-bold text-stone-900 font-sans tracking-tight">
                 Explainable AI (XAI) Decisions
               </h3>
             </div>
             {highlightedTrain && (
-              <span className="text-[10px] font-bold bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full border border-amber-300 animate-pulse">
+              <span className="cockpit-dark-amber text-[10px] font-bold">
                 Filtered: {highlightedTrain.split('_')[0]}
               </span>
             )}
@@ -189,10 +191,10 @@ export const SolverView: React.FC<SolverViewProps> = ({
                 return (
                   <div
                     key={i}
-                    className={`rounded-xl border p-3.5 text-xs space-y-1.5 shadow-sm transition-all duration-200 ${
+                    className={`rounded-xl border p-3.5 text-xs space-y-1.5 shadow-xs transition-all duration-200 ${
                       isMatchingHighlighted
                         ? 'bg-amber-50/90 border-amber-400 ring-2 ring-amber-400'
-                        : 'bg-white/95 border-stone-200/90'
+                        : 'skin-glass-sub border-stone-200/80'
                     }`}
                   >
                     <div className="flex justify-between items-center">
@@ -202,8 +204,8 @@ export const SolverView: React.FC<SolverViewProps> = ({
                       <span
                         className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
                           res.shifted_minutes > 0
-                            ? 'bg-amber-100 text-amber-900 border-amber-300'
-                            : 'bg-emerald-100 text-emerald-900 border-emerald-300'
+                            ? 'bg-amber-50 text-amber-900 border-amber-300'
+                            : 'bg-emerald-50 text-emerald-900 border-emerald-300'
                         }`}
                       >
                         {res.shifted_minutes > 0 ? `+${res.shifted_minutes} min` : `${res.shifted_minutes} min`}
@@ -219,7 +221,7 @@ export const SolverView: React.FC<SolverViewProps> = ({
           </div>
 
           {/* Shadow Block Merges */}
-          <div className="pt-3 border-t border-[#e8e2d4]">
+          <div className="pt-3 border-t border-stone-200/60">
             <span className="text-xs font-bold text-stone-700 flex items-center gap-1.5">
               <Layers className="h-4 w-4 text-emerald-600" />
               Harmonized Shadow Blocks (Zero Additional Corridor Cost)
@@ -228,7 +230,7 @@ export const SolverView: React.FC<SolverViewProps> = ({
               {solverResult.xai.shadow_detections.map((shadow, idx) => (
                 <div
                   key={idx}
-                  className="rounded-xl bg-emerald-50/90 border border-emerald-200 p-3.5 text-xs shadow-sm"
+                  className="rounded-xl skin-glass-sub border border-emerald-300/40 p-3.5 text-xs shadow-xs"
                 >
                   <div className="flex justify-between items-center font-mono text-[11px]">
                     <span className="text-stone-800 font-bold">{shadow.primary}</span>
@@ -246,15 +248,17 @@ export const SolverView: React.FC<SolverViewProps> = ({
         </div>
 
         {/* Right Col: Solver Convergence & Telemetry Events */}
-        <div className="neumorphic-card rounded-2xl p-5 space-y-4 bg-[#fbf9f4]">
-          <div className="flex items-center justify-between pb-3 border-b border-[#e8e2d4]">
+        <div className="skin-glass-card specular-sheen rounded-2xl p-5 space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-stone-200/60">
             <div className="flex items-center space-x-2">
-              <TrendingUp className="h-4 w-4 text-emerald-600" />
-              <h3 className="text-sm font-bold text-stone-900 font-sans">
+              <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-800 border border-emerald-300/40">
+                <TrendingUp className="h-4 w-4 text-emerald-600" />
+              </div>
+              <h3 className="text-sm font-bold text-stone-900 font-sans tracking-tight">
                 Convergence Telemetry Stream
               </h3>
             </div>
-            <span className="font-mono text-xs text-stone-400 font-semibold">
+            <span className="cockpit-dark-chip font-mono text-xs text-stone-300">
               Branch & Bound
             </span>
           </div>
@@ -265,7 +269,7 @@ export const SolverView: React.FC<SolverViewProps> = ({
               Real-time objective relaxation bound tightening towards global optimum:
             </p>
 
-            <div className="rounded-xl bg-[#ede9df] border border-[#dcd4c6] p-3.5 space-y-3 shadow-inner">
+            <div className="rounded-xl skin-glass-sub p-3.5 space-y-3">
               {telemetryData
                 .filter((_, idx) => {
                   if (solverStatus !== 'solving') return true;
@@ -293,7 +297,7 @@ export const SolverView: React.FC<SolverViewProps> = ({
                         <span className="text-sky-800 font-semibold">Bound: {event.best_bound.toFixed(1)}</span>
                         <span className="text-emerald-700 font-black">{event.time_sec}s</span>
                       </div>
-                      <div className="h-2 w-full bg-[#d8d0c0] rounded-full overflow-hidden">
+                      <div className="h-2 w-full bg-stone-200/50 rounded-full overflow-hidden skin-glass-inset">
                         <div
                           className="h-full bg-gradient-to-r from-sky-500 to-emerald-500 rounded-full transition-all duration-300"
                           style={{ width: `${Math.min(100, progressPct)}%` }}
@@ -306,7 +310,7 @@ export const SolverView: React.FC<SolverViewProps> = ({
           </div>
 
           {/* Train Slot Adjustments Preview - Clickable to Cross-Highlight */}
-          <div className="pt-3 border-t border-[#e8e2d4]">
+          <div className="pt-3 border-t border-stone-200/60">
             <div className="flex justify-between items-center mb-1.5">
               <span className="text-xs font-bold text-stone-700">
                 Punctuality Schedule Impact (Bhopal Section)
@@ -322,16 +326,16 @@ export const SolverView: React.FC<SolverViewProps> = ({
                   <div
                     key={train}
                     onClick={() => setHighlightedTrain(isSelected ? null : train)}
-                    className={`flex items-center justify-between text-xs px-3 py-2 rounded-xl border font-mono shadow-sm cursor-pointer transition-all ${
+                    className={`flex items-center justify-between text-xs px-3 py-2 rounded-xl border font-mono shadow-xs cursor-pointer transition-all ${
                       isSelected
                         ? 'bg-emerald-50/90 border-emerald-500 ring-2 ring-emerald-500'
-                        : 'bg-white/95 border-stone-200 hover:border-emerald-300'
+                        : 'skin-glass-sub border-stone-200/80 hover:border-emerald-300'
                     }`}
                   >
                     <div className="flex items-center space-x-2 truncate">
                       <span className="text-stone-800 font-bold truncate max-w-[200px]">{train}</span>
                       {isSelected && (
-                        <span className="text-[9px] font-bold bg-emerald-600 text-white px-1.5 py-0.2 rounded">
+                        <span className="text-[9px] font-bold bg-emerald-600 text-white px-1.5 py-0.5 rounded-[7px]">
                           Active
                         </span>
                       )}
@@ -343,8 +347,8 @@ export const SolverView: React.FC<SolverViewProps> = ({
                       <span
                         className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
                           sched.delay === 0
-                            ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
-                            : 'bg-amber-100 text-amber-800 border-amber-300'
+                            ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                            : 'bg-amber-50 text-amber-800 border-amber-200'
                         }`}
                       >
                         {sched.delay === 0 ? 'ON TIME' : `+${sched.delay}m`}

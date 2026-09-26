@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { Radio } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { RollingNumber } from '@/components/common/RollingNumber';
 
 export interface StationNode {
   code: string;
@@ -92,90 +93,91 @@ export const TrackStripMap: React.FC = () => {
   const currentSpeed = isTsrZone ? 30 : 130;
 
   return (
-    <div className="neumorphic-card neumorphic-card-hover rounded-2xl p-5 space-y-4">
+    <div className="skin-glass-card rounded-2xl p-5 space-y-4 shadow-xl relative overflow-hidden specular-sheen">
       {/* Header with Title and Legend */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#e8e4d8] pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/70 pb-3">
         <div>
           <div className="flex items-center gap-2">
-            <Radio className="h-4 w-4 text-emerald-600 animate-pulse" />
+            <Radio className="h-4 w-4 text-[#078A68] animate-pulse" />
             <h2 className="text-sm font-extrabold tracking-tight text-stone-900 font-sans">
               BINA – ITARSI SECTION STRIP MAP (152.4 KM)
             </h2>
           </div>
-          <p className="text-xs text-stone-500 mt-0.5">
+          <p className="text-xs text-stone-500 mt-0.5 font-medium">
             West Central Railway • Bhopal Division • Real-time block locations & Kavach safety status
           </p>
         </div>
 
         {/* Legend matching reference colors */}
-        <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-stone-600">
+        <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-stone-700 font-mono">
           <div className="flex items-center gap-1.5">
-            <span className="h-3 w-3 rounded-full bg-[#9bd8b5] border border-[#68b88d]" />
+            <span className="h-3 w-3 rounded-full bg-[#9bd8b5] border border-[#68b88d] shadow-2xs" />
             <span>Commissioned</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="h-3 w-3 rounded-full bg-[#9fd5e8] border border-[#6cb6d1]" />
+            <span className="h-3 w-3 rounded-full bg-[#9fd5e8] border border-[#6cb6d1] shadow-2xs" />
             <span>In Trials</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="h-3 w-3 rounded-full bg-[#f3b2a3] border border-[#d98574]" />
+            <span className="h-3 w-3 rounded-full bg-[#f3b2a3] border border-[#d98574] shadow-2xs" />
             <span>Not Equipped</span>
           </div>
-          <div className="flex items-center gap-1.5 border-l border-stone-200 pl-3">
-            <span className="h-2 w-2 rounded-full bg-rose-500 animate-pulse" />
-            <span className="h-2 w-2 rounded-full bg-amber-400" />
-            <span className="h-2 w-2 rounded-full bg-emerald-400" />
-            <span className="text-[11px] font-mono text-stone-600 font-bold">CTC Signal Block</span>
+          <div className="flex items-center gap-1.5 border-l border-stone-300/80 pl-3">
+            <span className="h-2 w-2 rounded-full bg-rose-500 led-glow-rose animate-pulse" />
+            <span className="h-2 w-2 rounded-full bg-amber-400 led-glow-amber" />
+            <span className="h-2 w-2 rounded-full bg-emerald-400 led-glow-emerald" />
+            <span className="text-[11px] font-mono text-stone-700 font-bold">CTC Signal Block</span>
           </div>
         </div>
       </div>
 
       {/* Schematic Linear Track Container (Full Width Responsive - No Scrollbar) */}
-      <div className="relative pt-24 pb-8 px-2 sm:px-6 w-full">
+      <div className="relative pt-24 pb-8 px-2 sm:px-6 w-full overflow-hidden rounded-xl">
+        {/* Add-on 3: Ambient Corridor Telemetry Radar Sweep */}
+        <div className="corridor-radar-sweep" />
+
         {/* HORIZONTAL SLIM TELEMETRY PILL BAR - Positioned in the blank space at the top */}
         <div className="absolute top-0 left-0 right-0 flex justify-center z-20 px-4">
-          <div className="flex flex-wrap items-center gap-3 sm:gap-5 rounded-full border border-stone-200/90 bg-white/95 px-5 py-1.5 shadow-[0_6px_16px_rgba(180,170,155,0.22)] backdrop-blur-md">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-5 rounded-full skin-glass-elevated border-white/95 px-5 py-1.5 shadow-md">
             {/* Station & Chainage Pill */}
             <div className="flex items-center gap-2 notranslate" translate="no">
               <span className="font-extrabold text-stone-900 text-xs font-mono">
                 {currentStation.code}
               </span>
-              <span className="text-[10px] font-mono bg-stone-100 text-stone-600 px-2 py-0.5 rounded-full font-bold">
+              <span className="text-[10px] font-mono bg-white/90 border border-stone-200 text-stone-700 px-2 py-0.5 rounded-full font-bold shadow-2xs">
                 {currentStation.km} km
               </span>
             </div>
 
-            <div className="h-3 w-[1px] bg-stone-200 hidden sm:block" />
+            <div className="h-3 w-[1px] bg-stone-300/80 hidden sm:block" />
 
             {/* Live Section */}
-            <div className="flex items-center gap-1.5 text-xs">
-              <span className="text-stone-400 font-medium text-[11px]">Live:</span>
-              <span className="font-bold text-stone-900 font-mono text-[11px] notranslate" translate="no">{currentStation.code}</span>
+            <div className="flex items-center gap-1.5 text-xs font-mono">
+              <span className="text-stone-500 font-medium text-[11px]">Live:</span>
+              <span className="font-bold text-stone-900 text-[11px] notranslate" translate="no">{currentStation.code}</span>
             </div>
 
-            <div className="h-3 w-[1px] bg-stone-200 hidden sm:block" />
+            <div className="h-3 w-[1px] bg-stone-300/80 hidden sm:block" />
 
             {/* Train ID */}
-            <div className="flex items-center gap-1.5 text-xs">
-              <span className="text-stone-400 font-medium text-[11px]">Train:</span>
-              <span className="font-bold text-emerald-700 font-mono text-[11px]">12155 Exp</span>
+            <div className="flex items-center gap-1.5 text-xs font-mono">
+              <span className="text-stone-500 font-medium text-[11px]">Train:</span>
+              <span className="font-bold text-[#078A68] text-[11px]">12155 Exp</span>
             </div>
 
-            <div className="h-3 w-[1px] bg-stone-200 hidden sm:block" />
+            <div className="h-3 w-[1px] bg-stone-300/80 hidden sm:block" />
 
-            {/* Speed Metric */}
-            <div className="flex items-center gap-1.5 text-xs">
-              <span className="text-stone-400 font-medium text-[11px]">Speed:</span>
-              <span className={`font-mono font-black text-[11px] ${isTsrZone ? 'text-amber-700 font-extrabold' : 'text-stone-900'}`}>
-                {currentSpeed} km/h
-              </span>
+            {/* Speed Metric with Cockpit Dark Chip & Add-on 1 Rolling Number */}
+            <div className="flex items-center gap-2 text-xs font-mono">
+              <span className="text-stone-500 font-medium text-[11px]">Speed:</span>
               {isTsrZone ? (
-                <span className="text-[9px] bg-amber-100 text-amber-900 border border-amber-300 font-extrabold px-1.5 py-0.5 rounded-full animate-pulse notranslate" translate="no">
-                  ⚠ TSR 30km/h
+                <span className="cockpit-dark-amber px-2.5 py-0.5 rounded-[7px] font-bold text-[11px] shadow-2xs aura-breathe-amber tactile-spring cursor-default notranslate inline-flex items-center gap-1" translate="no">
+                  <span>⚠ TSR</span>
+                  <RollingNumber value={30} suffix=" km/h" />
                 </span>
               ) : (
-                <span className="text-[9px] bg-emerald-50 text-emerald-800 border border-emerald-200 font-extrabold px-1.5 py-0.5 rounded-full notranslate" translate="no">
-                  Normal
+                <span className="cockpit-dark-chip px-2.5 py-0.5 rounded-[7px] font-bold text-[11px] shadow-2xs aura-breathe-emerald tactile-spring cursor-default notranslate inline-flex items-center gap-1" translate="no">
+                  <RollingNumber value={130} suffix=" km/h (Normal)" />
                 </span>
               )}
             </div>
@@ -213,10 +215,16 @@ export const TrackStripMap: React.FC = () => {
             className="relative flex items-center transition-transform duration-300"
             style={{ transform: isFlipped ? 'scaleX(-1)' : 'scaleX(1)' }}
           >
-            {/* Soft Luminescent Trail behind train (always behind train's rear) */}
-            <div className="absolute right-full mr-1 flex items-center gap-1 opacity-80 pointer-events-none">
-              <span className="h-1.5 w-6 rounded-full bg-gradient-to-r from-transparent to-cyan-300 animate-pulse" />
-              <span className="h-1 w-3 rounded-full bg-cyan-200" />
+            {/* Add-on 5: Aerodynamic Comet Velocity Particle Trail behind train */}
+            <div className="absolute right-full mr-1.5 flex items-center gap-1 opacity-90 pointer-events-none">
+              <span className="h-1.5 w-10 rounded-full bg-gradient-to-r from-transparent via-emerald-400/40 to-emerald-300 shadow-[0_0_8px_rgba(16,185,129,0.6)] animate-pulse" />
+              <span className="h-1 w-3 rounded-full bg-emerald-200/90" />
+              <span className="h-0.5 w-1 rounded-full bg-white animate-ping" />
+            </div>
+
+            {/* Directional Locomotive Headlight Beam cone illuminating track ahead */}
+            <div className="absolute left-full ml-[-2px] top-[14px] w-20 h-10 pointer-events-none opacity-40 overflow-hidden">
+              <div className="w-full h-full bg-gradient-to-r from-amber-200/60 via-amber-100/20 to-transparent [clip-path:polygon(0%_40%,100%_0%,100%_100%,0%_60%)]" />
             </div>
 
             {/* Sleek Aerodynamic Vande Bharat Train Engine Sprite - Natively Facing RIGHT (nose at x=90) */}

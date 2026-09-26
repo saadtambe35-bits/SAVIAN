@@ -67,32 +67,53 @@ export const MareyView: React.FC<MareyViewProps> = ({
         </div>
       )}
 
-      {/* Corridor Summary Pills - Matched with Warm Neumorphic Control Aesthetic */}
+      {/* Corridor Summary Pills - AeroSkin Glass with Dark Cockpit Accents */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="rounded-2xl border border-[#ded8c9] bg-white p-3.5 shadow-sm">
-          <div className="text-[11px] font-semibold text-stone-500 uppercase">Total Route Span</div>
-          <div className="text-xl font-bold font-mono text-stone-900 mt-1 tracking-tight">231.5 KM</div>
-          <div className="text-[10px] text-stone-400 font-mono mt-0.5">BINA Jn (0.0k) → ET Jn (231.5k)</div>
-        </div>
-
-        <div className="rounded-2xl border border-[#ded8c9] bg-white p-3.5 shadow-sm">
-          <div className="text-[11px] font-semibold text-stone-500 uppercase">Corridor Stations</div>
-          <div className="text-xl font-bold font-mono text-emerald-800 mt-1 tracking-tight">27 Stations</div>
-          <div className="text-[10px] text-stone-400 font-mono mt-0.5">26 Contiguous Block Sections</div>
-        </div>
-
-        <div className="rounded-2xl border border-[#ded8c9] bg-white p-3.5 shadow-sm">
-          <div className="text-[11px] font-semibold text-stone-500 uppercase">Scheduled Trains</div>
-          <div className="text-xl font-bold font-mono text-emerald-700 mt-1 tracking-tight">12 Paths</div>
-          <div className="text-[10px] text-stone-400 font-mono mt-0.5">Rajdhani, VB, Exp, Mail, Freight</div>
-        </div>
-
-        <div className="rounded-2xl border border-[#ded8c9] bg-white p-3.5 shadow-sm">
-          <div className="text-[11px] font-semibold text-stone-500 uppercase">Maintenance Possessions</div>
-          <div className="text-xl font-bold font-mono text-amber-800 mt-1 tracking-tight">
-            8 Blocks <span className="text-xs font-normal text-stone-500 font-sans">({shadowBlocksCount} shadow)</span>
+        <div className="skin-glass-card skin-glass-elevated specular-sheen rounded-2xl p-3.5">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider">Total Route Span</span>
+            <span className="cockpit-dark-chip text-[9px] font-mono font-bold text-stone-300">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 led-glow-emerald" />
+              LIVE
+            </span>
           </div>
-          <div className="text-[10px] text-stone-400 font-mono mt-0.5">P-Way, OHE, S&T Integrated</div>
+          <div className="text-xl font-bold font-mono text-stone-900 mt-1 tracking-tight">231.5 KM</div>
+          <div className="text-[10px] text-stone-500 font-mono mt-0.5">BINA Jn (0.0k) → ET Jn (231.5k)</div>
+        </div>
+
+        <div className="skin-glass-card skin-glass-elevated specular-sheen rounded-2xl p-3.5">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider">Corridor Stations</span>
+            <span className="cockpit-dark-chip text-[9px] font-mono font-bold text-emerald-300">
+              26 Blocks
+            </span>
+          </div>
+          <div className="text-xl font-bold font-mono text-emerald-800 mt-1 tracking-tight">27 Stations</div>
+          <div className="text-[10px] text-stone-500 font-mono mt-0.5">26 Contiguous Block Sections</div>
+        </div>
+
+        <div className="skin-glass-card skin-glass-elevated specular-sheen rounded-2xl p-3.5">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider">Scheduled Trains</span>
+            <span className="cockpit-dark-chip text-[9px] font-mono font-bold text-sky-300">
+              IR Timetable
+            </span>
+          </div>
+          <div className="text-xl font-bold font-mono text-stone-900 mt-1 tracking-tight">12 Paths</div>
+          <div className="text-[10px] text-stone-500 font-mono mt-0.5">Rajdhani, VB, Exp, Mail, Freight</div>
+        </div>
+
+        <div className="skin-glass-card skin-glass-elevated specular-sheen rounded-2xl p-3.5">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider">Possessions</span>
+            <span className="cockpit-dark-chip text-[9px] font-mono font-bold text-amber-300">
+              {shadowBlocksCount} Shadow
+            </span>
+          </div>
+          <div className="text-xl font-bold font-mono text-stone-900 mt-1 tracking-tight">
+            8 Blocks
+          </div>
+          <div className="text-[10px] text-stone-500 font-mono mt-0.5">P-Way, OHE, S&T Integrated</div>
         </div>
       </div>
 
@@ -111,17 +132,17 @@ export const MareyView: React.FC<MareyViewProps> = ({
         typeof document !== 'undefined' &&
         createPortal(
           <div
-            className="fixed inset-0 z-[99999] flex items-center justify-center bg-stone-900/60 p-4 backdrop-blur-sm overflow-y-auto"
+            className="fixed inset-0 z-[99999] flex items-center justify-center bg-stone-900/60 p-4 backdrop-blur-md overflow-y-auto"
             onClick={() => setSelectedBlockId(null)}
           >
             <div
-              className="relative w-full max-w-lg rounded-2xl border border-[#ded9cb] bg-[#faf8f3] p-5 shadow-2xl animate-in zoom-in-95 duration-150 text-stone-900 my-auto"
+              className="relative w-full max-w-lg rounded-3xl border border-stone-200/80 bg-[#FAF7F2]/95 backdrop-blur-2xl p-5 shadow-2xl animate-in zoom-in-95 duration-150 text-stone-900 my-auto skin-glass-elevated"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Header */}
-              <div className="flex items-start justify-between border-b border-[#e5dfd3] pb-3.5 bg-[#f4efe4] -mx-5 -mt-5 p-5 rounded-t-2xl">
+              <div className="flex items-start justify-between border-b border-stone-200/60 pb-3.5 bg-white/40 -mx-5 -mt-5 p-5 rounded-t-3xl">
                 <div className="flex items-center space-x-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 border border-amber-300 text-amber-800 shadow-sm">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-300/40 text-amber-700 shadow-xs">
                     <Activity className="h-5 w-5" />
                   </div>
                   <div>
@@ -149,7 +170,7 @@ export const MareyView: React.FC<MareyViewProps> = ({
                 <button
                   type="button"
                   onClick={() => setSelectedBlockId(null)}
-                  className="rounded-xl p-1.5 text-stone-400 hover:bg-[#eae4d5] hover:text-stone-700 transition-colors cursor-pointer"
+                  className="rounded-xl p-1.5 text-stone-400 hover:bg-stone-200/60 hover:text-stone-700 transition-colors cursor-pointer"
                 >
                   <X className="h-5 w-5" />
                 </button>

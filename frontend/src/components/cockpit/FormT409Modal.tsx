@@ -41,17 +41,17 @@ export const FormT409Modal: React.FC<FormT409ModalProps> = ({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm animate-in fade-in">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-md animate-in fade-in">
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 10 }}
-          className="w-full max-w-2xl max-h-[92vh] overflow-y-auto rounded-3xl bg-[#fdfcf7] border-2 border-[#d5ccba] shadow-[0_20px_60px_rgba(0,0,0,0.3)] p-6 sm:p-7 space-y-5 text-stone-800"
+          className="w-full max-w-2xl max-h-[92vh] overflow-y-auto rounded-3xl bg-[#FAF7F2]/95 backdrop-blur-2xl border border-stone-200/80 shadow-2xl p-6 sm:p-7 space-y-5 text-stone-800 skin-glass-elevated"
         >
           {/* Header Bar */}
-          <div className="flex items-start justify-between border-b border-[#ded7c8] pb-4">
+          <div className="flex items-start justify-between border-b border-stone-200/60 pb-4">
             <div className="flex items-center space-x-3">
-              <div className="h-10 w-10 rounded-2xl bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-800 shadow-sm">
+              <div className="h-10 w-10 rounded-2xl bg-emerald-500/10 border border-emerald-300/40 flex items-center justify-center text-emerald-800 shadow-xs">
                 <ShieldCheck className="h-6 w-6" />
               </div>
               <div>

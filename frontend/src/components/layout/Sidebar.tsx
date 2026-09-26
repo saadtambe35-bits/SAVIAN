@@ -108,19 +108,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
         />
       )}
 
-      {/* Sidebar container - Warm Neumorphic Cream */}
+      {/* Sidebar container - AeroSkin Glass */}
       <aside
         className={cn(
-          'fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-[#f7f5ef] border-r border-[#e3dfd3] shadow-[4px_0_24px_rgba(180,170,155,0.14)] transition-transform duration-300 ease-in-out lg:translate-x-0',
+          'fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-[#F8F5EE]/92 backdrop-blur-2xl border-r border-white/80 shadow-[4px_0_30px_rgba(160,148,130,0.12)] transition-transform duration-300 ease-in-out lg:translate-x-0',
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         )}
       >
         {/* Brand Card (Top) with Bholu Mascot */}
-        <div className="p-4 border-b border-[#e6e2d6] bg-[#faf8f3]">
+        <div className="p-4 border-b border-white/70 bg-white/40 backdrop-blur-md">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3.5">
               {/* Elevated squircle holding mascot */}
-              <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-[#ffffff] p-1.5 shadow-[4px_4px_10px_rgba(180,170,155,0.22),-3px_-3px_8px_rgba(255,255,255,0.95)] border border-[rgba(230,225,215,0.9)] overflow-hidden">
+              <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl skin-glass-elevated p-1.5 border-white/95 overflow-hidden">
                 <img
                   src="/bholu.jpg"
                   alt="Bholu the Guard Elephant"
@@ -134,10 +134,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
               <div>
                 <div className="flex items-center space-x-1.5">
-                  <span className="font-extrabold text-base tracking-tight text-stone-800 font-sans">
+                  <span className="font-extrabold text-base tracking-tight text-stone-900 font-sans">
                     Line-Clear
                   </span>
-                  <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-emerald-200 animate-pulse" />
+                  <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 led-glow-emerald animate-pulse" />
                 </div>
                 <p className="text-[10px] tracking-wider uppercase font-semibold text-stone-500 font-mono">
                   IR BLOCK SCHEDULING AI
@@ -148,7 +148,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             {/* Close button on mobile */}
             <button
               type="button"
-              className="rounded-xl p-1.5 text-stone-400 hover:bg-[#eae6db] hover:text-stone-700 lg:hidden"
+              className="rounded-xl p-1.5 text-stone-400 hover:bg-white/80 hover:text-stone-700 lg:hidden cursor-pointer"
               onClick={onCloseMobile}
             >
               <X className="h-5 w-5" />
@@ -157,20 +157,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Corridor Metadata Pill (Inset Container) */}
-        <div className="mx-3.5 mt-3.5 mb-1 px-3 py-2 rounded-xl neumorphic-inset">
-          <div className="flex items-center justify-between text-[11px] font-semibold text-stone-700">
-            <span className="flex items-center gap-1.5 text-stone-800">
-              <Radio className="h-3 w-3 text-emerald-600" />
+        <div className="mx-3.5 mt-3.5 mb-1 px-3 py-2 rounded-xl skin-glass-inset shadow-2xs">
+          <div className="flex items-center justify-between text-[11px] font-semibold text-stone-800">
+            <span className="flex items-center gap-1.5 text-stone-800 font-mono">
+              <Radio className="h-3 w-3 text-[#078A68] animate-pulse" />
               {t('bina_et_section') || 'BINA – ET SECTION'}
             </span>
-            <span className="font-mono text-emerald-800 text-[10px] bg-emerald-100/70 px-1.5 py-0.5 rounded-md border border-emerald-300/60 font-bold">
+            <span className="font-mono text-emerald-900 text-[10px] bg-emerald-100/90 px-1.5 py-0.5 rounded-md border border-emerald-300/80 font-bold shadow-2xs">
               WCR / BPL
             </span>
           </div>
-          <div className="mt-1 flex items-center justify-between text-[10px] text-stone-500 font-medium">
+          <div className="mt-1 flex items-center justify-between text-[10px] text-stone-600 font-medium font-mono">
             <span>152.4 km • Double Track</span>
-            <span className="text-emerald-700 flex items-center gap-1 font-semibold">
-              <ShieldCheck className="h-3 w-3 text-emerald-600" /> Kavach
+            <span className="text-emerald-800 flex items-center gap-1 font-semibold">
+              <ShieldCheck className="h-3 w-3 text-emerald-600" /> Kavach SIL-4
             </span>
           </div>
         </div>
@@ -194,17 +194,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   onCloseMobile();
                 }}
                 className={cn(
-                  'group flex w-full items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200',
+                  'group flex w-full items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200 cursor-pointer',
                   isActive
-                    ? 'mint-glow-pill text-emerald-900 font-bold'
-                    : 'text-stone-600 hover:bg-[#ede9df] hover:text-stone-900'
+                    ? 'border-l-4 border-l-[#078A68] bg-[#ECFDF5]/90 text-emerald-950 font-bold shadow-2xs'
+                    : 'text-stone-600 hover:bg-white/70 hover:text-stone-900'
                 )}
               >
                 <div className="flex items-center space-x-3">
                   <Icon
                     className={cn(
                       'h-4 w-4 transition-colors',
-                      isActive ? 'text-emerald-700' : 'text-stone-400 group-hover:text-stone-600'
+                      isActive ? 'text-[#078A68]' : 'text-stone-400 group-hover:text-stone-700'
                     )}
                   />
                   <span>{t(item.key) || item.label}</span>
@@ -213,10 +213,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 {item.badge && (
                   <span
                     className={cn(
-                      'text-[10px] px-2 py-0.5 rounded-full font-mono font-bold',
+                      'text-[10px] px-2 py-0.5 rounded-[7px] font-mono font-bold shadow-2xs',
                       isActive
-                        ? 'bg-emerald-200/90 text-emerald-950 border border-emerald-300/70'
-                        : 'bg-[#e4decfa0] text-stone-600 group-hover:bg-[#dad3c3]'
+                        ? 'bg-[#078A68] text-white'
+                        : String(item.badge).includes('Clash') || String(item.badge).includes('Alert')
+                        ? 'cockpit-dark-rose'
+                        : 'bg-white/80 text-stone-700 border border-stone-200'
                     )}
                   >
                     {item.badge}
@@ -228,20 +230,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </nav>
 
         {/* Footer Diagnostics (Inset Box) */}
-        <div className="p-3.5 border-t border-[#e6e2d6] bg-[#faf8f3]">
-          <div className="rounded-xl neumorphic-inset p-3 text-xs space-y-1.5">
-            <div className="flex items-center justify-between text-[11px]">
-              <span className="text-stone-500 font-medium">Solver Engine</span>
-              <span className="text-emerald-800 font-mono text-[10px] font-bold bg-emerald-100/90 px-1.5 py-0.5 rounded border border-emerald-300">
+        <div className="p-3.5 border-t border-white/70 bg-white/30 backdrop-blur-md">
+          <div className="rounded-xl skin-glass-inset p-3 text-xs space-y-1.5 shadow-2xs">
+            <div className="flex items-center justify-between text-[11px] font-mono">
+              <span className="text-stone-600 font-medium">Solver Engine</span>
+              <span className="cockpit-dark-chip text-[10px] font-bold px-2 py-0.5 rounded-[7px] aura-breathe-emerald tactile-spring cursor-default">
                 CP-SAT 9.8
               </span>
             </div>
-            <div className="flex items-center justify-between text-[11px]">
-              <span className="text-stone-500 font-medium">Headway Guard</span>
-              <span className="text-stone-700 font-mono text-[10px] font-semibold">7 min (Normal)</span>
+            <div className="flex items-center justify-between text-[11px] font-mono">
+              <span className="text-stone-600 font-medium">Headway Guard</span>
+              <span className="text-stone-800 font-bold">7 min (Normal)</span>
             </div>
           </div>
-          <div className="mt-2 text-center text-[10px] text-stone-400 font-mono">
+          <div className="mt-2 text-center text-[10px] text-stone-500 font-mono">
             Indian Railways • AI DSS v1.0
           </div>
         </div>

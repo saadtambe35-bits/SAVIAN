@@ -226,16 +226,16 @@ export const WeatherTsrEngine: React.FC<WeatherTsrEngineProps> = ({
     <div className="w-full max-w-5xl mx-auto font-sans text-stone-900">
       
       {/* Outer Cockpit Frame */}
-      <div className="relative overflow-hidden rounded-2xl border border-[#ded9cb] bg-[#faf8f3] shadow-md transition-all">
+      <div className="relative overflow-hidden rounded-2xl skin-glass-card skin-glass-elevated specular-sheen transition-all">
         
         {/* Top Control Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#e5dfd3] bg-[#f4efe4] px-5 py-3.5 gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-stone-200/60 bg-white/40 px-5 py-3.5 gap-3">
           <div className="flex items-center gap-3">
             <div
-              className={`flex h-10 w-10 items-center justify-center rounded-xl border transition-colors shadow-sm ${
+              className={`flex h-10 w-10 items-center justify-center rounded-xl border transition-colors shadow-xs ${
                 isTsrActive
-                  ? 'bg-amber-100 border-amber-300 text-amber-800'
-                  : 'bg-emerald-100 border-emerald-300 text-emerald-800'
+                  ? 'bg-amber-500/10 border-amber-300/40 text-amber-800'
+                  : 'bg-emerald-500/10 border-emerald-300/40 text-emerald-800'
               }`}
             >
               {currentScenario.id === 'CLOUDBURST' ? (
@@ -252,12 +252,13 @@ export const WeatherTsrEngine: React.FC<WeatherTsrEngineProps> = ({
                   WEATHER TSR & HEADWAY ENGINE (IMD AUTOMATED INGESTION)
                 </h2>
                 <span
-                  className={`rounded px-2 py-0.5 text-[10px] font-mono font-bold border ${
+                  className={`cockpit-dark-chip text-[10px] font-mono font-bold ${
                     isTsrActive
-                      ? 'bg-amber-100 border-amber-300 text-amber-900 animate-pulse'
-                      : 'bg-emerald-100 border-emerald-300 text-emerald-900'
+                      ? 'cockpit-dark-amber animate-pulse'
+                      : 'text-emerald-300'
                   }`}
                 >
+                  <span className={`h-1.5 w-1.5 rounded-full ${isTsrActive ? 'bg-amber-400 led-glow-amber' : 'bg-emerald-400 led-glow-emerald'}`} />
                   {isTsrActive ? 'TSR SPEED RESTRICTION ENFORCED' : 'SECTION CLEAR • FULL LINE SPEED'}
                 </span>
               </div>
@@ -269,19 +270,19 @@ export const WeatherTsrEngine: React.FC<WeatherTsrEngineProps> = ({
 
           {/* IMD Satellite Sync Indicator */}
           <div className="flex items-center gap-2 text-[11px] font-mono">
-            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-[#ded8c9] text-stone-700 shadow-sm">
-              <Radio className="w-3.5 h-3.5 text-sky-600 animate-pulse" />
+            <span className="cockpit-dark-chip flex items-center gap-1.5 text-stone-300">
+              <Radio className="w-3.5 h-3.5 text-sky-400 animate-pulse" />
               <span>IMD INSAT-3DR: LIVE</span>
             </span>
-            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold shadow-sm">
-              <CheckCircle2 className="w-3.5 h-3.5" />
-              <span>RADAR REFRESH 60s</span>
+            <span className="cockpit-dark-chip flex items-center gap-1.5 text-emerald-300 font-bold">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>RADAR 60s</span>
             </span>
           </div>
         </div>
 
         {/* One-Click Scenario Preset Buttons Bar */}
-        <div className="p-4 sm:p-5 border-b border-[#e5dfd3] bg-[#f7f3ea]">
+        <div className="p-4 sm:p-5 border-b border-stone-200/60 bg-stone-50/50">
           <div className="flex items-center gap-2 mb-2 text-xs font-mono text-stone-500 font-bold">
             <Sliders className="w-4 h-4 text-emerald-700" />
             <span className="uppercase tracking-wider">Atmospheric Simulation Presets:</span>

@@ -173,7 +173,7 @@ export const App: React.FC = () => {
 
   return (
     <LanguageProvider>
-      <div className="flex h-screen w-screen overflow-hidden bg-[#f5f3ec] text-stone-800 font-sans">
+      <div className="flex h-screen w-screen overflow-hidden bg-transparent text-stone-800 font-sans">
         {/* 1. Left Sidebar (Fixed / Desktop w-64, Drawer on Mobile) */}
         <Sidebar
           activeNav={activeNav}
@@ -201,7 +201,7 @@ export const App: React.FC = () => {
         />
 
         {/* Center Main Content Area (Scrollable) */}
-        <main className="flex-1 overflow-y-auto bg-[#f5f3ec] p-4 sm:p-6">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 bg-transparent">
           <div className="mx-auto max-w-7xl">
             {activeNav === 'dashboard' && (
               <DashboardView
@@ -249,13 +249,13 @@ export const App: React.FC = () => {
             )}
 
             {activeNav === 'digitaltwin' && (
-              <div className="rounded-2xl border border-[#ded9cb] bg-[#fbf9f4] p-4 shadow-sm">
+              <div className="rounded-2xl skin-glass-card p-4">
                 <StationDigitalTwin3D />
               </div>
             )}
 
             {activeNav === 'discipline' && (
-              <div className="rounded-2xl border border-[#ded9cb] bg-[#fbf9f4] p-4 shadow-sm">
+              <div className="rounded-2xl skin-glass-card p-4">
                 <DepartmentTrustMatrix />
               </div>
             )}

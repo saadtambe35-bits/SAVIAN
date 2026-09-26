@@ -30,38 +30,38 @@ export const StatusBar: React.FC<StatusBarProps> = ({
   return (
     <footer
       id="system-status-bar"
-      className="sticky bottom-0 z-30 flex h-9 w-full items-center justify-between border-t border-[#e3ded2] bg-[#faf8f3]/95 px-4 text-xs text-stone-500 backdrop-blur-md font-mono select-none shadow-[0_-2px_12px_rgba(180,170,155,0.06)]"
+      className="sticky bottom-0 z-30 flex h-9 w-full items-center justify-between border-t border-white/80 bg-[#FAF7F0]/85 px-4 text-xs text-stone-600 backdrop-blur-xl font-mono select-none shadow-[0_-4px_20px_rgba(160,148,130,0.08)] specular-sheen"
     >
       {/* Left: Connection Status Indicator */}
       <div className="flex items-center space-x-4">
         <button
           type="button"
           onClick={onToggleConnection}
-          className="flex items-center space-x-2 group focus:outline-none"
+          className="flex items-center space-x-2 group focus:outline-none cursor-pointer"
           title={isConnected ? 'Connected to Railway Control Hub' : 'Disconnected'}
         >
           <span className="relative flex h-2 w-2">
             {isConnected ? (
               <>
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500 led-glow-emerald" />
               </>
             ) : (
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-rose-500" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-rose-500 led-glow-rose" />
             )}
           </span>
 
           <span
             className={cn(
-              'text-[11px] font-bold tracking-wider transition-colors',
-              isConnected ? 'text-emerald-800' : 'text-rose-600'
+              'text-[10px] font-bold tracking-wider transition-colors',
+              isConnected ? 'text-emerald-900 font-extrabold' : 'text-rose-700 font-extrabold'
             )}
           >
             {isConnected ? 'HUB CONNECTED' : 'OFFLINE'}
           </span>
 
           {isConnected ? (
-            <Wifi className="h-3 w-3 text-emerald-600" />
+            <Wifi className="h-3 w-3 text-[#078A68]" />
           ) : (
             <WifiOff className="h-3 w-3 text-rose-500" />
           )}
