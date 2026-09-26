@@ -106,6 +106,17 @@ export const TrackStripMap: React.FC = () => {
           <p className="text-xs text-stone-500 mt-0.5 font-medium">
             West Central Railway • Bhopal Division • Real-time block locations & Kavach safety status
           </p>
+          {/* Static Addon 2: Corridor GMT Capacity Bar */}
+          <div className="mt-2 flex items-center gap-3">
+            <div className="flex items-center gap-1.5 text-[10.5px] font-mono font-bold text-stone-600">
+              <span className="text-stone-400">Section Load:</span>
+              <span className="text-stone-800">38 / 45 Slots</span>
+              <span className="text-emerald-700 bg-emerald-100/90 px-1.5 py-0.5 rounded text-[9.5px] font-bold border border-emerald-300/60 shadow-2xs">84.4% GMT Utilized</span>
+            </div>
+            <div className="hidden sm:flex items-center w-28 h-1.5 rounded-full bg-stone-200/80 overflow-hidden shadow-inner">
+              <div className="h-full rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-amber-500" style={{ width: '84.4%' }} />
+            </div>
+          </div>
         </div>
 
         {/* Legend matching reference colors */}
@@ -128,6 +139,14 @@ export const TrackStripMap: React.FC = () => {
             <span className="h-2 w-2 rounded-full bg-emerald-400 led-glow-emerald" />
             <span className="text-[11px] font-mono text-stone-700 font-bold">CTC Signal Block</span>
           </div>
+          {/* Static Addon 3: Kavach SIL-4 Hardware Badge */}
+          <div className="flex items-center border-l border-stone-300/80 pl-3">
+            <span className="inline-flex items-center gap-1.5 bg-stone-900/90 text-stone-200 px-2 py-0.5 rounded-full border border-stone-700/80 shadow-2xs font-mono text-[9.5px]">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 led-glow-emerald" />
+              <span className="font-bold text-emerald-400">KAVACH SIL-4</span>
+              <span className="text-stone-400">· 433 MHz · OK</span>
+            </span>
+          </div>
         </div>
       </div>
 
@@ -138,7 +157,7 @@ export const TrackStripMap: React.FC = () => {
 
         {/* HORIZONTAL SLIM TELEMETRY PILL BAR - Positioned in the blank space at the top */}
         <div className="absolute top-0 left-0 right-0 flex justify-center z-20 px-4">
-          <div className="flex flex-wrap items-center gap-3 sm:gap-5 rounded-full skin-glass-elevated border-white/95 px-5 py-1.5 shadow-md">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 rounded-full skin-glass-elevated border-white/95 px-5 py-1.5 shadow-md">
             {/* Station & Chainage Pill */}
             <div className="flex items-center gap-2 notranslate" translate="no">
               <span className="font-extrabold text-stone-900 text-xs font-mono">
@@ -181,6 +200,22 @@ export const TrackStripMap: React.FC = () => {
                 </span>
               )}
             </div>
+
+            {/* Static Addon 1: OHE 25 kV AC Traction Power Strip */}
+            <div className="h-3 w-[1px] bg-stone-300/80 hidden lg:block" />
+            <div className="hidden lg:flex items-center gap-1.5 text-xs font-mono">
+              <span className="text-stone-500 font-medium text-[11px]">⚡ OHE:</span>
+              <span className="font-bold text-amber-700 text-[11px]">25.4 kV AC</span>
+              <span className="text-[9.5px] text-stone-400 font-mono">(Feeder ET-01 · 68%)</span>
+            </div>
+
+            {/* Static Addon 4: Live Rail Steel Temperature & Weather Tag */}
+            <div className="h-3 w-[1px] bg-stone-300/80 hidden xl:block" />
+            <div className="hidden xl:flex items-center gap-1.5 text-xs font-mono">
+              <span className="text-[10px] font-mono text-stone-700 bg-amber-50/90 border border-amber-300/60 px-2 py-0.5 rounded-full font-semibold shadow-2xs">
+                🌡️ Rail: 42°C · Stress: Nominal
+              </span>
+            </div>
           </div>
         </div>
 
@@ -195,7 +230,9 @@ export const TrackStripMap: React.FC = () => {
         {/* Top Rail */}
         <div className="absolute top-[138px] left-5 right-5 h-[2px] bg-[#cbc5b4] z-0" />
         {/* Middle Track Line with Colored Safety Status Segments */}
-        <div className="absolute top-[145px] left-5 right-5 h-[4px] z-0 rounded-full flex overflow-hidden shadow-inner">
+        <div className="absolute top-[145px] left-5 right-5 h-[4px] z-0 rounded-full flex overflow-hidden shadow-inner relative">
+          {/* Autonomous Animation 7: Ambient Track Circuit 25Hz Electricity Pulse */}
+          <div className="track-circuit-pulse" />
           <div className="w-[30%] h-full bg-[#82cda4]/75" /> {/* Green section */}
           <div className="w-[30%] h-full bg-[#81cde6]/75" /> {/* Blue section */}
           <div className="w-[28%] h-full bg-[#f0a999]/75" /> {/* Rose section */}
@@ -318,7 +355,7 @@ export const TrackStripMap: React.FC = () => {
                       className={cn(
                         'h-1.5 w-1.5 rounded-full transition-all duration-300',
                         signalState === 'RED'
-                          ? 'bg-rose-500 shadow-[0_0_8px_#f43f5e] animate-pulse'
+                          ? 'bg-rose-500 text-rose-500 shadow-[0_0_8px_#f43f5e] animate-pulse signal-corona-breathe'
                           : 'bg-stone-800 opacity-40'
                       )}
                     />
@@ -326,7 +363,7 @@ export const TrackStripMap: React.FC = () => {
                       className={cn(
                         'h-1.5 w-1.5 rounded-full transition-all duration-300',
                         signalState === 'YELLOW'
-                          ? 'bg-amber-400 shadow-[0_0_8px_#fbbf24] animate-pulse'
+                          ? 'bg-amber-400 text-amber-400 shadow-[0_0_8px_#fbbf24] animate-pulse signal-corona-breathe'
                           : 'bg-stone-800 opacity-40'
                       )}
                     />
@@ -334,7 +371,7 @@ export const TrackStripMap: React.FC = () => {
                       className={cn(
                         'h-1.5 w-1.5 rounded-full transition-all duration-300',
                         signalState === 'GREEN'
-                          ? 'bg-emerald-400 shadow-[0_0_8px_#34d399]'
+                          ? 'bg-emerald-400 text-emerald-400 shadow-[0_0_8px_#34d399] signal-corona-breathe'
                           : 'bg-stone-800 opacity-40'
                       )}
                     />

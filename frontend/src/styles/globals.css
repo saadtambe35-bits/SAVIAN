@@ -408,3 +408,41 @@
     opacity: 0;
   }
 }
+
+/* =========================================================================
+   TRACK CIRCUIT 25Hz ENERGY PULSE
+   ========================================================================= */
+@keyframes track-current-pulse {
+  0%   { left: 0%; opacity: 0; }
+  8%   { opacity: 0.95; }
+  92%  { opacity: 0.95; }
+  100% { left: 98%; opacity: 0; }
+}
+.track-circuit-pulse {
+  position: absolute;
+  top: 0;
+  width: 54px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.9), #ffffff, rgba(56, 189, 248, 0.9), transparent);
+  box-shadow: 0 0 10px #38bdf8, 0 0 4px #ffffff;
+  border-radius: 9999px;
+  animation: track-current-pulse 8.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* =========================================================================
+   SIGNAL CORONA BREATHING PULSE
+   ========================================================================= */
+@keyframes signal-corona-kf {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px currentColor);
+  }
+  50% {
+    filter: drop-shadow(0 0 7px currentColor);
+  }
+}
+.signal-corona-breathe {
+  animation: signal-corona-kf 3.5s ease-in-out infinite;
+}
+
