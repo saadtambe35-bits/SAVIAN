@@ -43,7 +43,7 @@ app.include_router(telemetry_router, prefix=f"{settings.API_V1_STR}/telemetry", 
 app.include_router(background_solver_router, prefix=f"{settings.API_V1_STR}/solve", tags=["Background Solver"])
 
 
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 def root():
     return {
         "system": settings.PROJECT_NAME,
@@ -54,8 +54,8 @@ def root():
         "api_v1": settings.API_V1_STR
     }
 
-@app.get("/health")
-@app.get("/healthz")
+@app.api_route("/health", methods=["GET", "HEAD"])
+@app.api_route("/healthz", methods=["GET", "HEAD"])
 def health_check():
     return {
         "status": "HEALTHY",
