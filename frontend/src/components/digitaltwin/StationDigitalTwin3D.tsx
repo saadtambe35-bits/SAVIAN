@@ -634,7 +634,36 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
   ]);
 
   // Train Management States
-  const [trainsList, setTrainsList] = useState<TrainUIItem[]>([]);
+  const [trainsList, setTrainsList] = useState<TrainUIItem[]>([
+    {
+      id: 'train_vb_initial',
+      name: '20901 Vande Bharat Express',
+      presetId: 'VANDE_BHARAT',
+      direction: 1,
+      startTrack: 2,
+      assignedTrack: 2,
+      currentTrack: 2,
+      speed: 1.4,
+      status: 'CRUISING',
+      statusMessage: 'Eastbound Clear • Cruising 77 km/h',
+      primaryColorHex: 0xffffff,
+      progressPercent: 35,
+    },
+    {
+      id: 'train_raj_initial',
+      name: '12951 Mumbai Rajdhani Express',
+      presetId: 'RAJDHANI',
+      direction: -1,
+      startTrack: 3,
+      assignedTrack: 3,
+      currentTrack: 3,
+      speed: 1.3,
+      status: 'CRUISING',
+      statusMessage: 'Westbound Clear • Cruising 72 km/h',
+      primaryColorHex: 0xc1121f,
+      progressPercent: 22,
+    },
+  ]);
   const [activeTrainCount, setActiveTrainCount] = useState<number>(2);
   const [isDispatchModalOpen, setIsDispatchModalOpen] = useState<boolean>(false);
   const [dispatchPresetId, setDispatchPresetId] = useState<string>('VANDE_BHARAT');
