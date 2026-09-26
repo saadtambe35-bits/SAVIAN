@@ -104,13 +104,13 @@ export interface ActiveBlock {
   timestamp: string;
 }
 
-// 5 Parallel Tracks Configuration (20-unit lateral gauge)
+// 5 Parallel Tracks Configuration (60-unit lateral spacing for 2x scaled tracks, length untouched)
 export const TRACKS: TrackDef[] = [
-  { id: 1, name: 'Track 1 (Up Loop)', z: -40, speedLimit: 50, role: 'UP_LOOP', platform: 'Platform 1' },
-  { id: 2, name: 'Track 2 (Up Main)', z: -20, speedLimit: 130, role: 'UP_MAIN' },
+  { id: 1, name: 'Track 1 (Up Loop)', z: -120, speedLimit: 50, role: 'UP_LOOP', platform: 'Platform 1' },
+  { id: 2, name: 'Track 2 (Up Main)', z: -60, speedLimit: 130, role: 'UP_MAIN' },
   { id: 3, name: 'Track 3 (Down Main)', z: 0, speedLimit: 130, role: 'DOWN_MAIN' },
-  { id: 4, name: 'Track 4 (Down Loop)', z: 20, speedLimit: 50, role: 'DOWN_LOOP', platform: 'Platform 2' },
-  { id: 5, name: 'Track 5 (Goods Siding)', z: 40, speedLimit: 40, role: 'SIDING' },
+  { id: 4, name: 'Track 4 (Down Loop)', z: 60, speedLimit: 50, role: 'DOWN_LOOP', platform: 'Platform 2' },
+  { id: 5, name: 'Track 5 (Goods Siding)', z: 120, speedLimit: 40, role: 'SIDING' },
 ];
 
 // 3 Logical Block Zones (West Outer and East Outer removed per user specification)
@@ -664,12 +664,18 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
   }, []);
 
   // -------------------------------------------------------------
-  // THREE.JS PROCEDURAL TEXTURE LABEL SPRITE
+  // THREE.JS PROCEDURAL TEXTURE LABEL SPRITE (CRISP & HIGH-DPI)
   // -------------------------------------------------------------
-  const createLabelSprite = (text: string, bgColor: string, textColor: string) => {
+  const createLabelSprite = (
+    text: string,
+    bgColor: string,
+    textColor: string,
+    scaleX = 84,
+    scaleY = 14.5
+  ) => {
     const canvas = document.createElement('canvas');
-    canvas.width = 460;
-    canvas.height = 80;
+    canvas.width = 540;
+    canvas.height = 92;
     const ctx = canvas.getContext('2d');
     if (!ctx) return new THREE.Sprite();
 
@@ -677,21 +683,21 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     ctx.strokeStyle = textColor;
     ctx.lineWidth = 4;
     ctx.beginPath();
-    ctx.roundRect(8, 8, 444, 64, 16);
+    ctx.roundRect(6, 6, 528, 80, 18);
     ctx.fill();
     ctx.stroke();
 
-    ctx.font = 'bold 23px monospace';
+    ctx.font = 'bold 26px "Segoe UI", Roboto, monospace';
     ctx.fillStyle = textColor;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(text, 230, 40);
+    ctx.fillText(text, 270, 46);
 
     const texture = new THREE.CanvasTexture(canvas);
     texture.minFilter = THREE.LinearFilter;
     const spriteMaterial = new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false });
     const sprite = new THREE.Sprite(spriteMaterial);
-    sprite.scale.set(65, 11.5, 1);
+    sprite.scale.set(scaleX, scaleY, 1);
     return sprite;
   };
 
@@ -706,11 +712,11 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     accentHex: number
   ): THREE.Group => {
     const group = new THREE.Group();
-    const length = carType === 'ENGINE' ? 44 : 40;
-    const height = 7.5;
-    const width = 6.4;
+    const length = carType === 'ENGINE' ? 76 : 66;
+    const height = 20.0;
+    const width = 20.0;
 
-    // Main Car Body (Width along X: 6.4, Height along Y: 7.5, Length along Z: 44/40!)
+    // Main Car Body (Width along X: 20.0, Height along Y: 20.0, Length along Z: 76/66)
     const bodyGeo = new THREE.BoxGeometry(width, height, length);
     const bodyMat = new THREE.MeshStandardMaterial({
       color: primaryHex,
@@ -718,41 +724,41 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       metalness: 0.35,
     });
     const body = new THREE.Mesh(bodyGeo, bodyMat);
-    body.position.y = height / 2 + 1.8;
+    body.position.y = height / 2 + 6.0;
     body.castShadow = true;
     group.add(body);
 
     // Signature Accent Band (Along Z)
-    const bandGeo = new THREE.BoxGeometry(width + 0.15, 2.2, length + 0.1);
+    const bandGeo = new THREE.BoxGeometry(width + 0.3, 5.2, length + 0.2);
     const bandMat = new THREE.MeshStandardMaterial({
       color: accentHex,
       roughness: 0.3,
     });
     const band = new THREE.Mesh(bandGeo, bandMat);
-    band.position.y = height / 2 + 1.8;
+    band.position.y = height / 2 + 6.0;
     group.add(band);
 
     if (carType === 'ENGINE') {
       // Aerodynamic Nose Cone (Apex points forward along +Z!)
-      const noseGeo = new THREE.ConeGeometry(width / 2, 10, 16);
+      const noseGeo = new THREE.ConeGeometry(width / 2, 24, 16);
       const noseMat = new THREE.MeshStandardMaterial({
         color: accentHex,
         roughness: 0.2,
       });
       const nose = new THREE.Mesh(noseGeo, noseMat);
-      nose.rotation.x = Math.PI / 2; // Point cone apex forward along +Z
-      nose.position.set(0, height / 2 + 1.2, length / 2 + 5);
+      nose.rotation.x = Math.PI / 2;
+      nose.position.set(0, height / 2 + 4.5, length / 2 + 12);
       group.add(nose);
 
       // Cockpit Windshield (Facing forward along +Z)
-      const glassGeo = new THREE.BoxGeometry(width - 1, 2.4, 4);
+      const glassGeo = new THREE.BoxGeometry(width - 2.5, 5.5, 8);
       const glassMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.1 });
       const glass = new THREE.Mesh(glassGeo, glassMat);
-      glass.position.set(0, height - 0.4, length / 2 + 2);
+      glass.position.set(0, height + 2.0, length / 2 + 5.5);
       group.add(glass);
 
       // Volumetric Headlight Projection Beam (Expanding forward along +Z)
-      const beamGeo = new THREE.ConeGeometry(14, 75, 16, 1, true);
+      const beamGeo = new THREE.ConeGeometry(32, 150, 16, 1, true);
       const beamMat = new THREE.MeshBasicMaterial({
         color: 0xfef08a,
         transparent: true,
@@ -762,34 +768,34 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       });
       const beam = new THREE.Mesh(beamGeo, beamMat);
       beam.rotation.x = -Math.PI / 2;
-      beam.position.set(0, 4, length / 2 + 37.5);
+      beam.position.set(0, 9.0, length / 2 + 75);
       group.add(beam);
 
       // Articulated Pantograph on Roof
-      const pantoGeo = new THREE.BoxGeometry(4, 0.5, 8);
+      const pantoGeo = new THREE.BoxGeometry(11, 1.4, 18);
       const pantoMat = new THREE.MeshStandardMaterial({ color: accentHex });
       const panto = new THREE.Mesh(pantoGeo, pantoMat);
-      panto.position.set(0, height + 2.5, -length / 4);
+      panto.position.set(0, height + 7.5, -length / 4);
       group.add(panto);
     } else {
       // Passenger Windows (Spaced along Z on left & right sides)
-      for (let wz = -length / 2 + 6; wz <= length / 2 - 6; wz += 7) {
-        const winGeo = new THREE.BoxGeometry(width + 0.25, 2.2, 4.5);
+      for (let wz = -length / 2 + 12; wz <= length / 2 - 12; wz += 14) {
+        const winGeo = new THREE.BoxGeometry(width + 0.5, 5.0, 9.5);
         const winMat = new THREE.MeshBasicMaterial({ color: 0xfef08a });
         const win = new THREE.Mesh(winGeo, winMat);
-        win.position.set(0, height / 2 + 1.8, wz);
+        win.position.set(0, height / 2 + 6.0, wz);
         group.add(win);
       }
     }
 
-    // Bogie Wheelsets (Axles along X, spaced along Z)
-    const wheelGeo = new THREE.CylinderGeometry(1.6, 1.6, 1.2, 12);
-    const wheelMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.8 });
+    // Heavy Bogie Wheelsets (Axles along X, resting right on the 11.0 rail heads)
+    const wheelGeo = new THREE.CylinderGeometry(4.5, 4.5, 2.8, 16);
+    const wheelMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.85 });
     [-length / 2.8, length / 2.8].forEach((wz) => {
-      [-width / 2.2, width / 2.2].forEach((wx) => {
+      [-width / 2.05, width / 2.05].forEach((wx) => {
         const wheel = new THREE.Mesh(wheelGeo, wheelMat);
         wheel.rotation.z = Math.PI / 2;
-        wheel.position.set(wx, 1.6, wz);
+        wheel.position.set(wx, 5.5, wz);
         group.add(wheel);
       });
     });
@@ -979,7 +985,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     const pos = train.curve.getPointAt(t);
 
     controls.target.set(pos.x, 0, pos.z);
-    camera.position.set(pos.x + 280, 260, pos.z + 280);
+    camera.position.set(pos.x + 320, 320, pos.z + 320);
     camera.zoom = 1.35;
     camera.updateProjectionMatrix();
     controls.update();
@@ -997,9 +1003,9 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     scene.background = new THREE.Color('#0a0e17');
     sceneRef.current = scene;
 
-    // 2. Camera: High-Precision Orthographic Camera
+    // 2. Camera: High-Precision Orthographic Camera (Default Zoomed-In to Yard)
     const aspect = container.clientWidth / container.clientHeight;
-    const viewSize = 750;
+    const viewSize = 820; // Framed to capture the 2x bold tracks & grand station
     const camera = new THREE.OrthographicCamera(
       (-viewSize * aspect) / 2,
       (viewSize * aspect) / 2,
@@ -1008,8 +1014,10 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       1,
       6000
     );
-    camera.position.set(450, 420, 450);
-    camera.lookAt(0, 0, 0);
+    // Framed directly onto the central station yard and platforms
+    camera.position.set(400, 440, 400);
+    camera.lookAt(0, 0, -25);
+    camera.zoom = 1.25; // Default zoomed-in: bold 2x tracks, trains, and 3D station immediately visible!
     cameraRef.current = camera;
 
     // 3. Renderer
@@ -1021,22 +1029,22 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // 4. MapControls (Smooth Ground-Plane Panning across 5x Corridor)
+    // 4. MapControls (Smooth Ground-Plane Panning across Corridor)
     const controls = new MapControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
     controls.enablePan = true;
     controls.screenSpacePanning = false;
     controls.maxPolarAngle = Math.PI / 2 - 0.08;
-    controls.minZoom = 0.6; // Mathematically constrained
-    controls.maxZoom = 2.4;
-    controls.target.set(0, 0, 0);
+    controls.minZoom = 0.35; // Allows zooming out to see full corridor
+    controls.maxZoom = 3.5;  // Allows zooming in close to train details
+    controls.target.set(0, 0, -25);
     controlsRef.current = controls;
 
-    // Camera Pan Bounding Box Clamping (Hard physical boundary wall)
+    // Camera Pan Bounding Box Clamping (Matching new 2x footprint)
     const yardBounds = new THREE.Box3(
-      new THREE.Vector3(-2200, -20, -100),
-      new THREE.Vector3(2200, 50, 100)
+      new THREE.Vector3(-2300, -20, -320),
+      new THREE.Vector3(2300, 80, 240)
     );
 
     const restrictPan = () => {
@@ -1057,74 +1065,98 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     controls.addEventListener('change', restrictPan);
 
     // 5. Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
     scene.add(ambientLight);
 
-    const dirLight = new THREE.DirectionalLight(0xe0f2fe, 1.5);
-    dirLight.position.set(400, 600, 300);
+    const dirLight = new THREE.DirectionalLight(0xe0f2fe, 1.6);
+    dirLight.position.set(400, 750, 300);
     dirLight.castShadow = true;
     dirLight.shadow.mapSize.width = 2048;
     dirLight.shadow.mapSize.height = 2048;
     scene.add(dirLight);
 
-    const cyanRim = new THREE.DirectionalLight(0x00f0ff, 0.4);
-    cyanRim.position.set(-400, 200, -300);
+    const cyanRim = new THREE.DirectionalLight(0x00f0ff, 0.45);
+    cyanRim.position.set(-400, 250, -350);
     scene.add(cyanRim);
 
-    // 6. Vast Ground Plane & Yard Grid
-    const groundGeo = new THREE.PlaneGeometry(5500, 600);
-    const groundMat = new THREE.MeshStandardMaterial({ color: 0x0b1120, roughness: 0.95 });
+    // Warm station concourse accent light
+    const stationLight = new THREE.PointLight(0xfef08a, 1.4, 450);
+    stationLight.position.set(0, 40, -170);
+    scene.add(stationLight);
+
+    // 6. Yard Ground Plane & Grid
+    const groundGeo = new THREE.PlaneGeometry(5500, 1100);
+    const groundMat = new THREE.MeshStandardMaterial({ color: 0x090d16, roughness: 0.95 });
     const ground = new THREE.Mesh(groundGeo, groundMat);
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -0.1;
     ground.receiveShadow = true;
     scene.add(ground);
 
-    const grid = new THREE.GridHelper(5200, 104, 0x1e293b, 0x111c30);
+    const grid = new THREE.GridHelper(5200, 104, 0x1e293b, 0x0f172a);
     grid.position.y = 0.05;
     scene.add(grid);
 
-    // 7. BUILD 5 TRACKS × 5 CORRIDOR SEGMENTS MESHES
+    // 7. BUILD 5 TRACKS × 5 CORRIDOR SEGMENTS MESHES (HEAVY 2x MASSIVE 3D PROFILE, LENGTH UNTOUCHED)
     const segmentMap = new Map<string, { ballast: THREE.Mesh; rails: THREE.LineSegments }>();
     const ballastMatDefault = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.85 });
     const railsMatDefault = new THREE.LineBasicMaterial({ color: 0x94a3b8, linewidth: 2 });
+    const solidRailMat = new THREE.MeshStandardMaterial({ color: 0xc8d6e5, metalness: 0.96, roughness: 0.15 });
 
     TRACKS.forEach((track) => {
       CORRIDOR_SEGMENTS.forEach((zone) => {
         const segKey = `${track.id}_${zone.id}`;
-        const segLength = zone.endX - zone.startX;
+        const segLength = zone.endX - zone.startX; // Length untouched!
 
-        // Ballast Bed Box
-        const ballastGeo = new THREE.BoxGeometry(segLength, 1.2, 12);
+        // Sub-ballast shoulder bed (wide, heavy railway embankment foundation)
+        const subBallastGeo = new THREE.BoxGeometry(segLength, 3.2, 54);
+        const subBallastMat = new THREE.MeshStandardMaterial({ color: 0x131d2e, roughness: 0.95 });
+        const subBallast = new THREE.Mesh(subBallastGeo, subBallastMat);
+        subBallast.position.set(zone.centerX, 1.6, track.z);
+        subBallast.receiveShadow = true;
+        scene.add(subBallast);
+
+        // Raised Primary Ballast Bed Box (Deep 7.5-height, 46-width crushed granite bed)
+        const ballastGeo = new THREE.BoxGeometry(segLength, 7.5, 46);
         const ballastMesh = new THREE.Mesh(ballastGeo, ballastMatDefault.clone());
-        ballastMesh.position.set(zone.centerX, 0.6, track.z);
+        ballastMesh.position.set(zone.centerX, 4.8, track.z);
         ballastMesh.receiveShadow = true;
         scene.add(ballastMesh);
 
-        // Sleepers
-        const sleeperSpacing = 8;
+        // Concrete / Timber Sleepers (Chunky 38-unit width, 8.5 length, 3.5 height)
+        const sleeperSpacing = 16;
         const sleeperCount = Math.floor(segLength / sleeperSpacing);
-        const sleeperGeo = new THREE.BoxGeometry(2.4, 0.6, 10);
-        const sleeperMat = new THREE.MeshStandardMaterial({ color: 0x334155 });
+        const sleeperGeo = new THREE.BoxGeometry(8.5, 3.5, 38);
+        const sleeperMat = new THREE.MeshStandardMaterial({ color: 0x475569, roughness: 0.75 });
         const instancedSleepers = new THREE.InstancedMesh(sleeperGeo, sleeperMat, sleeperCount);
         const dummy = new THREE.Object3D();
 
         for (let i = 0; i < sleeperCount; i++) {
           const sx = zone.startX + (i + 0.5) * sleeperSpacing;
-          dummy.position.set(sx, 1.25, track.z);
+          dummy.position.set(sx, 7.5, track.z);
           dummy.updateMatrix();
           instancedSleepers.setMatrixAt(i, dummy.matrix);
         }
         instancedSleepers.instanceMatrix.needsUpdate = true;
         scene.add(instancedSleepers);
 
-        // Dual Steel Rails Line Segments
-        const railHalf = 3.2;
+        // Heavy Broad-Gauge 3D Steel Rails (Massive 4.8h x 3.8w Solid Steel Bars)
+        const railHalf = 11.0;
+        const leftRailGeo = new THREE.BoxGeometry(segLength, 4.8, 3.8);
+        const rightRailGeo = new THREE.BoxGeometry(segLength, 4.8, 3.8);
+        const leftRail = new THREE.Mesh(leftRailGeo, solidRailMat);
+        leftRail.position.set(zone.centerX, 10.5, track.z - railHalf);
+        scene.add(leftRail);
+        const rightRail = new THREE.Mesh(rightRailGeo, solidRailMat);
+        rightRail.position.set(zone.centerX, 10.5, track.z + railHalf);
+        scene.add(rightRail);
+
+        // Dual Steel Rails Head Highlight Lines (Bright Specular Top Lines)
         const railPoints: THREE.Vector3[] = [
-          new THREE.Vector3(zone.startX, 1.7, track.z - railHalf),
-          new THREE.Vector3(zone.endX, 1.7, track.z - railHalf),
-          new THREE.Vector3(zone.startX, 1.7, track.z + railHalf),
-          new THREE.Vector3(zone.endX, 1.7, track.z + railHalf),
+          new THREE.Vector3(zone.startX, 13.0, track.z - railHalf),
+          new THREE.Vector3(zone.endX, 13.0, track.z - railHalf),
+          new THREE.Vector3(zone.startX, 13.0, track.z + railHalf),
+          new THREE.Vector3(zone.endX, 13.0, track.z + railHalf),
         ];
         const railsGeo = new THREE.BufferGeometry().setFromPoints(railPoints);
         const railsLine = new THREE.LineSegments(railsGeo, railsMatDefault.clone());
@@ -1135,78 +1167,778 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     });
     segmentMeshesRef.current = segmentMap;
 
-    // 8. BUILD UNIVERSAL DOUBLE SCISSORS CROSSOVER 3D MESHES
-    const crossoverMat = new THREE.LineBasicMaterial({ color: 0x38bdf8, linewidth: 2 });
+    // 8. BUILD UNIVERSAL DOUBLE SCISSORS CROSSOVER 3D MESHES (X MILESTONES UNTOUCHED)
+    const crossoverMat = new THREE.LineBasicMaterial({ color: 0x38bdf8, linewidth: 3 });
     const switchBallastMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.85 });
 
     ALL_CROSSOVER_LINKS.forEach((link) => {
       const z1 = TRACKS.find((t) => t.id === link.t1)!.z;
       const z2 = TRACKS.find((t) => t.id === link.t2)!.z;
 
-      // Smooth Bezier Curve Rails
+      // Smooth Bezier Curve Rails (Elevated to match 10.5 rail height)
       const curve = new THREE.CubicBezierCurve3(
-        new THREE.Vector3(link.x1, 1.7, z1),
-        new THREE.Vector3(link.x1 + (link.x2 - link.x1) * 0.35, 1.7, z1),
-        new THREE.Vector3(link.x2 - (link.x2 - link.x1) * 0.35, 1.7, z2),
-        new THREE.Vector3(link.x2, 1.7, z2)
+        new THREE.Vector3(link.x1, 10.5, z1),
+        new THREE.Vector3(link.x1 + (link.x2 - link.x1) * 0.35, 10.5, z1),
+        new THREE.Vector3(link.x2 - (link.x2 - link.x1) * 0.35, 10.5, z2),
+        new THREE.Vector3(link.x2, 10.5, z2)
       );
-      const pts = curve.getPoints(24);
+      const pts = curve.getPoints(32);
       const curveGeo = new THREE.BufferGeometry().setFromPoints(pts);
       const curveLine = new THREE.Line(curveGeo, crossoverMat);
       scene.add(curveLine);
 
-      // Angled Switch Ballast Bed
+      // Angled Switch Ballast Bed (44-unit width for massive turnout support)
       const midX = (link.x1 + link.x2) / 2;
       const midZ = (z1 + z2) / 2;
       const len = Math.hypot(link.x2 - link.x1, z2 - z1);
       const angle = Math.atan2(z2 - z1, link.x2 - link.x1);
-      const xBallastGeo = new THREE.BoxGeometry(len, 1.1, 9);
+      const xBallastGeo = new THREE.BoxGeometry(len, 6.5, 44);
       const xBallast = new THREE.Mesh(xBallastGeo, switchBallastMat);
-      xBallast.position.set(midX, 0.55, midZ);
+      xBallast.position.set(midX, 4.2, midZ);
       xBallast.rotation.y = -angle;
       scene.add(xBallast);
     });
 
-    // 9. STATION PLATFORMS (Platform 1 at z = -52, Platform 2 at z = 30)
-    const platMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.6 });
-    [
-      { name: 'BHOPAL JN - PLATFORM 1', z: -52, width: 14, length: 700 },
-      { name: 'BHOPAL JN - PLATFORM 2', z: 30, width: 14, length: 700 },
-    ].forEach((p) => {
-      const pGeo = new THREE.BoxGeometry(p.length, 3.5, p.width);
-      const pMesh = new THREE.Mesh(pGeo, platMat);
-      pMesh.position.set(0, 1.75, p.z);
-      scene.add(pMesh);
+    // -------------------------------------------------------------
+    // 9. PRO-GRADE ARCHITECTURAL 3D STATION COMPLEX (BHOPAL JUNCTION) - 10X ENHANCED
+    // -------------------------------------------------------------
+    const stationGroup = new THREE.Group();
 
-      const edgeGeo = new THREE.BoxGeometry(p.length, 0.4, 0.8);
-      const edgeMat = new THREE.MeshBasicMaterial({ color: 0xeab308 });
-      const edgeMesh = new THREE.Mesh(edgeGeo, edgeMat);
-      edgeMesh.position.set(0, 3.6, p.z + (p.z < 0 ? 6.5 : -6.5));
-      scene.add(edgeMesh);
+    // Comprehensive Pro Architectural Material Palette
+    const brickRedMat = new THREE.MeshStandardMaterial({ color: 0x8b1818, roughness: 0.72 }); // Heritage Agra Red Sandstone
+    const creamTrimMat = new THREE.MeshStandardMaterial({ color: 0xfbf7ee, roughness: 0.42 }); // Dholpur Ivory / Makrana Sandstone
+    const darkStoneMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.65 }); // Architrave Stone
+    const plinthMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.92 }); // Foundation Ashlar Granite
+    const roofSlateMat = new THREE.MeshStandardMaterial({ color: 0x181e29, roughness: 0.5 }); // Charcoal Weathered Slate
+    const copperDomeMat = new THREE.MeshStandardMaterial({ color: 0x0d9488, roughness: 0.35, metalness: 0.45 }); // Verdigris Patina Copper
+    const goldFinialMat = new THREE.MeshStandardMaterial({ color: 0xf59e0b, roughness: 0.18, metalness: 0.9 }); // Polished Gilt Brass / Kalasa
+    const glassLitMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.1, metalness: 0.75 }); // Reflective Window Glass
+    const glassFobMat = new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.1, metalness: 0.2, transparent: true, opacity: 0.45 }); // Tempered Safety Glass
+    const windowGlowMat = new THREE.MeshBasicMaterial({ color: 0xfef08a }); // Incandescent Interior Glow
+    const canopyRoofMat = new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.35, metalness: 0.2 }); // IR Cobalt Blue
+    const canopySkylightMat = new THREE.MeshStandardMaterial({ color: 0xbae6fd, transparent: true, opacity: 0.6, roughness: 0.2 }); // Skylight Glazing
+    const canopyFasciaMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.35 }); // Powder-Coated Fascia
+    const steelTrussMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.8, roughness: 0.25 }); // Galvanized Structural Steel
+    const platDeckMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.82 }); // Textured Paver Platform Deck
+    const copingMat = new THREE.MeshStandardMaterial({ color: 0x64748b, roughness: 0.6 }); // Platform Edge Coping Stone
+    const safetyStripeMat = new THREE.MeshBasicMaterial({ color: 0xfacc15 }); // High-Vis Yellow Tactile Stripe
+    const blackStripeMat = new THREE.MeshBasicMaterial({ color: 0x0f172a }); // Hazard Contrast Black Stripe
+    const plazaPavingMat = new THREE.MeshStandardMaterial({ color: 0x1e2430, roughness: 0.78 }); // Granite Plaza Paving
+    const roadAsphaltMat = new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 0.92 }); // Drop-off Asphalt Road
+    const curbMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, roughness: 0.6 }); // Concrete Curbing
+    const greenLawnMat = new THREE.MeshStandardMaterial({ color: 0x15803d, roughness: 0.85 }); // Manicured Station Lawn
+    const foliageMat = new THREE.MeshStandardMaterial({ color: 0x166534, roughness: 0.8 }); // Palm Fronds Foliage
+    const palmTrunkMat = new THREE.MeshStandardMaterial({ color: 0x78350f, roughness: 0.9 }); // Textured Palm Trunk
+    const fountainWaterMat = new THREE.MeshStandardMaterial({ color: 0x06b6d4, roughness: 0.15, metalness: 0.3 }); // Shimmering Basin Water
+    const woodBenchMat = new THREE.MeshStandardMaterial({ color: 0xb45309, roughness: 0.55 }); // Teak Slat Benches
+    const ironBenchMat = new THREE.MeshStandardMaterial({ color: 0x064e3b, metalness: 0.6 }); // Victorian British Green Cast Iron
+    const irctcRedMat = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.4 }); // IRCTC Canopy Red
+    const stainlessMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.92, roughness: 0.15 }); // Brushed Stainless Steel
 
-      const sign = createLabelSprite(p.name, 'rgba(15, 23, 42, 0.85)', '#facc15');
-      sign.position.set(0, 20, p.z);
-      scene.add(sign);
+    // =============================================================
+    // A. CITY-SIDE GRAND FORECOURT PLAZA & GARDENS (Z: -225 to -315)
+    // =============================================================
+    const plazaGroup = new THREE.Group();
+
+    // 1. Vast Patterned Granite Plaza Esplanade
+    const esplanadeGeo = new THREE.BoxGeometry(540, 1.2, 100);
+    const esplanade = new THREE.Mesh(esplanadeGeo, plazaPavingMat);
+    esplanade.position.set(0, 0.6, -270);
+    esplanade.receiveShadow = true;
+    plazaGroup.add(esplanade);
+
+    // Decorative Accent Paving Banding
+    [-180, -90, 0, 90, 180].forEach((px) => {
+      const bandGeo = new THREE.BoxGeometry(3.5, 1.3, 98);
+      const band = new THREE.Mesh(bandGeo, creamTrimMat);
+      band.position.set(px, 0.65, -270);
+      plazaGroup.add(band);
     });
 
-    // 10. OVERHEAD OHE TRACTION GANTRIES ACROSS 5 TRACKS
+    // 2. Drop-off Vehicular Driveway (Asphalt Horseshoe Loop)
+    const roadGeo = new THREE.BoxGeometry(520, 1.0, 32);
+    const road = new THREE.Mesh(roadGeo, roadAsphaltMat);
+    road.position.set(0, 0.7, -305);
+    road.receiveShadow = true;
+    plazaGroup.add(road);
+
+    // Concrete Curbs & White Lane Marking
+    [-321, -289].forEach((cz) => {
+      const curbGeo = new THREE.BoxGeometry(520, 1.6, 1.2);
+      const curb = new THREE.Mesh(curbGeo, curbMat);
+      curb.position.set(0, 1.1, cz);
+      plazaGroup.add(curb);
+    });
+
+    // Dashed White Road Centerline
+    for (let rx = -240; rx <= 240; rx += 30) {
+      const dashGeo = new THREE.BoxGeometry(14, 1.1, 0.8);
+      const dash = new THREE.Mesh(dashGeo, canopyFasciaMat);
+      dash.position.set(rx, 0.76, -305);
+      plazaGroup.add(dash);
+    }
+
+    // Pedestrian Zebra Crossings
+    [-120, 0, 120].forEach((zx) => {
+      for (let zi = -12; zi <= 12; zi += 4) {
+        const stripeGeo = new THREE.BoxGeometry(16, 1.1, 2.2);
+        const stripe = new THREE.Mesh(stripeGeo, canopyFasciaMat);
+        stripe.position.set(zx, 0.77, -305 + zi);
+        plazaGroup.add(stripe);
+      }
+    });
+
+    // 3. Central Tiered Monumental Fountain (X = 0, Z = -265)
+    const fountainBasinGeo = new THREE.CylinderGeometry(18, 20, 2.4, 24);
+    const fountainBasin = new THREE.Mesh(fountainBasinGeo, creamTrimMat);
+    fountainBasin.position.set(0, 1.8, -265);
+    plazaGroup.add(fountainBasin);
+
+    const waterGeo = new THREE.CylinderGeometry(16.5, 16.5, 1.8, 24);
+    const water = new THREE.Mesh(waterGeo, fountainWaterMat);
+    water.position.set(0, 2.2, -265);
+    plazaGroup.add(water);
+
+    const fountainTierGeo = new THREE.CylinderGeometry(8, 10, 3.5, 16);
+    const fountainTier = new THREE.Mesh(fountainTierGeo, creamTrimMat);
+    fountainTier.position.set(0, 3.8, -265);
+    plazaGroup.add(fountainTier);
+
+    const fountainWaterTierGeo = new THREE.CylinderGeometry(7.2, 7.2, 2.6, 16);
+    const fountainWaterTier = new THREE.Mesh(fountainWaterTierGeo, fountainWaterMat);
+    fountainWaterTier.position.set(0, 4.4, -265);
+    plazaGroup.add(fountainWaterTier);
+
+    const fountainSpireGeo = new THREE.CylinderGeometry(0.8, 1.4, 5, 12);
+    const fountainSpire = new THREE.Mesh(fountainSpireGeo, goldFinialMat);
+    fountainSpire.position.set(0, 7.2, -265);
+    plazaGroup.add(fountainSpire);
+
+    // 4. Symmetrical Landscaped Garden Parterres with Palm Trees
+    [-110, 110].forEach((gx) => {
+      // Raised Stone Planter Curb
+      const planterCurbGeo = new THREE.BoxGeometry(90, 2.0, 34);
+      const planterCurb = new THREE.Mesh(planterCurbGeo, creamTrimMat);
+      planterCurb.position.set(gx, 1.4, -265);
+      plazaGroup.add(planterCurb);
+
+      // Lush Lawn Turf
+      const lawnGeo = new THREE.BoxGeometry(86, 2.2, 30);
+      const lawn = new THREE.Mesh(lawnGeo, greenLawnMat);
+      lawn.position.set(gx, 1.5, -265);
+      plazaGroup.add(lawn);
+
+      // Symmetrical 3D Date Palm Trees
+      [-30, 0, 30].forEach((px) => {
+        // Palm Trunk
+        const trunkGeo = new THREE.CylinderGeometry(1.2, 1.8, 18, 8);
+        const trunk = new THREE.Mesh(trunkGeo, palmTrunkMat);
+        trunk.position.set(gx + px, 10.5, -265);
+        trunk.castShadow = true;
+        plazaGroup.add(trunk);
+
+        // Palm Crown Fronds (Radiating Cluster)
+        for (let a = 0; a < 8; a++) {
+          const angle = (a * Math.PI) / 4;
+          const frondGeo = new THREE.BoxGeometry(2.4, 0.4, 10);
+          const frond = new THREE.Mesh(frondGeo, foliageMat);
+          frond.position.set(gx + px + Math.sin(angle) * 4.5, 20.5, -265 + Math.cos(angle) * 4.5);
+          frond.rotation.y = angle;
+          frond.rotation.x = 0.35;
+          plazaGroup.add(frond);
+        }
+
+        const crownCoreGeo = new THREE.SphereGeometry(3.2, 8, 8);
+        const crownCore = new THREE.Mesh(crownCoreGeo, foliageMat);
+        crownCore.position.set(gx + px, 21.5, -265);
+        plazaGroup.add(crownCore);
+      });
+    });
+
+    // 5. Victorian 3-Globe Heritage Cast-Iron Lampposts
+    [-210, -150, -60, 60, 150, 210].forEach((lx) => {
+      [-245, -288].forEach((lz) => {
+        // Lamp Post Mast
+        const mastGeo = new THREE.CylinderGeometry(0.5, 0.8, 18, 8);
+        const mast = new THREE.Mesh(mastGeo, ironBenchMat);
+        mast.position.set(lx, 10, lz);
+        plazaGroup.add(mast);
+
+        // Pedestal Base
+        const pedGeo = new THREE.BoxGeometry(2.5, 2.5, 2.5);
+        const ped = new THREE.Mesh(pedGeo, plinthMat);
+        ped.position.set(lx, 2, lz);
+        plazaGroup.add(ped);
+
+        // Center Lantern
+        const centerGlobeGeo = new THREE.SphereGeometry(1.2, 12, 12);
+        const centerGlobe = new THREE.Mesh(centerGlobeGeo, windowGlowMat);
+        centerGlobe.position.set(lx, 20, lz);
+        plazaGroup.add(centerGlobe);
+
+        // Twin Side Arms & Globes
+        [-2.2, 2.2].forEach((armOffset) => {
+          const armGeo = new THREE.BoxGeometry(Math.abs(armOffset) * 2, 0.3, 0.3);
+          const arm = new THREE.Mesh(armGeo, ironBenchMat);
+          arm.position.set(lx + armOffset / 2, 18.5, lz);
+          plazaGroup.add(arm);
+
+          const sideGlobeGeo = new THREE.SphereGeometry(0.9, 8, 8);
+          const sideGlobe = new THREE.Mesh(sideGlobeGeo, windowGlowMat);
+          sideGlobe.position.set(lx + armOffset, 19, lz);
+          plazaGroup.add(sideGlobe);
+        });
+      });
+    });
+
+    stationGroup.add(plazaGroup);
+
+    // =============================================================
+    // B. PASSENGER PLATFORMS (PF 1 @ Z = -155, PF 2 @ Z = +155) - STREAMLINED DECK
+    // =============================================================
+    [
+      { id: 1, name: 'BHOPAL JN • PLATFORM 1', z: -155, edgeZ: -135, length: 950, width: 32 },
+      { id: 2, name: 'BHOPAL JN • PLATFORM 2', z: 155, edgeZ: 135, length: 950, width: 32 },
+    ].forEach((p) => {
+      // 1. Concrete Platform Sub-Base
+      const pBaseGeo = new THREE.BoxGeometry(p.length, 10.2, p.width);
+      const pBaseMesh = new THREE.Mesh(pBaseGeo, platDeckMat);
+      pBaseMesh.position.set(0, 5.1, p.z);
+      pBaseMesh.receiveShadow = true;
+      stationGroup.add(pBaseMesh);
+
+      // 2. Sandstone Coping Edge Block along Tracks
+      const copingGeo = new THREE.BoxGeometry(p.length, 0.8, 3.2);
+      const copingMesh = new THREE.Mesh(copingGeo, copingMat);
+      copingMesh.position.set(0, 10.4, p.edgeZ);
+      stationGroup.add(copingMesh);
+
+      // 3. Tactile High-Vis Yellow Warning Edge Strip
+      const edgeGeo = new THREE.BoxGeometry(p.length, 0.6, 1.8);
+      const edgeMesh = new THREE.Mesh(edgeGeo, safetyStripeMat);
+      edgeMesh.position.set(0, 10.5, p.edgeZ);
+      stationGroup.add(edgeMesh);
+
+      // 4. Alternating Black Contrast Warning Strip
+      const blackEdgeGeo = new THREE.BoxGeometry(p.length, 0.6, 0.6);
+      const blackEdgeMesh = new THREE.Mesh(blackEdgeGeo, blackStripeMat);
+      blackEdgeMesh.position.set(0, 10.51, p.edgeZ + (p.id === 1 ? -1.0 : 1.0));
+      stationGroup.add(blackEdgeMesh);
+
+      // 5. Barrel-Vaulted Canopies with Center Skylight Spine (700 units long)
+      const canopyLength = 700;
+      const canopyWidth = 28;
+
+      // Outer Cobalt Blue Roof Vault Segments
+      [-canopyWidth / 4, canopyWidth / 4].forEach((sideOffset) => {
+        const sideGableGeo = new THREE.CylinderGeometry(14, 14, canopyLength, 16, 1, false, 0, Math.PI / 2);
+        const sideGable = new THREE.Mesh(sideGableGeo, canopyRoofMat);
+        sideGable.rotation.z = Math.PI / 2;
+        sideGable.rotation.x = sideOffset < 0 ? 0 : Math.PI;
+        sideGable.position.set(0, 36.5, p.z + sideOffset);
+        sideGable.castShadow = true;
+        stationGroup.add(sideGable);
+      });
+
+      // Translucent Center Skylight Ridge Spine
+      const skylightRidgeGeo = new THREE.BoxGeometry(canopyLength, 0.8, 8);
+      const skylightRidge = new THREE.Mesh(skylightRidgeGeo, canopySkylightMat);
+      skylightRidge.position.set(0, 37.8, p.z);
+      stationGroup.add(skylightRidge);
+
+      // Canopy White Fascia Edge Trims
+      [-canopyWidth / 2, canopyWidth / 2].forEach((fz) => {
+        const fasciaGeo = new THREE.BoxGeometry(canopyLength, 1.2, 0.6);
+        const fascia = new THREE.Mesh(fasciaGeo, canopyFasciaMat);
+        fascia.position.set(0, 35.5, p.z + fz);
+        stationGroup.add(fascia);
+      });
+
+      // Structural Steel Lattice Truss Frames every 45 units
+      for (let px = -canopyLength / 2 + 35; px <= canopyLength / 2 - 35; px += 45) {
+        // Vertical Stanchion Post
+        const pillarGeo = new THREE.CylinderGeometry(0.9, 1.1, 26, 8);
+        const pillar = new THREE.Mesh(pillarGeo, steelTrussMat);
+        pillar.position.set(px, 23, p.z);
+        pillar.castShadow = true;
+        stationGroup.add(pillar);
+
+        // Heavy Base Flange Collar
+        const baseCollarGeo = new THREE.CylinderGeometry(1.6, 1.8, 1.5, 8);
+        const baseCollar = new THREE.Mesh(baseCollarGeo, plinthMat);
+        baseCollar.position.set(px, 11, p.z);
+        stationGroup.add(baseCollar);
+
+        // Cantilever Warren Truss Crossbeam supporting roof
+        const trussBeamGeo = new THREE.BoxGeometry(1.2, 2.0, canopyWidth);
+        const trussBeam = new THREE.Mesh(trussBeamGeo, steelTrussMat);
+        trussBeam.position.set(px, 35, p.z);
+        stationGroup.add(trussBeam);
+
+        // Diagonal Cantilever Knee-Braces
+        [-canopyWidth / 3, canopyWidth / 3].forEach((bz) => {
+          const braceGeo = new THREE.BoxGeometry(0.8, 10, 0.8);
+          const brace = new THREE.Mesh(braceGeo, steelTrussMat);
+          brace.rotation.x = bz < 0 ? -Math.PI / 5 : Math.PI / 5;
+          brace.position.set(px, 31, p.z + bz / 2);
+          stationGroup.add(brace);
+        });
+
+        // Pendant Downward LED Canopy Light
+        const lampFixtureGeo = new THREE.ConeGeometry(1.6, 1.2, 8);
+        const lampFixture = new THREE.Mesh(lampFixtureGeo, steelTrussMat);
+        lampFixture.position.set(px, 34, p.z);
+        stationGroup.add(lampFixture);
+
+        const bulbGeo = new THREE.SphereGeometry(1.0, 8, 8);
+        const bulb = new THREE.Mesh(bulbGeo, windowGlowMat);
+        bulb.position.set(px, 33.2, p.z);
+        stationGroup.add(bulb);
+      }
+    });
+
+    // =============================================================
+    // C. MONUMENTAL TERMINAL CONCOURSE BUILDING (HERITAGE AGRA RED SANDSTONE)
+    // =============================================================
+    const bldgGroup = new THREE.Group();
+
+    // 1. Heavy Granite Ashlar Plinth (Foundation Base)
+    const plinthGeo = new THREE.BoxGeometry(500, 6, 92);
+    const plinth = new THREE.Mesh(plinthGeo, plinthMat);
+    plinth.position.set(0, 3, -225);
+    plinth.receiveShadow = true;
+    bldgGroup.add(plinth);
+
+    // 2. Central Monumental Grand Concourse Block (X: -130 to +130)
+    const centralBlockGeo = new THREE.BoxGeometry(264, 44, 82);
+    const centralBlock = new THREE.Mesh(centralBlockGeo, brickRedMat);
+    centralBlock.position.set(0, 25, -225);
+    centralBlock.castShadow = true;
+    centralBlock.receiveShadow = true;
+    bldgGroup.add(centralBlock);
+
+    // Horizontal Ivory Sandstone Stringcourses
+    [16, 34, 46].forEach((hy) => {
+      const beltGeo = new THREE.BoxGeometry(268, 1.8, 84);
+      const belt = new THREE.Mesh(beltGeo, creamTrimMat);
+      belt.position.set(0, hy, -225);
+      bldgGroup.add(belt);
+    });
+
+    // 3. Authentic Heritage Jharokhas (Overhanging Balconies with Chhatri Canopies)
+    [-85, 85].forEach((jx) => {
+      // Corbel Base Bracket
+      const corbelGeo = new THREE.BoxGeometry(14, 4, 8);
+      const corbel = new THREE.Mesh(corbelGeo, creamTrimMat);
+      corbel.position.set(jx, 26, -181);
+      bldgGroup.add(corbel);
+
+      // Jharokha Balcony Enclosure with Carved Pierced Screens
+      const jBalconyGeo = new THREE.BoxGeometry(12, 10, 6);
+      const jBalcony = new THREE.Mesh(jBalconyGeo, creamTrimMat);
+      jBalcony.position.set(jx, 32, -181);
+      bldgGroup.add(jBalcony);
+
+      // Jharokha Miniature Cupola Roof
+      const jDomeGeo = new THREE.SphereGeometry(6, 12, 8, 0, Math.PI * 2, 0, Math.PI / 2);
+      const jDome = new THREE.Mesh(jDomeGeo, copperDomeMat);
+      jDome.position.set(jx, 37, -181);
+      bldgGroup.add(jDome);
+
+      const jFinialGeo = new THREE.ConeGeometry(0.8, 3, 8);
+      const jFinial = new THREE.Mesh(jFinialGeo, goldFinialMat);
+      jFinial.position.set(jx, 41, -181);
+      bldgGroup.add(jFinial);
+    });
+
+    // 4. Flanking Wings (East & West) - Stepped back for architectural depth (X: 132 to 224)
+    [-178, 178].forEach((wx) => {
+      const wingGeo = new THREE.BoxGeometry(92, 34, 72);
+      const wing = new THREE.Mesh(wingGeo, brickRedMat);
+      wing.position.set(wx, 20, -229);
+      wing.castShadow = true;
+      wing.receiveShadow = true;
+      bldgGroup.add(wing);
+
+      // Wing Roof Cornice Band
+      const wingCorniceGeo = new THREE.BoxGeometry(94, 2.0, 74);
+      const wingCornice = new THREE.Mesh(wingCorniceGeo, creamTrimMat);
+      wingCornice.position.set(wx, 38, -229);
+      bldgGroup.add(wingCornice);
+
+      // Wing Hipped Slate Roof (Strictly X: 133 to 223, top at Y = 44 - NO overlap with pavilion)
+      const wingRoofGeo = new THREE.BoxGeometry(90, 5, 68);
+      const wingRoof = new THREE.Mesh(wingRoofGeo, roofSlateMat);
+      wingRoof.position.set(wx, 41.5, -229);
+      bldgGroup.add(wingRoof);
+    });
+
+    // 5. Terminal Corner Pavilions (X: 225 to 263, center px = 244) - Completely flicker-free
+    [-244, 244].forEach((px) => {
+      const pavGeo = new THREE.BoxGeometry(38, 41, 76);
+      const pav = new THREE.Mesh(pavGeo, brickRedMat);
+      pav.position.set(px, 23.5, -226);
+      pav.castShadow = true;
+      bldgGroup.add(pav);
+
+      // Pavilion Cornice Cap (Sits on top of walls at Y = 45, cleanly elevated above wing roof)
+      const pavCapGeo = new THREE.BoxGeometry(40, 2.0, 78);
+      const pavCap = new THREE.Mesh(pavCapGeo, creamTrimMat);
+      pavCap.position.set(px, 45, -226);
+      bldgGroup.add(pavCap);
+
+      // Mansard Hipped Pyramidal Roof (Radius 17, fits strictly inside 38-unit pavilion, rests cleanly at Y >= 46)
+      const mansardGeo = new THREE.ConeGeometry(17, 12, 4);
+      const mansard = new THREE.Mesh(mansardGeo, roofSlateMat);
+      mansard.rotation.y = Math.PI / 4;
+      mansard.position.set(px, 52, -226);
+      bldgGroup.add(mansard);
+
+      const urnGeo = new THREE.CylinderGeometry(0.8, 0.4, 4, 8);
+      const urn = new THREE.Mesh(urnGeo, goldFinialMat);
+      urn.position.set(px, 59, -226);
+      bldgGroup.add(urn);
+    });
+
+    // 6. Grand Central Classical Entablature & Parapet Balustrades
+    const entablatureGeo = new THREE.BoxGeometry(272, 3.5, 86);
+    const entablature = new THREE.Mesh(entablatureGeo, creamTrimMat);
+    entablature.position.set(0, 47, -225);
+    bldgGroup.add(entablature);
+
+    const centralRoofGeo = new THREE.BoxGeometry(256, 5, 76);
+    const centralRoof = new THREE.Mesh(centralRoofGeo, roofSlateMat);
+    centralRoof.position.set(0, 50.5, -225);
+    bldgGroup.add(centralRoof);
+
+    // Decorative Roof Parapet Stone Piers
+    for (let bx = -120; bx <= 120; bx += 24) {
+      const pierGeo = new THREE.BoxGeometry(2.5, 4, 2.5);
+      const pier = new THREE.Mesh(pierGeo, creamTrimMat);
+      pier.position.set(bx, 53.5, -186);
+      bldgGroup.add(pier);
+    }
+
+    // 7. Symmetrical Rooftop Heritage Chhatris (4 Corner Cupolas)
+    [-115, 115].forEach((cx) => {
+      [-245, -205].forEach((cz) => {
+        // 4 Columns per Chhatri
+        [-5, 5].forEach((px) => {
+          [-5, 5].forEach((pz) => {
+            const colGeo = new THREE.CylinderGeometry(0.6, 0.8, 12, 8);
+            const col = new THREE.Mesh(colGeo, creamTrimMat);
+            col.position.set(cx + px, 56, cz + pz);
+            bldgGroup.add(col);
+          });
+        });
+
+        // Cupola Dome
+        const chhatriDomeGeo = new THREE.SphereGeometry(7, 16, 12, 0, Math.PI * 2, 0, Math.PI / 2);
+        const chhatriDome = new THREE.Mesh(chhatriDomeGeo, copperDomeMat);
+        chhatriDome.position.set(cx, 62, cz);
+        bldgGroup.add(chhatriDome);
+
+        // Brass Finial
+        const chhatriFinialGeo = new THREE.CylinderGeometry(0.2, 0.5, 5, 8);
+        const chhatriFinial = new THREE.Mesh(chhatriFinialGeo, goldFinialMat);
+        chhatriFinial.position.set(cx, 71, cz);
+        bldgGroup.add(chhatriFinial);
+      });
+    });
+
+    // 8. Grand Entrance Portico (Porte-Cochère) Projecting to Platform 1 & Plaza
+    const porticoGeo = new THREE.BoxGeometry(132, 36, 28);
+    const portico = new THREE.Mesh(porticoGeo, brickRedMat);
+    portico.position.set(0, 21, -170);
+    portico.castShadow = true;
+    bldgGroup.add(portico);
+
+    // Fluted Classical Portico Colonnade (6 Monumental Columns)
+    [-54, -32, -11, 11, 32, 54].forEach((colX) => {
+      const columnGeo = new THREE.CylinderGeometry(2.4, 2.8, 34, 16);
+      const column = new THREE.Mesh(columnGeo, creamTrimMat);
+      column.position.set(colX, 20, -156);
+      column.castShadow = true;
+      bldgGroup.add(column);
+
+      const capGeo = new THREE.BoxGeometry(6.5, 2.2, 6.5);
+      const cap = new THREE.Mesh(capGeo, creamTrimMat);
+      cap.position.set(colX, 37.5, -156);
+      bldgGroup.add(cap);
+    });
+
+    // Portico Classical Pediment with High-Relief Sunburst Medallion
+    const pedimentGeo = new THREE.ConeGeometry(72, 18, 4);
+    const pediment = new THREE.Mesh(pedimentGeo, creamTrimMat);
+    pediment.rotation.y = Math.PI / 4;
+    pediment.position.set(0, 48, -168);
+    bldgGroup.add(pediment);
+
+    const medallionGeo = new THREE.CylinderGeometry(5.2, 5.2, 1.4, 24);
+    const medallion = new THREE.Mesh(medallionGeo, goldFinialMat);
+    medallion.rotation.x = Math.PI / 2;
+    medallion.position.set(0, 46, -155);
+    bldgGroup.add(medallion);
+
+    // 9. Tri-Arched Monumental Entrance Portals with Warm Foyer Glow
+    [-38, 0, 38].forEach((archX) => {
+      const archPortalGeo = new THREE.BoxGeometry(22, 26, 4);
+      const archPortal = new THREE.Mesh(archPortalGeo, glassLitMat);
+      archPortal.position.set(archX, 15, -158);
+      bldgGroup.add(archPortal);
+
+      const archTrimGeo = new THREE.TorusGeometry(12, 1.6, 8, 16, Math.PI);
+      const archTrim = new THREE.Mesh(archTrimGeo, creamTrimMat);
+      archTrim.position.set(archX, 27, -157.5);
+      bldgGroup.add(archTrim);
+
+      const entryLight = new THREE.PointLight(0xfef08a, 1.4, 55);
+      entryLight.position.set(archX, 16, -165);
+      bldgGroup.add(entryLight);
+    });
+
+    // 10. Classical Arched Windows with Warm Mullion Glow
+    [-244, -205, -175, -145, -105, -80, 80, 105, 145, 175, 205, 244].forEach((wx) => {
+      // Ground Floor Windows
+      const winGeo = new THREE.BoxGeometry(12, 14, 2);
+      const win = new THREE.Mesh(winGeo, glassLitMat);
+      win.position.set(wx, 15, -192);
+      bldgGroup.add(win);
+
+      const winHeadGeo = new THREE.BoxGeometry(14, 2.0, 3.2);
+      const winHead = new THREE.Mesh(winHeadGeo, creamTrimMat);
+      winHead.position.set(wx, 22.5, -191.5);
+      bldgGroup.add(winHead);
+
+      // Upper Floor Arched Windows
+      const upWinGeo = new THREE.BoxGeometry(12, 12, 2);
+      const upWin = new THREE.Mesh(upWinGeo, glassLitMat);
+      upWin.position.set(wx, 30, -192);
+      bldgGroup.add(upWin);
+
+      const upArchGeo = new THREE.TorusGeometry(6, 1.2, 8, 16, Math.PI);
+      const upArch = new THREE.Mesh(upArchGeo, creamTrimMat);
+      upArch.position.set(wx, 36, -191.5);
+      bldgGroup.add(upArch);
+    });
+
+    // 11. MONUMENTAL CENTRAL FOUR-FACED CLOCK TOWER (Rises to Y = 100)
+    const towerBaseGeo = new THREE.BoxGeometry(48, 70, 48);
+    const towerBase = new THREE.Mesh(towerBaseGeo, brickRedMat);
+    towerBase.position.set(0, 35, -225);
+    towerBase.castShadow = true;
+    bldgGroup.add(towerBase);
+
+    // Tower Pilasters and Ashlar Quoins along edges
+    [-24, 24].forEach((tx) => {
+      [-24, 24].forEach((tz) => {
+        const pilasterGeo = new THREE.BoxGeometry(3.5, 70, 3.5);
+        const pilaster = new THREE.Mesh(pilasterGeo, creamTrimMat);
+        pilaster.position.set(tx, 35, -225 + tz);
+        bldgGroup.add(pilaster);
+      });
+    });
+
+    // Belfry Arched Stage
+    const belfryCorniceGeo = new THREE.BoxGeometry(52, 3.5, 52);
+    const belfryCornice = new THREE.Mesh(belfryCorniceGeo, creamTrimMat);
+    belfryCornice.position.set(0, 71, -225);
+    bldgGroup.add(belfryCornice);
+
+    const belfryStageGeo = new THREE.BoxGeometry(42, 18, 42);
+    const belfryStage = new THREE.Mesh(belfryStageGeo, brickRedMat);
+    belfryStage.position.set(0, 80, -225);
+    bldgGroup.add(belfryStage);
+
+    // Large Circular Illuminated Roman Clock Faces on ALL 4 SIDES!
+    [
+      { x: 0, z: -203.8, ry: 0, rx: Math.PI / 2 }, // Front (facing platform)
+      { x: 0, z: -246.2, ry: Math.PI, rx: -Math.PI / 2 }, // Back (facing city plaza)
+      { x: -21.2, z: -225, ry: -Math.PI / 2, rx: 0, rz: Math.PI / 2 }, // Left side
+      { x: 21.2, z: -225, ry: Math.PI / 2, rx: 0, rz: -Math.PI / 2 }, // Right side
+    ].forEach((cFace) => {
+      const clockGeo = new THREE.CylinderGeometry(9.2, 9.2, 1.4, 32);
+      const clockFace = new THREE.Mesh(clockGeo, new THREE.MeshBasicMaterial({ color: 0xffffff }));
+      clockFace.rotation.x = cFace.rx;
+      if (cFace.rz) clockFace.rotation.z = cFace.rz;
+      clockFace.position.set(cFace.x, 80, cFace.z);
+      bldgGroup.add(clockFace);
+
+      const clockRimGeo = new THREE.TorusGeometry(9.6, 1.2, 8, 32);
+      const clockRim = new THREE.Mesh(clockRimGeo, new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.2 }));
+      clockRim.rotation.y = cFace.ry;
+      clockRim.position.set(cFace.x, 80, cFace.z);
+      bldgGroup.add(clockRim);
+    });
+
+    // Clock Hands on front dial (Set at 10:10)
+    const hourHandGeo = new THREE.BoxGeometry(1.0, 5.2, 0.4);
+    const hourHand = new THREE.Mesh(hourHandGeo, goldFinialMat);
+    hourHand.rotation.z = Math.PI / 6;
+    hourHand.position.set(-1.2, 81.5, -202.8);
+    bldgGroup.add(hourHand);
+
+    const minHandGeo = new THREE.BoxGeometry(0.8, 7.8, 0.4);
+    const minHand = new THREE.Mesh(minHandGeo, goldFinialMat);
+    minHand.rotation.z = -Math.PI / 3;
+    minHand.position.set(2.4, 82.5, -202.8);
+    bldgGroup.add(minHand);
+
+    // Ribbed Verdigris Copper Dome atop Clock Tower
+    const towerDomeGeo = new THREE.SphereGeometry(19, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+    const towerDome = new THREE.Mesh(towerDomeGeo, copperDomeMat);
+    towerDome.position.set(0, 89, -225);
+    bldgGroup.add(towerDome);
+
+    // Tiered Brass Kalasa Finial
+    const kalasaGeo = new THREE.ConeGeometry(5.5, 14, 12);
+    const kalasa = new THREE.Mesh(kalasaGeo, goldFinialMat);
+    kalasa.position.set(0, 105, -225);
+    bldgGroup.add(kalasa);
+
+    // Tricolor Flag Mast rising to Y = 120
+    const flagMastGeo = new THREE.CylinderGeometry(0.6, 0.8, 26, 8);
+    const flagMast = new THREE.Mesh(flagMastGeo, creamTrimMat);
+    flagMast.position.set(0, 117, -225);
+    bldgGroup.add(flagMast);
+
+    // 12. Grand 3D Illuminated Billboard Signboard (Elevated above pediment apex, highly visible)
+    const stationNameSprite = createLabelSprite(
+      '🏛️ भोपाल जंक्शन • BHOPAL JUNCTION • WEST CENTRAL RAILWAY',
+      'rgba(15, 23, 42, 0.98)',
+      '#facc15',
+      128,
+      21
+    );
+    stationNameSprite.position.set(0, 61, -168);
+    bldgGroup.add(stationNameSprite);
+
+    stationGroup.add(bldgGroup);
+
+    // =============================================================
+    // D. MODERN HIGH-TECH FOOT OVERBRIDGE (FOB) WITH GLASS & ELEVATOR TOWERS
+    // Spans 310 units across all 5 tracks at Y = 52
+    // =============================================================
+    const fobGroup = new THREE.Group();
+    const fobDeckZ1 = -155;
+    const fobDeckZ2 = 155;
+    const fobWidthZ = fobDeckZ2 - fobDeckZ1; // 310 units wide span!
+    const fobCenterZ = (fobDeckZ1 + fobDeckZ2) / 2;
+    const fobY = 52; // Ample clearance above 44-unit high 25kV OHE wires
+
+    // 1. Heavy Box-Girder Floor Deck
+    const bridgeGeo = new THREE.BoxGeometry(22, 3.5, fobWidthZ);
+    const bridgeDeck = new THREE.Mesh(bridgeGeo, steelTrussMat);
+    bridgeDeck.position.set(-70, fobY, fobCenterZ);
+    bridgeDeck.castShadow = true;
+    fobGroup.add(bridgeDeck);
+
+    // 2. Open-Web Steel Lattice Trusses & Safety Glass Side Walls
+    [-11.5, 11.5].forEach((gx) => {
+      // Steel Handrail & Base Beam
+      const wallBeamGeo = new THREE.BoxGeometry(0.9, 10, fobWidthZ);
+      const wallBeam = new THREE.Mesh(wallBeamGeo, steelTrussMat);
+      wallBeam.position.set(-70 + gx, fobY + 5, fobCenterZ);
+      fobGroup.add(wallBeam);
+
+      // Tempered Glass Panels (Allow viewing trains below)
+      const glassWallGeo = new THREE.BoxGeometry(0.2, 8, fobWidthZ);
+      const glassWall = new THREE.Mesh(glassWallGeo, glassFobMat);
+      glassWall.position.set(-70 + gx * 0.95, fobY + 5.2, fobCenterZ);
+      fobGroup.add(glassWall);
+    });
+
+    // 3. Vaulted Corrugated Blue Canopy Roof with Skylight Eaves
+    const bridgeRoofGeo = new THREE.CylinderGeometry(13, 13, fobWidthZ, 16, 1, false, 0, Math.PI);
+    const bridgeRoof = new THREE.Mesh(bridgeRoofGeo, canopyRoofMat);
+    bridgeRoof.rotation.x = Math.PI / 2;
+    bridgeRoof.position.set(-70, fobY + 10, fobCenterZ);
+    bridgeRoof.castShadow = true;
+    fobGroup.add(bridgeRoof);
+
+    // Interior Walkway LED Strip Light along FOB ceiling
+    const fobWalkwayLight = new THREE.PointLight(0xe0f2fe, 1.2, 180);
+    fobWalkwayLight.position.set(-70, fobY + 8, fobCenterZ);
+    fobGroup.add(fobWalkwayLight);
+
+    // 4. Passenger Elevator (Lift) Towers & Covered Stairs to Platforms
+    [
+      { pz: fobDeckZ1, pfNum: 1 },
+      { pz: fobDeckZ2, pfNum: 2 },
+    ].forEach(({ pz, pfNum }) => {
+      // Modern Glass & Steel Elevator (Lift) Tower
+      const liftShaftGeo = new THREE.BoxGeometry(10, fobY - 8, 10);
+      const liftShaft = new THREE.Mesh(liftShaftGeo, glassFobMat);
+      liftShaft.position.set(-85, (fobY + 10.2) / 2, pz);
+      fobGroup.add(liftShaft);
+
+      // Steel Corner Columns of Lift Shaft
+      [-5, 5].forEach((lx) => {
+        [-5, 5].forEach((lz) => {
+          const liftColGeo = new THREE.BoxGeometry(1.2, fobY - 8, 1.2);
+          const liftCol = new THREE.Mesh(liftColGeo, steelTrussMat);
+          liftCol.position.set(-85 + lx, (fobY + 10.2) / 2, pz + lz);
+          fobGroup.add(liftCol);
+        });
+      });
+
+      // Support Pylons
+      [-8, 8].forEach((lx) => {
+        const pylonLegGeo = new THREE.BoxGeometry(2.5, fobY - 10.2, 2.5);
+        const pylonLeg = new THREE.Mesh(pylonLegGeo, steelTrussMat);
+        pylonLeg.position.set(-70 + lx, (fobY + 10.2) / 2, pz);
+        pylonLeg.castShadow = true;
+        fobGroup.add(pylonLeg);
+      });
+
+      // Covered Passenger Staircase Ramp descending along platform (+X direction)
+      const stairLength = 68;
+      const stairGeo = new THREE.BoxGeometry(stairLength, 2.4, 12);
+      const stair = new THREE.Mesh(stairGeo, platDeckMat);
+      const stairAngle = Math.atan2(fobY - 10.2, stairLength);
+      stair.rotation.z = -stairAngle;
+      stair.position.set(-70 + stairLength / 2, (fobY + 10.2) / 2, pz);
+      stair.castShadow = true;
+      fobGroup.add(stair);
+
+      // Stair Canopy Cover (Cobalt Blue)
+      const stairCanopyGeo = new THREE.BoxGeometry(stairLength, 1.2, 14);
+      const stairCanopy = new THREE.Mesh(stairCanopyGeo, canopyRoofMat);
+      stairCanopy.rotation.z = -stairAngle;
+      stairCanopy.position.set(-70 + stairLength / 2, (fobY + 10.2) / 2 + 8, pz);
+      fobGroup.add(stairCanopy);
+
+      // Stainless Steel Handrails along Staircase
+      [-5.5, 5.5].forEach((rz) => {
+        const railGeo = new THREE.BoxGeometry(stairLength, 0.8, 0.4);
+        const rail = new THREE.Mesh(railGeo, stainlessMat);
+        rail.rotation.z = -stairAngle;
+        rail.position.set(-70 + stairLength / 2, (fobY + 10.2) / 2 + 3.8, pz + rz);
+        fobGroup.add(rail);
+      });
+    });
+
+    stationGroup.add(fobGroup);
+    scene.add(stationGroup);
+
+    // 10. OVERHEAD OHE TRACTION GANTRIES ACROSS 5 TRACKS (LENGTH UNTOUCHED)
     const gantryPositionsX = [-2000, -1400, -800, -200, 400, 1000, 1600, 2200];
-    const wireHeight = 22;
+    const wireHeight = 44;
     gantryPositionsX.forEach((gx) => {
-      const mastGeo = new THREE.BoxGeometry(2, wireHeight + 6, 2);
+      const mastGeo = new THREE.BoxGeometry(3.5, wireHeight + 10, 3.5);
       const mastMat = new THREE.MeshStandardMaterial({ color: 0x64748b, metalness: 0.6 });
 
       const mastLeft = new THREE.Mesh(mastGeo, mastMat);
-      mastLeft.position.set(gx, (wireHeight + 6) / 2, -52);
+      mastLeft.position.set(gx, (wireHeight + 10) / 2, -142);
       scene.add(mastLeft);
 
       const mastRight = new THREE.Mesh(mastGeo, mastMat);
-      mastRight.position.set(gx, (wireHeight + 6) / 2, 52);
+      mastRight.position.set(gx, (wireHeight + 10) / 2, 142);
       scene.add(mastRight);
 
-      const beamGeo = new THREE.BoxGeometry(2.5, 2, 106);
+      const beamGeo = new THREE.BoxGeometry(4.0, 3.5, 290);
       const beam = new THREE.Mesh(beamGeo, mastMat);
-      beam.position.set(gx, wireHeight + 4, 0);
+      beam.position.set(gx, wireHeight + 6, 0);
       scene.add(beam);
     });
 
@@ -1289,7 +2021,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     if (!scene || !graph) return;
 
     const trains = activeTrainsRef.current;
-    const carOffsetDistance = 46;
+    const carOffsetDistance = 68;
 
     for (let i = trains.length - 1; i >= 0; i--) {
       const train = trains[i];
@@ -1317,7 +2049,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       }
 
       // 3. Dynamic Forward Switch Evaluation (Rerouting BEFORE the Block)
-      const lookaheadDistance = 140;
+      const lookaheadDistance = 180;
       const lookaheadT = Math.min(1, Math.max(0, (train.distanceTraveled + lookaheadDistance) / train.curveLength));
       const lookaheadPos = train.curve.getPointAt(lookaheadT);
       const lookaheadTrack = getTrackIdFromZ(lookaheadPos.z);
@@ -1376,7 +2108,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
 
       // Update Floating Status Label above Engine
       const engineMesh = train.cars[0].mesh;
-      train.labelSprite.position.set(engineMesh.position.x, engineMesh.position.y + 18, engineMesh.position.z);
+      train.labelSprite.position.set(engineMesh.position.x, engineMesh.position.y + 36, engineMesh.position.z);
 
       // 5. Continuous Loop: Train loops continuously until user explicitly deletes/removes it!
       if (t >= 1.0) {
@@ -1426,14 +2158,14 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
           (meshes.ballast.material as THREE.MeshStandardMaterial).color.setHex(0x7f1d1d);
           (meshes.rails.material as THREE.LineBasicMaterial).color.setHex(0xef4444);
 
-          const barrierGeo = new THREE.BoxGeometry(segLength, 3, 14);
+          const barrierGeo = new THREE.BoxGeometry(segLength, 6.5, 28);
           const barrierMat = new THREE.MeshBasicMaterial({
             color: 0xef4444,
             transparent: true,
             opacity: 0.45,
           });
           const barrier = new THREE.Mesh(barrierGeo, barrierMat);
-          barrier.position.set(zoneDef.centerX, 2.5, trackDef.z);
+          barrier.position.set(zoneDef.centerX, 4.5, trackDef.z);
           hazardGroup.add(barrier);
 
           const tag = createLabelSprite(
@@ -1441,7 +2173,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
             'rgba(153, 27, 27, 0.92)',
             '#ffffff'
           );
-          tag.position.set(zoneDef.centerX, 24, trackDef.z);
+          tag.position.set(zoneDef.centerX, 35, trackDef.z);
           hazardGroup.add(tag);
         } else if (block.type === 'OHE') {
           (meshes.ballast.material as THREE.MeshStandardMaterial).color.setHex(0x451a03);
@@ -1452,7 +2184,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
             'rgba(120, 53, 15, 0.92)',
             '#fde047'
           );
-          tag.position.set(zoneDef.centerX, 24, trackDef.z);
+          tag.position.set(zoneDef.centerX, 35, trackDef.z);
           hazardGroup.add(tag);
         } else if (block.type === 'S-T') {
           (meshes.ballast.material as THREE.MeshStandardMaterial).color.setHex(0x312e81);
@@ -1463,7 +2195,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
             'rgba(30, 27, 75, 0.92)',
             '#a5b4fc'
           );
-          tag.position.set(zoneDef.centerX, 24, trackDef.z);
+          tag.position.set(zoneDef.centerX, 35, trackDef.z);
           hazardGroup.add(tag);
         }
       }
@@ -1515,13 +2247,13 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     isTweeningRef.current = true;
 
     const startPos = camera.position.clone();
-    const targetPos = new THREE.Vector3(450, 420, 450);
+    const targetPos = new THREE.Vector3(400, 440, 400);
 
     const startTarget = controls.target.clone();
-    const targetLookAt = new THREE.Vector3(0, 0, 0);
+    const targetLookAt = new THREE.Vector3(0, 0, -25);
 
     const startZoom = camera.zoom;
-    const targetZoom = 1.0;
+    const targetZoom = 1.25;
 
     const duration = 750;
     const startTime = performance.now();
@@ -1584,7 +2316,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
           const w = mountRef.current.clientWidth;
           const h = mountRef.current.clientHeight;
           const newAspect = w / h;
-          const viewSize = 750;
+          const viewSize = 820;
           cameraRef.current.left = (-viewSize * newAspect) / 2;
           cameraRef.current.right = (viewSize * newAspect) / 2;
           cameraRef.current.top = viewSize / 2;
