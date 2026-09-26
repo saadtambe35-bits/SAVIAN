@@ -41,15 +41,15 @@ export const FormT409Modal: React.FC<FormT409ModalProps> = ({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-md animate-in fade-in">
+      <div className="fixed inset-0 z-50 overflow-y-auto bg-stone-900/60 backdrop-blur-md animate-in fade-in p-3 sm:p-6 flex items-start sm:items-center justify-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 10 }}
-          className="w-full max-w-2xl max-h-[92vh] overflow-y-auto rounded-3xl bg-[#FAF7F2]/95 backdrop-blur-2xl border border-stone-200/80 shadow-2xl p-6 sm:p-7 space-y-5 text-stone-800 skin-glass-elevated"
+          className="w-full max-w-2xl max-h-[92vh] flex flex-col my-auto rounded-3xl bg-[#FAF7F2]/95 backdrop-blur-2xl border border-stone-200/80 shadow-2xl p-5 sm:p-6 text-stone-800 skin-glass-elevated"
         >
           {/* Header Bar */}
-          <div className="flex items-start justify-between border-b border-stone-200/60 pb-4">
+          <div className="shrink-0 flex items-start justify-between border-b border-stone-200/60 pb-3">
             <div className="flex items-center space-x-3">
               <div className="h-10 w-10 rounded-2xl bg-emerald-500/10 border border-emerald-300/40 flex items-center justify-center text-emerald-800 shadow-xs">
                 <ShieldCheck className="h-6 w-6" />
@@ -76,7 +76,7 @@ export const FormT409Modal: React.FC<FormT409ModalProps> = ({
           </div>
 
           {/* Certificate Body (Parchment Paper Styling) */}
-          <div className="rounded-2xl border border-[#ded7c8] bg-[#f9f7ef] p-5 space-y-4 shadow-inner">
+          <div className="flex-1 overflow-y-auto my-3 pr-1 space-y-4 rounded-2xl border border-[#ded7c8] bg-[#f9f7ef] p-4 sm:p-5 shadow-inner">
             {/* Seal & Metadata Bar */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#e5dfd2] pb-3 text-xs">
               <div>
@@ -166,7 +166,7 @@ export const FormT409Modal: React.FC<FormT409ModalProps> = ({
           </div>
 
           {/* Bottom Actions */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+          <div className="shrink-0 flex flex-col sm:flex-row items-center justify-between gap-2.5 pt-3 border-t border-stone-200/60">
             <Button
               type="button"
               variant="outline"

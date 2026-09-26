@@ -462,96 +462,365 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       }
 
       // -------------------------------------------------------------
-      // 7. TRACK 1: Animated Vande Bharat Express (Blue/White Livery)
+      // 7. TRACK 1: Ultra-Realistic 3D Aerodynamic Vande Bharat Express
       // -------------------------------------------------------------
       const trainX = trainPosRef.current;
       const trainY = -60;
-      const trainLength = 120;
+      const trainLength = 140;
       const trainWidth = 18;
       const trainHeight = 22;
+      const halfL = trainLength / 2;
+      const halfW = trainWidth / 2;
+      const baseZ = 6;
+      const topZ = baseZ + trainHeight;
+      const frontX = trainX + halfL;
+      const rearX = trainX - halfL;
 
-      // 3D Coach Geometry
-      const t1 = toScreen(trainX - trainLength / 2, trainY - trainWidth / 2, 6 + trainHeight);
-      const t2 = toScreen(trainX + trainLength / 2, trainY - trainWidth / 2, 6 + trainHeight);
-      const t3 = toScreen(trainX + trainLength / 2, trainY + trainWidth / 2, 6 + trainHeight);
-      const t4 = toScreen(trainX - trainLength / 2, trainY + trainWidth / 2, 6 + trainHeight);
-
-      const b3 = toScreen(trainX + trainLength / 2, trainY + trainWidth / 2, 6);
-      const b4 = toScreen(trainX - trainLength / 2, trainY + trainWidth / 2, 6);
-
-      // Side Wall (Facing Viewer)
-      ctx.beginPath();
-      ctx.moveTo(b4.x, b4.y);
-      ctx.lineTo(b3.x, b3.y);
-      ctx.lineTo(t3.x, t3.y);
-      ctx.lineTo(t4.x, t4.y);
-      ctx.closePath();
-      ctx.fillStyle = '#f8fafc'; // Vande Bharat White
-      ctx.fill();
-      ctx.strokeStyle = '#0284c7'; // Blue stripe trim
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-
-      // Signature Royal Blue Window Band
-      const wSideB4 = toScreen(trainX - trainLength / 2 + 5, trainY + trainWidth / 2 + 0.2, 12);
-      const wSideB3 = toScreen(trainX + trainLength / 2 - 10, trainY + trainWidth / 2 + 0.2, 12);
-      const wSideT3 = toScreen(trainX + trainLength / 2 - 10, trainY + trainWidth / 2 + 0.2, 20);
-      const wSideT4 = toScreen(trainX - trainLength / 2 + 5, trainY + trainWidth / 2 + 0.2, 20);
+      // 7.0 Ambient Ground Contact Shadow
+      const sh1 = toScreen(rearX - 10, trainY - halfW - 2, 0.5);
+      const sh2 = toScreen(frontX + 32, trainY - halfW - 2, 0.5);
+      const sh3 = toScreen(frontX + 32, trainY + halfW + 6, 0.5);
+      const sh4 = toScreen(rearX - 10, trainY + halfW + 6, 0.5);
 
       ctx.beginPath();
-      ctx.moveTo(wSideB4.x, wSideB4.y);
-      ctx.lineTo(wSideB3.x, wSideB3.y);
-      ctx.lineTo(wSideT3.x, wSideT3.y);
-      ctx.lineTo(wSideT4.x, wSideT4.y);
+      ctx.moveTo(sh1.x, sh1.y);
+      ctx.lineTo(sh2.x, sh2.y);
+      ctx.lineTo(sh3.x, sh3.y);
+      ctx.lineTo(sh4.x, sh4.y);
       ctx.closePath();
-      ctx.fillStyle = '#0369a1'; // Deep Vande Bharat Blue
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
       ctx.fill();
 
-      // Illuminated warm coach passenger windows
-      for (let wx = trainX - trainLength / 2 + 15; wx <= trainX + trainLength / 2 - 25; wx += 22) {
-        const winP = toScreen(wx, trainY + trainWidth / 2 + 0.5, 14);
-        ctx.fillStyle = '#fef08a'; // Warm interior glow
-        ctx.fillRect(winP.x - 3 * zoom, winP.y - 4 * zoom, 7 * zoom, 5 * zoom);
-      }
+      // 7.1 Volumetric Headlight Forward Projection Beam (Track Illumination)
+      const beamOrigin = toScreen(frontX + 26, trainY, 9);
+      const beamL1 = toScreen(frontX + 110, trainY - 24, 0);
+      const beamL2 = toScreen(frontX + 110, trainY + 24, 0);
+      const beamGrad = ctx.createLinearGradient(beamOrigin.x, beamOrigin.y, (beamL1.x + beamL2.x) / 2, (beamL1.y + beamL2.y) / 2);
+      beamGrad.addColorStop(0, 'rgba(254, 240, 138, 0.45)');
+      beamGrad.addColorStop(0.3, 'rgba(253, 224, 71, 0.20)');
+      beamGrad.addColorStop(1, 'rgba(253, 224, 71, 0)');
 
-      // Aerodynamic Tapered Nose (Front Engine)
-      const noseTip = toScreen(trainX + trainLength / 2 + 18, trainY, 9);
       ctx.beginPath();
-      ctx.moveTo(b3.x, b3.y);
-      ctx.lineTo(noseTip.x, noseTip.y);
-      ctx.lineTo(t3.x, t3.y);
+      ctx.moveTo(beamOrigin.x, beamOrigin.y);
+      ctx.lineTo(beamL1.x, beamL1.y);
+      ctx.lineTo(beamL2.x, beamL2.y);
       ctx.closePath();
-      ctx.fillStyle = '#0284c7';
+      ctx.fillStyle = beamGrad;
       ctx.fill();
 
-      // Roof Surface
+      // 7.2 Undercarriage Skirt & Bogies
+      const skBotRear = toScreen(rearX, trainY + halfW, 2);
+      const skBotFront = toScreen(frontX - 2, trainY + halfW, 2);
+      const skTopFront = toScreen(frontX - 2, trainY + halfW, baseZ);
+      const skTopRear = toScreen(rearX, trainY + halfW, baseZ);
+
       ctx.beginPath();
-      ctx.moveTo(t1.x, t1.y);
-      ctx.lineTo(t2.x, t2.y);
-      ctx.lineTo(t3.x, t3.y);
-      ctx.lineTo(t4.x, t4.y);
+      ctx.moveTo(skBotRear.x, skBotRear.y);
+      ctx.lineTo(skBotFront.x, skBotFront.y);
+      ctx.lineTo(skTopFront.x, skTopFront.y);
+      ctx.lineTo(skTopRear.x, skTopRear.y);
       ctx.closePath();
-      ctx.fillStyle = '#e2e8f0';
+      ctx.fillStyle = '#0f172a'; // Deep Chassis Shadow
+      ctx.fill();
+
+      // 4 Bogie Wheelsets
+      const wheelOffsets = [rearX + 18, rearX + 34, frontX - 34, frontX - 18];
+      wheelOffsets.forEach((wx) => {
+        const wCenter = toScreen(wx, trainY + halfW - 1, 3.5);
+        ctx.beginPath();
+        ctx.arc(wCenter.x, wCenter.y, 4.5 * zoom, 0, Math.PI * 2);
+        ctx.fillStyle = '#334155';
+        ctx.fill();
+        ctx.strokeStyle = '#64748b';
+        ctx.lineWidth = 1 * zoom;
+        ctx.stroke();
+
+        // Inner metallic hub
+        ctx.beginPath();
+        ctx.arc(wCenter.x, wCenter.y, 2 * zoom, 0, Math.PI * 2);
+        ctx.fillStyle = '#cbd5e1';
+        ctx.fill();
+      });
+
+      // 7.3 Main Coach Body Points
+      const r1 = toScreen(rearX, trainY - halfW, topZ); // Rear Left
+      const r2 = toScreen(frontX, trainY - halfW, topZ); // Front Left
+      const r3 = toScreen(frontX, trainY + halfW, topZ); // Front Right
+      const r4 = toScreen(rearX, trainY + halfW, topZ); // Rear Right
+
+      const b1 = toScreen(rearX, trainY - halfW, baseZ);
+      const b2 = toScreen(frontX, trainY - halfW, baseZ);
+      const b3 = toScreen(frontX, trainY + halfW, baseZ);
+      const b4 = toScreen(rearX, trainY + halfW, baseZ);
+
+      // 7.4 Rear Cab Face
+      ctx.beginPath();
+      ctx.moveTo(b1.x, b1.y);
+      ctx.lineTo(b4.x, b4.y);
+      ctx.lineTo(r4.x, r4.y);
+      ctx.lineTo(r1.x, r1.y);
+      ctx.closePath();
+      ctx.fillStyle = '#cbd5e1'; // Slightly shaded rear
       ctx.fill();
       ctx.strokeStyle = '#94a3b8';
       ctx.stroke();
 
-      // Diamond Roof Pantograph touching OHE wire
-      const pantoBase = toScreen(trainX - 20, trainY, 6 + trainHeight);
-      const pantoTop = toScreen(trainX - 10, trainY, 6 + trainHeight + 22);
+      // Rear Red Tail Lights (Twin Markers)
+      const tailL = toScreen(rearX - 0.5, trainY - 4, baseZ + 6);
+      const tailR = toScreen(rearX - 0.5, trainY + 4, baseZ + 6);
+      [tailL, tailR].forEach((tl) => {
+        ctx.beginPath();
+        ctx.arc(tl.x, tl.y, 2 * zoom, 0, Math.PI * 2);
+        ctx.fillStyle = '#ef4444';
+        ctx.shadowColor = '#ef4444';
+        ctx.shadowBlur = 6;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+
+      // 7.5 Main Side Wall (Facing Viewer)
+      ctx.beginPath();
+      ctx.moveTo(b4.x, b4.y);
+      ctx.lineTo(b3.x, b3.y);
+      ctx.lineTo(r3.x, r3.y);
+      ctx.lineTo(r4.x, r4.y);
+      ctx.closePath();
+      const sideGrad = ctx.createLinearGradient(b4.x, b4.y, r4.x, r4.y);
+      sideGrad.addColorStop(0, '#f1f5f9');
+      sideGrad.addColorStop(0.5, '#ffffff');
+      sideGrad.addColorStop(1, '#e2e8f0');
+      ctx.fillStyle = sideGrad;
+      ctx.fill();
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // 7.6 Signature Vande Bharat Blue Ribbon Band
+      const bandZ_Bot = baseZ + 5;
+      const bandZ_Top = baseZ + 15;
+      const ribbonB4 = toScreen(rearX + 4, trainY + halfW + 0.15, bandZ_Bot);
+      const ribbonB3 = toScreen(frontX, trainY + halfW + 0.15, bandZ_Bot);
+      const ribbonT3 = toScreen(frontX, trainY + halfW + 0.15, bandZ_Top);
+      const ribbonT4 = toScreen(rearX + 4, trainY + halfW + 0.15, bandZ_Top);
 
       ctx.beginPath();
-      ctx.moveTo(pantoBase.x, pantoBase.y);
-      ctx.lineTo(pantoTop.x, pantoTop.y);
-      ctx.strokeStyle = isPowerIsolated ? '#64748b' : '#38bdf8';
+      ctx.moveTo(ribbonB4.x, ribbonB4.y);
+      ctx.lineTo(ribbonB3.x, ribbonB3.y);
+      ctx.lineTo(ribbonT3.x, ribbonT3.y);
+      ctx.lineTo(ribbonT4.x, ribbonT4.y);
+      ctx.closePath();
+      ctx.fillStyle = '#0f3a6e'; // Vande Bharat Navy Blue
+      ctx.fill();
+
+      // Dynamic Golden-Orange Accent Pinstripe along lower skirt
+      const pinB4 = toScreen(rearX + 2, trainY + halfW + 0.2, baseZ + 3.8);
+      const pinB3 = toScreen(frontX + 12, trainY + halfW + 0.2, baseZ + 3.8);
+      ctx.beginPath();
+      ctx.moveTo(pinB4.x, pinB4.y);
+      ctx.lineTo(pinB3.x, pinB3.y);
+      ctx.strokeStyle = '#f97316'; // Indian Railways Saffron / Gold accent
+      ctx.lineWidth = 1.6 * zoom;
+      ctx.stroke();
+
+      // 7.7 True Isometric Passenger Windows with Soft Interior Lighting
+      const numWindows = 6;
+      const winSpacing = (trainLength - 36) / numWindows;
+      for (let i = 0; i < numWindows; i++) {
+        const wx1 = rearX + 14 + i * winSpacing;
+        const wx2 = wx1 + winSpacing - 4;
+
+        const wp1 = toScreen(wx1, trainY + halfW + 0.2, bandZ_Bot + 2);
+        const wp2 = toScreen(wx2, trainY + halfW + 0.2, bandZ_Bot + 2);
+        const wp3 = toScreen(wx2, trainY + halfW + 0.2, bandZ_Top - 2);
+        const wp4 = toScreen(wx1, trainY + halfW + 0.2, bandZ_Top - 2);
+
+        // Window Frame
+        ctx.beginPath();
+        ctx.moveTo(wp1.x, wp1.y);
+        ctx.lineTo(wp2.x, wp2.y);
+        ctx.lineTo(wp3.x, wp3.y);
+        ctx.lineTo(wp4.x, wp4.y);
+        ctx.closePath();
+
+        // Warm internal cabin lighting
+        ctx.fillStyle = isNightMode ? '#fef08a' : '#fef9c3';
+        ctx.shadowColor = 'rgba(254, 240, 138, 0.4)';
+        ctx.shadowBlur = 4;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Window Glass reflection gloss
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+
+        // Subtle seated passenger silhouette
+        const pHead = toScreen((wx1 + wx2) / 2, trainY + halfW + 0.25, bandZ_Bot + 4.5);
+        ctx.beginPath();
+        ctx.arc(pHead.x, pHead.y, 1.6 * zoom, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.65)';
+        ctx.fill();
+      }
+
+      // 7.8 Aerodynamic 3D Bullet Nose Cone (Vande Bharat 2.0 Facets)
+      const noseTipLow = toScreen(frontX + 28, trainY, baseZ + 2); // Bottom Cowcatcher Tip
+      const noseTipMid = toScreen(frontX + 26, trainY, baseZ + 8); // Central Nose Point
+      const noseTipTop = toScreen(frontX + 16, trainY, baseZ + 16); // Windshield Base
+      const noseRoofPeak = toScreen(frontX + 6, trainY, topZ); // Roof Blending Point
+
+      const noseSideMid = toScreen(frontX + 10, trainY + halfW, baseZ + 8);
+      const noseSideLow = toScreen(frontX + 8, trainY + halfW, baseZ + 2);
+
+      // Facet A: Lower Cowcatcher Wedge (Facing Viewer)
+      ctx.beginPath();
+      ctx.moveTo(b3.x, b3.y);
+      ctx.lineTo(noseSideLow.x, noseSideLow.y);
+      ctx.lineTo(noseTipLow.x, noseTipLow.y);
+      ctx.lineTo(noseTipMid.x, noseTipMid.y);
+      ctx.lineTo(noseSideMid.x, noseSideMid.y);
+      ctx.closePath();
+      ctx.fillStyle = '#0284c7'; // Bold Vande Bharat Blue
+      ctx.fill();
+      ctx.strokeStyle = '#0369a1';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // Facet B: Mid Cab Side Wrap
+      ctx.beginPath();
+      ctx.moveTo(noseSideMid.x, noseSideMid.y);
+      ctx.lineTo(noseTipMid.x, noseTipMid.y);
+      ctx.lineTo(noseTipTop.x, noseTipTop.y);
+      ctx.lineTo(r3.x, r3.y);
+      ctx.closePath();
+      ctx.fillStyle = '#f8fafc'; // White Aerodynamic Cheek
+      ctx.fill();
+      ctx.strokeStyle = '#cbd5e1';
+      ctx.stroke();
+
+      // Facet C: High-Raked Tinted Cockpit Windshield (Driver's Glass)
+      const windLeft = toScreen(frontX + 4, trainY - halfW + 3, baseZ + 19);
+      const windRight = toScreen(frontX + 4, trainY + halfW - 2, baseZ + 19);
+      ctx.beginPath();
+      ctx.moveTo(noseTipTop.x, noseTipTop.y);
+      ctx.lineTo(windRight.x, windRight.y);
+      ctx.lineTo(noseRoofPeak.x, noseRoofPeak.y);
+      ctx.lineTo(windLeft.x, windLeft.y);
+      ctx.closePath();
+      ctx.fillStyle = '#0f172a'; // Smoked Obsidian Windshield Glass
+      ctx.fill();
+      ctx.strokeStyle = '#38bdf8'; // Blue glass seal
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // Windshield Specular Sky Glint
+      ctx.beginPath();
+      ctx.moveTo(noseTipTop.x, noseTipTop.y);
+      ctx.lineTo(windRight.x, windRight.y);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+      ctx.lineWidth = 1.2 * zoom;
+      ctx.stroke();
+
+      // Twin High-Intensity LED Headlights on the Nose
+      const hlLeft = toScreen(frontX + 24, trainY - 3, baseZ + 7.5);
+      const hlRight = toScreen(frontX + 24, trainY + 3, baseZ + 7.5);
+      [hlLeft, hlRight].forEach((hl) => {
+        ctx.beginPath();
+        ctx.arc(hl.x, hl.y, 2.5 * zoom, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowColor = '#fef08a';
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+
+      // 7.9 3D Contoured Roof Surface with Equipment & AC Housing
+      ctx.beginPath();
+      ctx.moveTo(r1.x, r1.y);
+      ctx.lineTo(r2.x, r2.y);
+      ctx.lineTo(noseRoofPeak.x, noseRoofPeak.y);
+      ctx.lineTo(r3.x, r3.y);
+      ctx.lineTo(r4.x, r4.y);
+      ctx.closePath();
+      const roofGrad = ctx.createLinearGradient(r1.x, r1.y, r3.x, r3.y);
+      roofGrad.addColorStop(0, '#f8fafc');
+      roofGrad.addColorStop(0.5, '#e2e8f0');
+      roofGrad.addColorStop(1, '#cbd5e1');
+      ctx.fillStyle = roofGrad;
+      ctx.fill();
+      ctx.strokeStyle = '#94a3b8';
+      ctx.stroke();
+
+      // AC Ventilation Unit Housing on Roof
+      const acX1 = rearX + 40;
+      const acX2 = rearX + 90;
+      const ac1 = toScreen(acX1, trainY - 5, topZ + 0.2);
+      const ac2 = toScreen(acX2, trainY - 5, topZ + 0.2);
+      const ac3 = toScreen(acX2, trainY + 5, topZ + 0.2);
+      const ac4 = toScreen(acX1, trainY + 5, topZ + 0.2);
+      const acTop3 = toScreen(acX2, trainY + 5, topZ + 3);
+      const acTop4 = toScreen(acX1, trainY + 5, topZ + 3);
+
+      ctx.beginPath();
+      ctx.moveTo(ac4.x, ac4.y);
+      ctx.lineTo(ac3.x, ac3.y);
+      ctx.lineTo(acTop3.x, acTop3.y);
+      ctx.lineTo(acTop4.x, acTop4.y);
+      ctx.closePath();
+      ctx.fillStyle = '#94a3b8';
+      ctx.fill();
+
+      // 7.10 Articulated Diamond Pantograph Assembly (Touching 25kV OHE Wire)
+      const wireHeight = 52;
+      const pBase = toScreen(rearX + 25, trainY, topZ);
+      const pKnee1 = toScreen(rearX + 30, trainY, topZ + 12);
+      const pKnee2 = toScreen(rearX + 20, trainY, topZ + 18);
+      const pHead = toScreen(rearX + 26, trainY, wireHeight);
+
+      // Red/Terracotta Insulator Boots
+      const ins1 = toScreen(rearX + 22, trainY - 3, topZ + 1.5);
+      const ins2 = toScreen(rearX + 28, trainY + 3, topZ + 1.5);
+      [ins1, ins2].forEach((ip) => {
+        ctx.beginPath();
+        ctx.arc(ip.x, ip.y, 2 * zoom, 0, Math.PI * 2);
+        ctx.fillStyle = '#b45309'; // Terracotta
+        ctx.fill();
+      });
+
+      // Pantograph Arms
+      ctx.beginPath();
+      ctx.moveTo(pBase.x, pBase.y);
+      ctx.lineTo(pKnee1.x, pKnee1.y);
+      ctx.lineTo(pKnee2.x, pKnee2.y);
+      ctx.lineTo(pHead.x, pHead.y);
+      ctx.strokeStyle = '#475569';
       ctx.lineWidth = 2 * zoom;
       ctx.stroke();
+
+      // Contact Head Skid
+      const pBarL = toScreen(rearX + 26, trainY - 8, wireHeight);
+      const pBarR = toScreen(rearX + 26, trainY + 8, wireHeight);
+      ctx.beginPath();
+      ctx.moveTo(pBarL.x, pBarL.y);
+      ctx.lineTo(pBarR.x, pBarR.y);
+      ctx.strokeStyle = '#0284c7';
+      ctx.lineWidth = 2.5 * zoom;
+      ctx.stroke();
+
+      // 25kV Electric Spark / Contact Glow on Wire
+      if (!isPowerIsolated) {
+        ctx.beginPath();
+        ctx.arc(pHead.x, pHead.y, 3 * zoom, 0, Math.PI * 2);
+        ctx.fillStyle = '#38bdf8';
+        ctx.shadowColor = '#38bdf8';
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
 
       // -------------------------------------------------------------
       // 8. OVERHEAD OHE TRACTION CANTILEVER GANTRIES & WIRES
       // -------------------------------------------------------------
       const oheMasts = [-240, -80, 80, 240];
-      const wireHeight = 52;
 
       // Draw Gantries
       oheMasts.forEach((gx) => {

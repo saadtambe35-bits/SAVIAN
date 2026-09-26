@@ -359,7 +359,10 @@
    ========================================================================= */
 .corridor-radar-sweep {
   position: absolute;
-  inset: 0;
+  top: 0;
+  bottom: 0;
+  left: 20px;
+  right: 20px;
   overflow: hidden;
   pointer-events: none;
   z-index: 5;
@@ -385,10 +388,41 @@
 @keyframes radar-sweep-kf {
   /* Active Sweep: 6.0s (0% to 54.55%) */
   0% {
-    left: -160px;
+    left: -140px;
     opacity: 0;
   }
-  2.5% {
+  2% {
+    opacity: 1;
+  }
+  52% {
+    opacity: 1;
+  }
+  54.55% {
+    left: calc(100% - 140px);
+    opacity: 0;
+  }
+  54.56% {
+    left: -140px;
+    opacity: 0;
+  }
+  /* 5.0s Idle Pause (54.55% to 100% = 45.45% of 11s) */
+  100% {
+    left: -140px;
+    opacity: 0;
+  }
+}
+
+/* =========================================================================
+   TRACK CIRCUIT 25Hz ENERGY PULSE (Synchronized with Radar Sweep)
+   ========================================================================= */
+@keyframes track-current-pulse {
+  /* Active Sweep: 6.0s (0% to 54.55%) — Exact lockstep with radar-sweep-kf */
+  0% {
+    left: 0%;
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  2% {
     opacity: 1;
   }
   52% {
@@ -396,37 +430,30 @@
   }
   54.55% {
     left: 100%;
+    transform: translateX(-100%);
     opacity: 0;
   }
   54.56% {
-    left: -160px;
+    left: 0%;
+    transform: translateX(-100%);
     opacity: 0;
   }
-  /* 5.0s Idle Pause (54.55% to 100% = 45.45% of 11s) */
+  /* 5.0s Idle Pause (54.55% to 100%) */
   100% {
-    left: -160px;
+    left: 0%;
+    transform: translateX(-100%);
     opacity: 0;
   }
-}
-
-/* =========================================================================
-   TRACK CIRCUIT 25Hz ENERGY PULSE
-   ========================================================================= */
-@keyframes track-current-pulse {
-  0%   { left: 0%; opacity: 0; }
-  8%   { opacity: 0.95; }
-  92%  { opacity: 0.95; }
-  100% { left: 98%; opacity: 0; }
 }
 .track-circuit-pulse {
   position: absolute;
   top: 0;
-  width: 54px;
+  width: 60px;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.9), #ffffff, rgba(56, 189, 248, 0.9), transparent);
-  box-shadow: 0 0 10px #38bdf8, 0 0 4px #ffffff;
+  background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.5), #ffffff, rgba(52, 211, 153, 0.95), #ffffff);
+  box-shadow: 0 0 10px #10b981, 0 0 3px #ffffff;
   border-radius: 9999px;
-  animation: track-current-pulse 8.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation: track-current-pulse 11s linear infinite;
   pointer-events: none;
   z-index: 5;
 }

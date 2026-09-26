@@ -202,7 +202,7 @@ export const App: React.FC = () => {
 
         {/* Center Main Content Area (Scrollable) */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 bg-transparent">
-          <div className="mx-auto max-w-7xl">
+          <div className="w-full">
             {activeNav === 'dashboard' && (
               <DashboardView
                 chaosMode={chaosMode}

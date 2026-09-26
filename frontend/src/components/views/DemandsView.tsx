@@ -582,9 +582,9 @@ export const DemandsView: React.FC<DemandsViewProps> = ({
 
       {/* Modal 1: New Demand Creation */}
       {showNewDemandModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/50 backdrop-blur-sm animate-in fade-in">
-          <div className="w-full max-w-xl rounded-3xl border border-[#dcd6c8] bg-[#fbf9f4] p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-3 border-b border-[#e8e2d4]">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-stone-900/60 backdrop-blur-sm animate-in fade-in p-4 sm:p-6 flex items-start sm:items-center justify-center">
+          <div className="w-full max-w-2xl rounded-3xl border border-[#dcd6c8] bg-[#fbf9f4] p-6 shadow-2xl space-y-4 my-auto max-h-[92vh] flex flex-col">
+            <div className="flex items-center justify-between pb-3 border-b border-[#e8e2d4] shrink-0">
               <div className="flex items-center space-x-2.5">
                 <div className="p-2 rounded-xl bg-emerald-100 text-emerald-800">
                   <Plus className="h-5 w-5" />
@@ -602,7 +602,7 @@ export const DemandsView: React.FC<DemandsViewProps> = ({
               </button>
             </div>
 
-            <form onSubmit={handleCreateDemand} className="space-y-4 text-xs">
+            <form onSubmit={handleCreateDemand} className="space-y-4 text-xs overflow-y-auto pr-1 flex-1">
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-stone-600 font-bold mb-1">Source System</label>
@@ -797,8 +797,8 @@ export const DemandsView: React.FC<DemandsViewProps> = ({
 
       {/* Modal 2: Shadow Window Co-alignment */}
       {showCoalignModal && selectedDemand && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/50 backdrop-blur-sm animate-in fade-in">
-          <div className="w-full max-w-lg rounded-3xl border border-[#dcd6c8] bg-[#fbf9f4] p-6 shadow-2xl space-y-4">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-stone-900/60 backdrop-blur-sm animate-in fade-in p-4 sm:p-6 flex items-start sm:items-center justify-center">
+          <div className="w-full max-w-lg rounded-3xl border border-[#dcd6c8] bg-[#fbf9f4] p-6 shadow-2xl space-y-4 my-auto max-h-[92vh] overflow-y-auto">
             <div className="flex items-center justify-between pb-3 border-b border-[#e8e2d4]">
               <div className="flex items-center space-x-2.5">
                 <div className="p-2 rounded-xl bg-emerald-100 text-emerald-800">
@@ -871,8 +871,8 @@ export const DemandsView: React.FC<DemandsViewProps> = ({
 
       {/* Modal 3: Kavach SIL-4 Safety Clearance Inspector */}
       {showSafetyModal && selectedDemand && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/50 backdrop-blur-sm animate-in fade-in">
-          <div className="w-full max-w-lg rounded-3xl border border-[#dcd6c8] bg-[#fbf9f4] p-6 shadow-2xl space-y-4">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-stone-900/50 backdrop-blur-sm animate-in fade-in p-4 sm:p-6 flex items-start sm:items-center justify-center">
+          <div className="w-full max-w-lg my-auto rounded-3xl border border-[#dcd6c8] bg-[#fbf9f4] p-5 sm:p-6 shadow-2xl space-y-4 max-h-[92vh] flex flex-col">
             <div className="flex items-center justify-between pb-3 border-b border-[#e8e2d4]">
               <div className="flex items-center space-x-2.5">
                 <div className="p-2 rounded-xl bg-teal-100 text-teal-800">
@@ -896,7 +896,7 @@ export const DemandsView: React.FC<DemandsViewProps> = ({
                 Safety Protocol Verification for <span className="font-mono font-bold text-stone-900">{selectedDemand.demand_code}</span>:
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-2 overflow-y-auto max-h-[50vh] pr-1">
                 {[
                   {
                     key: 'tractionCutoff',
