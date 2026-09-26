@@ -227,6 +227,31 @@ const getZoneIdFromX = (x: number): CorridorZoneId => {
   return 'EAST_DEPARTURE';
 };
 
+// Continuous Consist Positioning: Extrapolates smooth linear lead-in & lead-out beyond track boundaries
+const getConsistPointAndTangent = (
+  curve: THREE.CatmullRomCurve3,
+  curveLength: number,
+  carDistance: number
+): { pos: THREE.Vector3; tangent: THREE.Vector3 } => {
+  if (carDistance < 0) {
+    const pt0 = curve.getPointAt(0);
+    const tan0 = curve.getTangentAt(0);
+    const pos = pt0.clone().addScaledVector(tan0, carDistance);
+    return { pos, tangent: tan0 };
+  } else if (carDistance > curveLength) {
+    const pt1 = curve.getPointAt(0.9999);
+    const tan1 = curve.getTangentAt(0.9999);
+    const excess = carDistance - curveLength;
+    const pos = pt1.clone().addScaledVector(tan1, excess);
+    return { pos, tangent: tan1 };
+  } else {
+    const t = Math.min(0.9999, Math.max(0, carDistance / curveLength));
+    const pos = curve.getPointAt(t);
+    const tangent = curve.getTangentAt(t);
+    return { pos, tangent };
+  }
+};
+
 // -------------------------------------------------------------
 // UNIVERSAL DOUBLE SCISSORS CROSSOVER LADDER NETWORK
 // Relocated BEFORE the throat on BOTH sides (West: -2100 to -1500, East: 1500 to 2100)
@@ -615,6 +640,8 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
   const [dispatchStartTrack, setDispatchStartTrack] = useState<number>(1);
   const [dispatchTargetTrack, setDispatchTargetTrack] = useState<number>(5);
   const [customTrainName, setCustomTrainName] = useState<string>('');
+  const [trackedTrainId, setTrackedTrainId] = useState<string | null>(null);
+  const trackedTrainIdRef = useRef<string | null>(null);
 
   // Floating Menus: Closed by default to keep the 3D yard view completely unobstructed
   const [isBlockMenuOpen, setIsBlockMenuOpen] = useState<boolean>(false);
@@ -867,7 +894,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
         currentTrack: startTrack,
         curve,
         curveLength,
-        distanceTraveled: 0,
+        distanceTraveled: 0, // Starts at the beginning of the track (X = ±2500)
         speed: preset.speed,
         targetSpeed: preset.speed,
         cars: [
@@ -981,8 +1008,10 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     const train = activeTrainsRef.current.find((t) => t.id === trainId);
     if (!camera || !controls || !train) return;
 
-    const t = Math.min(1, Math.max(0, train.distanceTraveled / train.curveLength));
-    const pos = train.curve.getPointAt(t);
+    trackedTrainIdRef.current = trainId;
+    setTrackedTrainId(trainId);
+
+    const { pos } = getConsistPointAndTangent(train.curve, train.curveLength, train.distanceTraveled);
 
     controls.target.set(pos.x, 0, pos.z);
     camera.position.set(pos.x + 320, 320, pos.z + 320);
@@ -1041,10 +1070,10 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     controls.target.set(0, 0, -25);
     controlsRef.current = controls;
 
-    // Camera Pan Bounding Box Clamping (Matching new 2x footprint)
+    // Camera Pan Bounding Box Clamping (Allows viewing full 5000-unit corridor from end to end)
     const yardBounds = new THREE.Box3(
-      new THREE.Vector3(-2300, -20, -320),
-      new THREE.Vector3(2300, 80, 240)
+      new THREE.Vector3(-2800, -20, -420),
+      new THREE.Vector3(2800, 80, 280)
     );
 
     const restrictPan = () => {
@@ -1062,7 +1091,13 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       }
     };
 
+    const handleControlsStart = () => {
+      trackedTrainIdRef.current = null;
+      setTrackedTrainId(null);
+    };
+
     controls.addEventListener('change', restrictPan);
+    controls.addEventListener('start', handleControlsStart);
 
     // 5. Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
@@ -1241,17 +1276,17 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     const plazaGroup = new THREE.Group();
 
     // 1. Vast Patterned Granite Plaza Esplanade
-    const esplanadeGeo = new THREE.BoxGeometry(540, 1.2, 100);
+    const esplanadeGeo = new THREE.BoxGeometry(560, 1.2, 150);
     const esplanade = new THREE.Mesh(esplanadeGeo, plazaPavingMat);
-    esplanade.position.set(0, 0.6, -270);
+    esplanade.position.set(0, 0.6, -295);
     esplanade.receiveShadow = true;
     plazaGroup.add(esplanade);
 
     // Decorative Accent Paving Banding
     [-180, -90, 0, 90, 180].forEach((px) => {
-      const bandGeo = new THREE.BoxGeometry(3.5, 1.3, 98);
+      const bandGeo = new THREE.BoxGeometry(3.5, 1.3, 148);
       const band = new THREE.Mesh(bandGeo, creamTrimMat);
-      band.position.set(px, 0.65, -270);
+      band.position.set(px, 0.65, -295);
       plazaGroup.add(band);
     });
 
@@ -1802,16 +1837,60 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     flagMast.position.set(0, 117, -225);
     bldgGroup.add(flagMast);
 
-    // 12. Grand 3D Illuminated Billboard Signboard (Elevated above pediment apex, highly visible)
-    const stationNameSprite = createLabelSprite(
-      '🏛️ भोपाल जंक्शन • BHOPAL JUNCTION • WEST CENTRAL RAILWAY',
-      'rgba(15, 23, 42, 0.98)',
-      '#facc15',
-      128,
-      21
+    // 12. Grand Architectural Monumental Signboard in Outer Plaza Forecourt (Completely clear of roof, Z=-342, ultra-visible)
+    const signCanvas = document.createElement('canvas');
+    signCanvas.width = 1600;
+    signCanvas.height = 200;
+    const sCtx = signCanvas.getContext('2d');
+    if (sCtx) {
+      sCtx.fillStyle = 'rgba(15, 23, 42, 0.98)';
+      sCtx.strokeStyle = '#facc15';
+      sCtx.lineWidth = 8;
+      sCtx.beginPath();
+      sCtx.roundRect(10, 10, 1580, 180, 32);
+      sCtx.fill();
+      sCtx.stroke();
+
+      sCtx.font = 'bold 56px "Segoe UI", Roboto, sans-serif';
+      sCtx.fillStyle = '#facc15';
+      sCtx.textAlign = 'center';
+      sCtx.textBaseline = 'middle';
+      sCtx.fillText('🏛️ भोपाल जंक्शन • BHOPAL JUNCTION • WEST CENTRAL RAILWAY', 800, 100);
+    }
+
+    const signTexture = new THREE.CanvasTexture(signCanvas);
+    signTexture.minFilter = THREE.LinearFilter;
+    const stationSignMesh = new THREE.Mesh(
+      new THREE.PlaneGeometry(210, 26),
+      new THREE.MeshBasicMaterial({ map: signTexture, transparent: true, side: THREE.DoubleSide })
     );
-    stationNameSprite.position.set(0, 61, -168);
-    bldgGroup.add(stationNameSprite);
+    stationSignMesh.position.set(0, 32, -342);
+    stationSignMesh.rotation.x = -Math.PI / 4; // Tilted to exact isometric camera angle, aligned with station
+    bldgGroup.add(stationSignMesh);
+
+    // Architectural Plaza Pylon Columns supporting the Signboard (Z = -342)
+    [-92, 92].forEach((colX) => {
+      const pylonGeo = new THREE.CylinderGeometry(2.0, 2.6, 30, 12);
+      const pylon = new THREE.Mesh(pylonGeo, creamTrimMat);
+      pylon.position.set(colX, 15, -342);
+      bldgGroup.add(pylon);
+
+      const pylonPedGeo = new THREE.BoxGeometry(6.5, 4.0, 6.5);
+      const pylonPed = new THREE.Mesh(pylonPedGeo, plinthMat);
+      pylonPed.position.set(colX, 2.0, -342);
+      bldgGroup.add(pylonPed);
+
+      const pylonCapGeo = new THREE.BoxGeometry(6.0, 2.2, 6.0);
+      const pylonCap = new THREE.Mesh(pylonCapGeo, goldFinialMat);
+      pylonCap.position.set(colX, 30.5, -342);
+      bldgGroup.add(pylonCap);
+    });
+
+    // Horizontal Steel Mounting Crossbeam
+    const crossbeamGeo = new THREE.BoxGeometry(212, 2.4, 2.4);
+    const crossbeam = new THREE.Mesh(crossbeamGeo, steelTrussMat);
+    crossbeam.position.set(0, 30, -342);
+    bldgGroup.add(crossbeam);
 
     stationGroup.add(bldgGroup);
 
@@ -1958,6 +2037,25 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       pulseTimerRef.current += 0.045;
       const pulseVal = 0.5 + 0.5 * Math.sin(pulseTimerRef.current * 3);
 
+      // Live Camera Tracking (Smoothly follows tracked train across corridor)
+      if (trackedTrainIdRef.current) {
+        const tracked = activeTrainsRef.current.find((t) => t.id === trackedTrainIdRef.current);
+        if (tracked) {
+          const { pos } = getConsistPointAndTangent(tracked.curve, tracked.curveLength, tracked.distanceTraveled);
+          const targetX = THREE.MathUtils.clamp(pos.x, -2600, 2600);
+          const targetZ = pos.z;
+          const diffX = targetX - controls.target.x;
+          const diffZ = targetZ - controls.target.z;
+          controls.target.x += diffX * 0.08;
+          controls.target.z += diffZ * 0.08;
+          camera.position.x += diffX * 0.08;
+          camera.position.z += diffZ * 0.08;
+        } else {
+          trackedTrainIdRef.current = null;
+          setTrackedTrainId(null);
+        }
+      }
+
       controls.update();
 
       if (isSimRunning) {
@@ -2004,6 +2102,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
       window.removeEventListener('resize', handleResize);
       controls.removeEventListener('change', restrictPan);
+      controls.removeEventListener('start', handleControlsStart);
       controls.dispose();
       renderer.dispose();
       if (container.contains(renderer.domElement)) {
@@ -2031,7 +2130,8 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       const t = train.distanceTraveled / train.curveLength;
 
       // 2. Engine Position & Actual Track Detection
-      const enginePos = train.curve.getPointAt(Math.min(1, Math.max(0, t)));
+      const engineDistance = Math.min(train.curveLength, Math.max(0, train.distanceTraveled));
+      const { pos: enginePos } = getConsistPointAndTangent(train.curve, train.curveLength, engineDistance);
       train.currentTrack = getTrackIdFromZ(enginePos.z);
       const currentZone = getZoneIdFromX(enginePos.x);
 
@@ -2050,8 +2150,8 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
 
       // 3. Dynamic Forward Switch Evaluation (Rerouting BEFORE the Block)
       const lookaheadDistance = 180;
-      const lookaheadT = Math.min(1, Math.max(0, (train.distanceTraveled + lookaheadDistance) / train.curveLength));
-      const lookaheadPos = train.curve.getPointAt(lookaheadT);
+      const lookaheadTargetDist = Math.min(train.curveLength, Math.max(0, train.distanceTraveled + lookaheadDistance));
+      const { pos: lookaheadPos } = getConsistPointAndTangent(train.curve, train.curveLength, lookaheadTargetDist);
       const lookaheadTrack = getTrackIdFromZ(lookaheadPos.z);
       const lookaheadZone = getZoneIdFromX(lookaheadPos.x);
 
@@ -2094,35 +2194,48 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
         if (car.type === 'COACH_1') carOffset = carOffsetDistance;
         if (car.type === 'COACH_2') carOffset = carOffsetDistance * 2;
 
-        const carDistance = Math.max(0, train.distanceTraveled - carOffset);
-        const carT = Math.min(1, Math.max(0, carDistance / train.curveLength));
+        const carDistance = train.distanceTraveled - carOffset;
+        const { pos, tangent } = getConsistPointAndTangent(train.curve, train.curveLength, carDistance);
 
-        const pt = train.curve.getPointAt(carT);
-        const tangent = train.curve.getTangentAt(carT);
-
-        car.mesh.position.copy(pt);
+        car.mesh.position.copy(pos);
         // Look along tangent so car length (Z-axis) aligns perfectly with the track!
-        const lookTarget = pt.clone().add(tangent);
-        car.mesh.lookAt(lookTarget);
+        if (tangent && tangent.lengthSq() > 0.0001) {
+          const lookTarget = pos.clone().add(tangent);
+          car.mesh.lookAt(lookTarget);
+        }
       });
 
       // Update Floating Status Label above Engine
       const engineMesh = train.cars[0].mesh;
       train.labelSprite.position.set(engineMesh.position.x, engineMesh.position.y + 36, engineMesh.position.z);
 
-      // 5. Continuous Loop: Train loops continuously until user explicitly deletes/removes it!
-      if (t >= 1.0) {
+      // 5. Continuous Loop: Loops ONLY when the ENTIRE consist has cleared the very end of the track!
+      const lastCarOffset = carOffsetDistance * 2;
+      const isLoopReady = train.distanceTraveled >= (train.curveLength + lastCarOffset);
+
+      if (isLoopReady) {
         const startX = train.direction === 1 ? -2500 : 2500;
         const startNodeId = `N_${train.startTrack}_${startX}`;
-        const newPath = graph.findPath(startNodeId, train.assignedTrack, train.direction, activeBlocks);
+        let newPath = graph.findPath(startNodeId, train.assignedTrack, train.direction, activeBlocks);
 
-        if (newPath && newPath.length >= 2) {
-          train.curve = new THREE.CatmullRomCurve3(newPath, false, 'catmullrom', 0.12);
-          train.curveLength = train.curve.getLength();
+        if (!newPath || newPath.length < 2) {
+          newPath = graph.findPath(startNodeId, train.currentTrack, train.direction, activeBlocks);
+        }
+        if (!newPath || newPath.length < 2) {
+          newPath = ALL_X_MILESTONES.map(
+            (mx) => new THREE.Vector3(mx, 1.6, TRACKS.find((trk) => trk.id === train.assignedTrack)?.z || 0)
+          );
+          if (train.direction === -1) newPath.reverse();
         }
 
+        train.curve = new THREE.CatmullRomCurve3(newPath, false, 'catmullrom', 0.12);
+        train.curveLength = train.curve.getLength();
+        // Reset to exactly 0 (beginning of the physical track)
         train.distanceTraveled = 0;
-        addLog(`🔄 ${train.name} completed run. Looping continuously on route.`);
+        train.status = 'CRUISING';
+        train.statusMessage = `${train.direction === 1 ? 'Eastbound' : 'Westbound'} Clear • Cruising ${Math.round(train.speed * 55)} km/h`;
+        train.speed = train.targetSpeed;
+        addLog(`🔄 ${train.name} completed full corridor run. Seamlessly looping from start of track.`);
       }
     }
   };
@@ -2450,6 +2563,38 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
           {/* Three.js Canvas DOM Container */}
           <div ref={mountRef} className="w-full h-full cursor-grab active:cursor-grabbing" />
 
+          {/* Active Camera Tracking HUD Indicator */}
+          {trackedTrainId && (() => {
+            const tr = trainsList.find((t) => t.id === trackedTrainId);
+            if (!tr) return null;
+            return (
+              <div className="absolute top-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-slate-950/90 backdrop-blur-md border border-cyan-500/50 shadow-2xl shadow-cyan-950/80 text-cyan-200 text-xs font-mono animate-in fade-in duration-200 pointer-events-auto">
+                <span className="flex h-2.5 w-2.5 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500"></span>
+                </span>
+                <span className="font-bold text-white tracking-wide flex items-center gap-1.5">
+                  <Navigation className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+                  TRACKING: {tr.name}
+                </span>
+                <span className="text-[10px] text-cyan-300 bg-cyan-950/80 px-2.5 py-0.5 rounded-full border border-cyan-800">
+                  {tr.statusMessage}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    trackedTrainIdRef.current = null;
+                    setTrackedTrainId(null);
+                  }}
+                  className="ml-1 px-2.5 py-0.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/40 text-cyan-300 hover:text-white border border-cyan-500/40 text-[10px] font-bold cursor-pointer transition-colors"
+                  title="Release Camera Tracking"
+                >
+                  RELEASE
+                </button>
+              </div>
+            );
+          })()}
+
           {/* Floating MapControls Camera HUD (Top Right) */}
           <div className="absolute top-5 right-5 flex flex-col gap-1.5 bg-slate-900/90 backdrop-blur-md border border-slate-700/80 p-2 rounded-2xl shadow-2xl z-20">
             <button
@@ -2728,11 +2873,22 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
                           {/* Focus camera button */}
                           <button
                             type="button"
-                            onClick={() => focusOnTrain(tr.id)}
-                            className="p-1 rounded-lg bg-slate-700 hover:bg-cyan-600 text-slate-300 hover:text-white transition-colors cursor-pointer"
-                            title="Center Camera on this Train"
+                            onClick={() => {
+                              if (trackedTrainId === tr.id) {
+                                trackedTrainIdRef.current = null;
+                                setTrackedTrainId(null);
+                              } else {
+                                focusOnTrain(tr.id);
+                              }
+                            }}
+                            className={`p-1 rounded-lg transition-all cursor-pointer ${
+                              trackedTrainId === tr.id
+                                ? 'bg-cyan-500 text-slate-950 ring-2 ring-cyan-400 shadow-md shadow-cyan-500/50'
+                                : 'bg-slate-700 hover:bg-cyan-600 text-slate-300 hover:text-white'
+                            }`}
+                            title={trackedTrainId === tr.id ? 'Stop Tracking' : 'Center & Track Camera on this Train'}
                           >
-                            <Navigation className="w-3 h-3" />
+                            <Navigation className={`w-3 h-3 ${trackedTrainId === tr.id ? 'animate-pulse' : ''}`} />
                           </button>
 
                           {/* Delete train button */}
