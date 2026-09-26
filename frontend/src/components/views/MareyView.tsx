@@ -78,7 +78,7 @@ export const MareyView: React.FC<MareyViewProps> = ({
             </span>
           </div>
           <div className="text-xl font-bold font-mono text-stone-900 mt-1 tracking-tight">231.5 KM</div>
-          <div className="text-[10px] text-stone-500 font-mono mt-0.5">BINA Jn (0.0k) → ET Jn (231.5k)</div>
+          <div className="text-[10px] text-stone-500 font-mono mt-0.5">BINA Jn (0.0 km) → ET Jn (231.5 km)</div>
         </div>
 
         <div className="skin-glass-card skin-glass-elevated specular-sheen rounded-2xl p-3.5">

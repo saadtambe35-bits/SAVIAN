@@ -92,7 +92,7 @@ export const SettingsView: React.FC = () => {
             <div className="pt-2.5 border-t border-stone-200/60">
               <div className="flex justify-between items-center text-stone-700 font-semibold mb-1">
                 <span>Non-Equipped Conventional Signal Spacing</span>
-                <span className="cockpit-dark-amber text-[10px] font-mono font-extrabold">
+                <span className="cockpit-dark-chip cockpit-dark-amber text-[10px] font-mono font-extrabold text-amber-300">
                   <span className="h-1.5 w-1.5 rounded-full bg-amber-400 led-glow-amber" />
                   10 minutes
                 </span>
@@ -176,7 +176,7 @@ export const SettingsView: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-            <div className="rounded-xl skin-glass-sub p-3.5 space-y-1">
+            <div className="rounded-xl skin-glass-sub p-3.5 space-y-1 border border-stone-200 shadow-xs hover:border-emerald-500/60 transition-all">
               <div className="flex items-center justify-between">
                 <span className="font-mono font-bold text-stone-900">TMS (Track)</span>
                 <span className="h-2 w-2 rounded-full bg-emerald-500 led-glow-emerald" />
@@ -185,7 +185,7 @@ export const SettingsView: React.FC = () => {
               <p className="text-[10px] font-mono text-stone-400 font-semibold">Latency: 18ms</p>
             </div>
 
-            <div className="rounded-xl skin-glass-sub p-3.5 space-y-1">
+            <div className="rounded-xl skin-glass-sub p-3.5 space-y-1 border border-stone-200 shadow-xs hover:border-emerald-500/60 transition-all">
               <div className="flex items-center justify-between">
                 <span className="font-mono font-bold text-stone-900">SMMS (OHE)</span>
                 <span className="h-2 w-2 rounded-full bg-emerald-500 led-glow-emerald" />
@@ -194,7 +194,7 @@ export const SettingsView: React.FC = () => {
               <p className="text-[10px] font-mono text-stone-400 font-semibold">Latency: 24ms</p>
             </div>
 
-            <div className="rounded-xl skin-glass-sub p-3.5 space-y-1">
+            <div className="rounded-xl skin-glass-sub p-3.5 space-y-1 border border-stone-200 shadow-xs hover:border-emerald-500/60 transition-all">
               <div className="flex items-center justify-between">
                 <span className="font-mono font-bold text-stone-900">TDMS (S&T)</span>
                 <span className="h-2 w-2 rounded-full bg-emerald-500 led-glow-emerald" />
@@ -203,7 +203,7 @@ export const SettingsView: React.FC = () => {
               <p className="text-[10px] font-mono text-stone-400 font-semibold">Latency: 14ms</p>
             </div>
 
-            <div className="rounded-xl skin-glass-sub p-3.5 space-y-1">
+            <div className="rounded-xl skin-glass-sub p-3.5 space-y-1 border border-stone-200 shadow-xs hover:border-emerald-500/60 transition-all">
               <div className="flex items-center justify-between">
                 <span className="font-mono font-bold text-stone-900">COA & ICMS</span>
                 <span className="h-2 w-2 rounded-full bg-emerald-500 led-glow-emerald" />

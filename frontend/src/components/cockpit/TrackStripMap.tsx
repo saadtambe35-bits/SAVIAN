@@ -171,12 +171,12 @@ export const TrackStripMap: React.FC = () => {
             <div className="flex items-center gap-2 text-xs font-mono">
               <span className="text-stone-500 font-medium text-[11px]">Speed:</span>
               {isTsrZone ? (
-                <span className="cockpit-dark-amber px-2.5 py-0.5 rounded-[7px] font-bold text-[11px] shadow-2xs aura-breathe-amber tactile-spring cursor-default notranslate inline-flex items-center gap-1" translate="no">
+                <span className="cockpit-dark-chip cockpit-dark-amber px-2.5 py-0.5 rounded-[7px] font-bold text-[11px] text-amber-300 shadow-2xs aura-breathe-amber tactile-spring cursor-default notranslate inline-flex items-center gap-1" translate="no">
                   <span>⚠ TSR</span>
                   <RollingNumber value={30} suffix=" km/h" />
                 </span>
               ) : (
-                <span className="cockpit-dark-chip px-2.5 py-0.5 rounded-[7px] font-bold text-[11px] shadow-2xs aura-breathe-emerald tactile-spring cursor-default notranslate inline-flex items-center gap-1" translate="no">
+                <span className="cockpit-dark-chip px-2.5 py-0.5 rounded-[7px] font-bold text-[11px] text-emerald-300 shadow-2xs aura-breathe-emerald tactile-spring cursor-default notranslate inline-flex items-center gap-1" translate="no">
                   <RollingNumber value={130} suffix=" km/h (Normal)" />
                 </span>
               )}
@@ -367,7 +367,7 @@ export const TrackStripMap: React.FC = () => {
                 </span>
                 {/* KM below code */}
                 <span className="text-[10px] text-stone-500 font-mono font-semibold notranslate" translate="no">
-                  {st.km}k
+                  {st.km} km
                 </span>
               </div>
             );

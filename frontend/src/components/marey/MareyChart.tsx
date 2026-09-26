@@ -274,7 +274,7 @@ export const MareyChart: React.FC<MareyChartProps> = ({
               )}
             </div>
             <p className="text-[11px] text-stone-500 font-mono mt-0.5">
-              X-Axis: Time (00:00 - 24:00) · Y-Axis: Bina Jn (0.0k) → Itarsi Jn (231.5k) · Lower layer: Blocks · Upper layer: Train paths
+              X-Axis: Time (00:00 - 24:00) · Y-Axis: Bina Jn (0.0 km) → Itarsi Jn (231.5 km) · Lower layer: Blocks · Upper layer: Train paths
             </p>
           </div>
         </div>
@@ -625,7 +625,7 @@ export const MareyChart: React.FC<MareyChartProps> = ({
                       textAnchor="end"
                       className="select-none"
                     >
-                      {st.distance_km.toFixed(1)}k
+                      {st.distance_km.toFixed(1)} km
                     </text>
 
                     {/* Station Code */}

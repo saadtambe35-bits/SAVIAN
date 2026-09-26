@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Menu,
   Bell,
@@ -61,6 +61,29 @@ export const Header: React.FC<HeaderProps> = ({
   const [showNotifications, setShowNotifications] = useState(false);
   const [alertsCount, setAlertsCount] = useState(unreadAlertCount);
   const [showScenarioMenu, setShowScenarioMenu] = useState(false);
+
+  // Click outside to close dropdowns
+  const scenarioMenuRef = useRef<HTMLDivElement>(null);
+  const notificationsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (scenarioMenuRef.current && !scenarioMenuRef.current.contains(target)) {
+        setShowScenarioMenu(false);
+      }
+      if (notificationsRef.current && !notificationsRef.current.contains(target)) {
+        setShowNotifications(false);
+      }
+    };
+
+    if (showScenarioMenu || showNotifications) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showScenarioMenu, showNotifications]);
 
   // Live IST Clock
   const [currentTime, setCurrentTime] = useState<string>('');
@@ -195,7 +218,7 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Scenario Switcher Dropdown */}
-          <div className="relative">
+          <div className="relative" ref={scenarioMenuRef}>
             <button
               type="button"
               onClick={() => setShowScenarioMenu(!showScenarioMenu)}
@@ -211,8 +234,8 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
 
             {showScenarioMenu && (
-              <div className="absolute right-0 mt-2 w-72 rounded-2xl border border-white/90 skin-glass-elevated p-2.5 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2">
-                <div className="px-2 py-1.5 text-[10px] font-bold uppercase tracking-wider text-stone-400 border-b border-stone-200/60 font-mono">
+              <div className="absolute right-0 mt-2 w-72 rounded-2xl border border-stone-200 bg-[#FAF7F0] p-2.5 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2">
+                <div className="px-2 py-1.5 text-[10px] font-bold uppercase tracking-wider text-stone-500 border-b border-stone-200/70 font-mono">
                   Select Railway Scenario
                 </div>
                 <div className="mt-1 space-y-1">
@@ -228,12 +251,12 @@ export const Header: React.FC<HeaderProps> = ({
                         'w-full text-left p-2 rounded-xl text-xs transition-colors flex flex-col space-y-0.5 cursor-pointer',
                         scen.id === currentScenario
                           ? 'bg-emerald-100/90 text-emerald-900 font-bold border border-emerald-300'
-                          : 'hover:bg-white/70 text-stone-700'
+                          : 'hover:bg-stone-200/50 text-stone-700'
                       )}
                     >
                       <div className="flex items-center justify-between">
                         <span className="font-bold text-xs">{scen.name}</span>
-                        <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-white/90 border border-stone-200 font-mono">
+                        <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-white border border-stone-200 font-mono">
                           {scen.demands.length} blocks
                         </span>
                       </div>
@@ -288,7 +311,7 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Notification Bell with red unread badge */}
-          <div className="relative">
+          <div className="relative" ref={notificationsRef}>
             <button
               id="notification-bell-btn"
               type="button"
@@ -306,7 +329,7 @@ export const Header: React.FC<HeaderProps> = ({
 
             {/* Notifications Flyout */}
             {showNotifications && (
-              <div className="absolute right-0 mt-2 w-80 rounded-2xl border border-white/90 skin-glass-elevated p-3.5 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2">
+              <div className="absolute right-0 mt-2 w-80 rounded-2xl border border-stone-200 bg-[#FAF7F0] p-3.5 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2">
                 <div className="flex items-center justify-between pb-2.5 border-b border-stone-200/60">
                   <div className="flex items-center space-x-1.5 text-xs font-bold text-stone-800 font-mono">
                     <Zap className="h-3.5 w-3.5 text-[#078A68]" />

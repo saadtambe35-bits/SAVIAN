@@ -310,43 +310,52 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           whileHover={{ y: -3 }}
           onClick={() => onNavigate('settings')}
           title="Click to view Kavach safety parameters"
-          className="skin-glass-card skin-glass-elevated specular-sheen glass-specular-shimmer tactile-spring group cursor-pointer rounded-2xl p-4 flex flex-col justify-between transition-all hover:border-teal-400/50 hover:shadow-[0_12px_28px_-6px_rgba(20,184,166,0.18)]"
+          className="skin-glass-card skin-glass-elevated specular-sheen glass-specular-shimmer tactile-spring group cursor-pointer rounded-2xl p-4 flex flex-col justify-between transition-all border-rose-300/30 hover:border-rose-400/60 hover:shadow-[0_12px_28px_-6px_rgba(244,63,94,0.22)]"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-1.5">
               <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider">{t('kavach_commissioned')}</span>
               <ArrowUpRight className="h-3.5 w-3.5 text-stone-400 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <div className="rounded-xl bg-teal-500/10 p-2 text-teal-700 border border-teal-300/40 shadow-xs group-hover:scale-105 transition-transform backdrop-blur-xs">
-              <ShieldCheck className="h-4 w-4 text-teal-600" />
+            <div className="rounded-xl bg-rose-500/10 p-2 text-rose-700 border border-rose-300/40 shadow-xs group-hover:scale-105 transition-transform backdrop-blur-xs">
+              <ShieldCheck className="h-4 w-4 text-rose-500" />
             </div>
           </div>
 
           <div className="mt-2.5 flex items-baseline justify-between">
             <div>
-              <div className="flex items-baseline space-x-1.5">
-                <span className="text-3xl font-black tracking-tight text-teal-800 font-mono">
+              {/* Row 1: big number + ARMED chip side by side */}
+              <div className="flex items-center gap-2">
+                <span className="text-3xl font-black tracking-tight text-rose-800 font-mono">
                   <RollingNumber value={98.7} suffix=" km" />
                 </span>
-                <span className="text-xs text-stone-400 font-mono font-semibold">
-                  / 152.4 km
+                {/* ARMED chip — rose/red, synced to shared chip-breathe clock */}
+                <span className="cockpit-dark-chip text-[10px] font-mono font-bold border-rose-500/40 aura-breathe-rose" style={{ animationDelay: '0s' }}>
+                  <span className="h-1.5 w-1.5 rounded-full bg-rose-400 led-glow-rose" />
+                  <span className="text-[#fb7185]">ARMED</span>
                 </span>
               </div>
-              <p className="mt-2 text-[11px] text-stone-500 font-medium leading-tight">
+              {/* Row 2: out-of target km in muted text */}
+              <span className="text-xs text-stone-400 font-mono font-semibold">/ 152.4 km</span>
+              <p className="mt-1.5 text-[11px] text-stone-500 font-medium leading-tight">
                 Dynamic braking model active on 8 stations
               </p>
             </div>
 
-            {/* Teal SVG Sparkline */}
-            <svg className="w-20 h-10 text-teal-600 overflow-visible drop-shadow-xs" viewBox="0 0 70 30" fill="none">
-              <path
-                d="M 2 22 Q 22 4, 42 18 T 68 8"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              />
-              <circle cx="68" cy="8" r="3" fill="currentColor" />
-            </svg>
+            {/* Rose SVG Sparkline + sonar ping on live endpoint */}
+            <div className="relative w-20 h-10 flex-shrink-0">
+              <svg className="w-full h-full text-rose-500 overflow-visible drop-shadow-xs" viewBox="0 0 70 30" fill="none">
+                <path
+                  d="M 2 22 Q 22 4, 42 18 T 68 8"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                />
+                <circle cx="68" cy="8" r="3" fill="currentColor" />
+              </svg>
+              {/* Signal ping ripple — rose/red, anchored to top-right endpoint */}
+              <span className="signal-ping-dot" style={{ position: 'absolute', top: '2px', right: '0px', width: '6px', height: '6px', borderRadius: '9999px', background: 'rgb(244,63,94)' }} />
+            </div>
           </div>
         </motion.div>
       </div>
@@ -389,7 +398,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             {demands.slice(0, 3).map((demand) => (
               <div
                 key={demand.id}
-                className="flex flex-col sm:flex-row sm:items-center justify-between rounded-xl skin-glass-sub p-3.5 hover:border-stone-400/40 transition-all gap-3 group"
+                className="flex flex-col sm:flex-row sm:items-center justify-between rounded-xl skin-glass-sub p-3.5 border border-stone-200 hover:border-emerald-500/60 shadow-xs hover:shadow-md transition-all gap-3 group"
               >
                 <div className="space-y-1">
                   <div className="flex items-center space-x-2">

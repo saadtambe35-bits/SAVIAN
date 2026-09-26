@@ -157,7 +157,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Corridor Metadata Pill (Inset Container) */}
-        <div className="mx-3.5 mt-3.5 mb-1 px-3 py-2 rounded-xl skin-glass-inset shadow-2xs">
+        <div className="mx-3.5 mt-3.5 mb-1 px-3 py-2 rounded-xl skin-glass-sub border border-stone-200 shadow-xs hover:border-emerald-500/60 transition-all">
           <div className="flex items-center justify-between text-[11px] font-semibold text-stone-800">
             <span className="flex items-center gap-1.5 text-stone-800 font-mono">
               <Radio className="h-3 w-3 text-[#078A68] animate-pulse" />
@@ -231,7 +231,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         {/* Footer Diagnostics (Inset Box) */}
         <div className="p-3.5 border-t border-white/70 bg-white/30 backdrop-blur-md">
-          <div className="rounded-xl skin-glass-inset p-3 text-xs space-y-1.5 shadow-2xs">
+          <div className="rounded-xl skin-glass-sub p-3 text-xs space-y-1.5 border border-stone-200 shadow-xs hover:border-emerald-500/60 transition-all">
             <div className="flex items-center justify-between text-[11px] font-mono">
               <span className="text-stone-600 font-medium">Solver Engine</span>
               <span className="cockpit-dark-chip text-[10px] font-bold px-2 py-0.5 rounded-[7px] aura-breathe-emerald tactile-spring cursor-default">

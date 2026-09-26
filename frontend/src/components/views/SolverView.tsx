@@ -99,7 +99,7 @@ export const SolverView: React.FC<SolverViewProps> = ({
 
         {/* Solver Metrics Strip - AeroSkin Glass & Dark Cockpit Chips */}
         <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-4 border-t border-stone-200/60">
-          <div className="rounded-xl skin-glass-sub p-3 space-y-1">
+          <div className="rounded-xl skin-glass-sub p-3 space-y-1 border border-stone-200 shadow-xs hover:border-emerald-500/60 transition-all">
             <span className="text-[10px] uppercase font-bold text-stone-400 font-mono">Solve Status</span>
             <div className="mt-1 flex items-center space-x-1.5">
               <span
@@ -115,7 +115,7 @@ export const SolverView: React.FC<SolverViewProps> = ({
             </div>
           </div>
 
-          <div className="rounded-xl skin-glass-sub p-3 space-y-1">
+          <div className="rounded-xl skin-glass-sub p-3 space-y-1 border border-stone-200 shadow-xs hover:border-emerald-500/60 transition-all">
             <span className="text-[10px] uppercase font-bold text-stone-400 font-mono">Optimality Gap</span>
             <div className="mt-1 text-xs font-black text-sky-700 font-mono">
               {solverStatus === 'solving'
@@ -124,7 +124,7 @@ export const SolverView: React.FC<SolverViewProps> = ({
             </div>
           </div>
 
-          <div className="rounded-xl skin-glass-sub p-3 space-y-1">
+          <div className="rounded-xl skin-glass-sub p-3 space-y-1 border border-stone-200 shadow-xs hover:border-emerald-500/60 transition-all">
             <span className="text-[10px] uppercase font-bold text-stone-400 font-mono">Wall Time</span>
             <div className="mt-1 text-xs font-black text-stone-900 font-mono">
               {solverStatus === 'solving'
@@ -133,21 +133,21 @@ export const SolverView: React.FC<SolverViewProps> = ({
             </div>
           </div>
 
-          <div className="rounded-xl skin-glass-sub p-3 space-y-1">
+          <div className="rounded-xl skin-glass-sub p-3 space-y-1 border border-stone-200 shadow-xs hover:border-emerald-500/60 transition-all">
             <span className="text-[10px] uppercase font-bold text-stone-400 font-mono">Objective Value</span>
             <div className="mt-1 text-xs font-black text-indigo-700 font-mono">
               {solverResult.objective_value}
             </div>
           </div>
 
-          <div className="rounded-xl skin-glass-sub p-3 space-y-1">
+          <div className="rounded-xl skin-glass-sub p-3 space-y-1 border border-stone-200 shadow-xs hover:border-emerald-500/60 transition-all">
             <span className="text-[10px] uppercase font-bold text-stone-400 font-mono">Shadow Merges</span>
             <div className="mt-1 text-xs font-black text-emerald-700 font-mono">
               {solverResult.shadow_merges} Blocks
             </div>
           </div>
 
-          <div className="rounded-xl skin-glass-sub p-3 space-y-1">
+          <div className="rounded-xl skin-glass-sub p-3 space-y-1 border border-stone-200 shadow-xs hover:border-emerald-500/60 transition-all">
             <span className="text-[10px] uppercase font-bold text-stone-400 font-mono">Clashes Detected</span>
             <div className="mt-1 text-xs font-black text-stone-700 font-mono">
               {solverResult.clashes_detected}

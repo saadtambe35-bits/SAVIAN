@@ -154,7 +154,7 @@ export const LifecycleView: React.FC<LifecycleViewProps> = ({
           return (
             <div
               key={stage.key}
-              className="skin-glass-card rounded-2xl p-3.5 flex flex-col min-h-[460px] border border-stone-200/60"
+              className="skin-glass-card rounded-2xl p-3.5 flex flex-col min-h-[460px] border border-stone-200 shadow-sm"
             >
               {/* Stage Header */}
               <div className="pb-3 border-b border-stone-200/60 space-y-1">
@@ -181,7 +181,7 @@ export const LifecycleView: React.FC<LifecycleViewProps> = ({
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.85, x: 25 }}
                         transition={{ duration: 0.28, ease: 'easeOut' }}
-                        className="rounded-xl skin-glass-sub p-3 space-y-2 hover:border-emerald-500/60 shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
+                        className="rounded-xl skin-glass-sub p-3 space-y-2 border border-stone-200 hover:border-emerald-500/60 shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
                       >
                         <div className="space-y-1.5">
                           <div className="flex justify-between items-start">
