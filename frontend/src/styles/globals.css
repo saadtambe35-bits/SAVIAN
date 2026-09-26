@@ -132,6 +132,8 @@
   font-weight: 700;
   letter-spacing: 0.02em;
   color: rgba(235, 220, 200, 0.9);
+  white-space: nowrap !important;
+  flex-shrink: 0;
 }
 
 .cockpit-dark-amber {
@@ -305,28 +307,9 @@
   animation-delay: 0s;
 }
 
-/* =========================================================================
-   SIGNAL PING — sonar ripple expanding from sparkline endpoint dot
-   ========================================================================= */
-@keyframes signal-ping-kf {
-  0%   { transform: scale(1);   opacity: 0.75; }
-  100% { transform: scale(3.2); opacity: 0; }
-}
-.signal-ping-dot {
-  position: relative;
-}
-.signal-ping-dot::after {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: 50%;
-  background: rgba(244, 63, 94, 0.55);
-  animation: signal-ping-kf 2.5s ease-out infinite;
-  pointer-events: none;
-}
 
 /* =========================================================================
-   ADD-ON 2: SPECULAR GLASS LIGHT SHEEN
+   ADD-ON 2: SPECULAR GLASS LIGHT SHEEN (Triggers ONLY on Hover)
    ========================================================================= */
 .glass-specular-shimmer {
   position: relative;
@@ -343,19 +326,21 @@
     60deg,
     transparent 20%,
     rgba(255, 255, 255, 0.05) 35%,
-    rgba(255, 255, 255, 0.18) 50%,
+    rgba(255, 255, 255, 0.22) 50%,
     rgba(255, 255, 255, 0.05) 65%,
     transparent 80%
   );
-  animation: glass-shimmer-sweep 6s ease-in-out infinite;
+  transform: translateX(-100%) rotate(15deg);
+  opacity: 0;
   pointer-events: none;
+}
+.glass-specular-shimmer:hover::after {
+  animation: glass-shimmer-sweep 0.75s ease-out forwards;
 }
 @keyframes glass-shimmer-sweep {
   0%   { transform: translateX(-100%) rotate(15deg); opacity: 0; }
-  10%  { opacity: 1; }
-  40%  { transform: translateX(60%) rotate(15deg);  opacity: 0.6; }
-  41%  { opacity: 0; }
-  100% { transform: translateX(60%) rotate(15deg);  opacity: 0; }
+  25%  { opacity: 0.85; }
+  100% { transform: translateX(65%) rotate(15deg);  opacity: 0; }
 }
 
 /* =========================================================================

@@ -184,8 +184,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
           </div>
 
-          <div className="mt-2.5 flex items-baseline justify-between">
-            <div>
+          <div className="mt-2.5 flex items-end justify-between gap-2">
+            <div className="min-w-0">
               <div className="flex items-baseline space-x-2">
                 <span className="text-3xl font-black tracking-tight text-stone-900 font-mono">
                   <RollingNumber value={demands.length} />
@@ -201,14 +201,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
 
             {/* Blue SVG Sparkline */}
-            <svg className="w-20 h-10 text-sky-600 overflow-visible drop-shadow-xs" viewBox="0 0 70 30" fill="none">
+            <svg className="w-16 h-8 text-sky-600 flex-shrink-0 self-end overflow-visible drop-shadow-xs" viewBox="0 0 70 30" fill="none">
               <path
-                d="M 2 24 Q 18 6, 36 20 T 68 8"
+                d="M 6 22 Q 20 8, 36 19 T 62 10"
                 stroke="currentColor"
                 strokeWidth="2.5"
                 strokeLinecap="round"
               />
-              <circle cx="68" cy="8" r="3" fill="currentColor" />
+              <circle cx="62" cy="10" r="3" fill="currentColor" />
             </svg>
           </div>
         </motion.div>
@@ -230,8 +230,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
           </div>
 
-          <div className="mt-2.5 flex items-baseline justify-between">
-            <div>
+          <div className="mt-2.5 flex items-end justify-between gap-2">
+            <div className="min-w-0">
               <div className="flex items-baseline space-x-2">
                 <span className="text-3xl font-black tracking-tight text-emerald-800 font-mono">
                   <RollingNumber value={totalShadowSaved} suffix=" hrs" />
@@ -247,14 +247,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
 
             {/* Emerald SVG Sparkline */}
-            <svg className="w-20 h-10 text-emerald-600 overflow-visible drop-shadow-xs" viewBox="0 0 70 30" fill="none">
+            <svg className="w-16 h-8 text-emerald-600 flex-shrink-0 self-end overflow-visible drop-shadow-xs" viewBox="0 0 70 30" fill="none">
               <path
-                d="M 2 26 Q 20 24, 38 12 T 68 4"
+                d="M 6 24 Q 22 22, 38 14 T 62 8"
                 stroke="currentColor"
                 strokeWidth="2.5"
                 strokeLinecap="round"
               />
-              <circle cx="68" cy="4" r="3" fill="currentColor" />
+              <circle cx="62" cy="8" r="3" fill="currentColor" />
             </svg>
           </div>
         </motion.div>
@@ -276,13 +276,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
           </div>
 
-          <div className="mt-2.5 flex items-baseline justify-between">
-            <div>
+          <div className="mt-2.5 flex items-end justify-between gap-2">
+            <div className="min-w-0">
               <div className="flex items-baseline space-x-2">
                 <span className="text-3xl font-black tracking-tight text-stone-900 font-mono">
                   <RollingNumber value={5.2} suffix=" min" />
                 </span>
-                <span className="cockpit-dark-chip text-[10px] font-mono font-bold border-violet-500/40 aura-breathe-violet" style={{ animationDelay: '0s' }}>
+                <span className="cockpit-dark-chip whitespace-nowrap flex-shrink-0 text-[10px] font-mono font-bold border-violet-500/40 aura-breathe-violet" style={{ animationDelay: '0s' }}>
                   <span className="h-1.5 w-1.5 rounded-full bg-violet-400 led-glow-violet" />
                   <span className="text-[#a78bfa]">-62% vs manual</span>
                 </span>
@@ -293,14 +293,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
 
             {/* Indigo SVG Sparkline */}
-            <svg className="w-20 h-10 text-indigo-600 overflow-visible drop-shadow-xs" viewBox="0 0 70 30" fill="none">
+            <svg className="w-16 h-8 text-indigo-600 flex-shrink-0 self-end overflow-visible drop-shadow-xs" viewBox="0 0 70 30" fill="none">
               <path
-                d="M 2 8 Q 20 26, 38 14 T 68 22"
+                d="M 6 10 Q 20 24, 38 15 T 62 20"
                 stroke="currentColor"
                 strokeWidth="2.5"
                 strokeLinecap="round"
               />
-              <circle cx="68" cy="22" r="3" fill="currentColor" />
+              <circle cx="62" cy="20" r="3" fill="currentColor" />
             </svg>
           </div>
         </motion.div>
@@ -322,8 +322,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
           </div>
 
-          <div className="mt-2.5 flex items-baseline justify-between">
-            <div>
+          <div className="mt-2.5 flex items-end justify-between gap-2">
+            <div className="min-w-0">
               {/* Row 1: big number + ARMED chip side by side */}
               <div className="flex items-center gap-2">
                 <span className="text-3xl font-black tracking-tight text-rose-800 font-mono">
@@ -342,20 +342,16 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               </p>
             </div>
 
-            {/* Rose SVG Sparkline + sonar ping on live endpoint */}
-            <div className="relative w-20 h-10 flex-shrink-0">
-              <svg className="w-full h-full text-rose-500 overflow-visible drop-shadow-xs" viewBox="0 0 70 30" fill="none">
-                <path
-                  d="M 2 22 Q 22 4, 42 18 T 68 8"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-                <circle cx="68" cy="8" r="3" fill="currentColor" />
-              </svg>
-              {/* Signal ping ripple — rose/red, anchored to top-right endpoint */}
-              <span className="signal-ping-dot" style={{ position: 'absolute', top: '2px', right: '0px', width: '6px', height: '6px', borderRadius: '9999px', background: 'rgb(244,63,94)' }} />
-            </div>
+            {/* Rose SVG Sparkline */}
+            <svg className="w-16 h-8 text-rose-500 flex-shrink-0 self-end overflow-visible drop-shadow-xs" viewBox="0 0 70 30" fill="none">
+              <path
+                d="M 6 20 Q 22 7, 40 17 T 62 10"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
+              <circle cx="62" cy="10" r="3" fill="currentColor" />
+            </svg>
           </div>
         </motion.div>
       </div>
