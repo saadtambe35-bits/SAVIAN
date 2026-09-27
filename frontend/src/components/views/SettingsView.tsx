@@ -13,7 +13,7 @@ import { Badge } from '@/components/ui/badge';
 
 export const SettingsView: React.FC = () => {
   return (
-    <div className="space-y-6 animate-in fade-in duration-300 max-w-5xl">
+    <div className="space-y-6 animate-in fade-in duration-300 max-w-5xl mx-auto">
       {/* Settings Header */}
       <div className="skin-glass-card skin-glass-elevated specular-sheen rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center space-x-3.5">
