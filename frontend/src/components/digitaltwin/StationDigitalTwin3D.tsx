@@ -610,6 +610,162 @@ export interface TrainUIItem {
   progressPercent: number;
 }
 
+// -------------------------------------------------------------
+// SIGNAL ENTITY INTERFACES (LOCATION 1: 3 CROSSOVER SWITCH REGIONS)
+// -------------------------------------------------------------
+export type SignalAspect = 'RED' | 'YELLOW' | 'GREEN';
+
+export interface SignalSpec {
+  id: string;
+  name: string;
+  trackId: number;
+  zone: CorridorZoneId;
+  x: number;
+  direction: 1 | -1; // 1 = Eastbound (+X), -1 = Westbound (-X)
+}
+
+export interface SignalEntity {
+  id: string;
+  name: string;
+  trackId: number;
+  zone: CorridorZoneId;
+  x: number;
+  z: number;
+  direction: 1 | -1;
+  group: THREE.Group;
+  redMesh: THREE.Mesh;
+  yellowMesh: THREE.Mesh;
+  greenMesh: THREE.Mesh;
+  junctionMesh: THREE.Mesh;
+  pointLight: THREE.PointLight;
+  currentAspect: SignalAspect;
+}
+
+// 30 Authentic Indian Railways Multiple Aspect Colour Light Signals (Location 1: 3 Crossover Switch Ladders)
+export const CROSSOVER_SIGNAL_SPECS: SignalSpec[] = [
+  // 1. WEST CROSSOVER REGION (x: -2100 to -1500)
+  // Eastbound Entry Signals (facing West at x = -2180, governing entry into West Ladder)
+  { id: 'SIG_W_EB_T1', name: 'West Ladder Home T1 (EB)', trackId: 1, zone: 'WEST_APPROACH', x: -2180, direction: 1 },
+  { id: 'SIG_W_EB_T2', name: 'West Ladder Home T2 (EB)', trackId: 2, zone: 'WEST_APPROACH', x: -2180, direction: 1 },
+  { id: 'SIG_W_EB_T3', name: 'West Ladder Home T3 (EB)', trackId: 3, zone: 'WEST_APPROACH', x: -2180, direction: 1 },
+  { id: 'SIG_W_EB_T4', name: 'West Ladder Home T4 (EB)', trackId: 4, zone: 'WEST_APPROACH', x: -2180, direction: 1 },
+  { id: 'SIG_W_EB_T5', name: 'West Ladder Home T5 (EB)', trackId: 5, zone: 'WEST_APPROACH', x: -2180, direction: 1 },
+  // Westbound Entry Signals (facing East at x = -1420, governing entry into West Ladder)
+  { id: 'SIG_W_WB_T1', name: 'West Ladder Starter T1 (WB)', trackId: 1, zone: 'WEST_APPROACH', x: -1420, direction: -1 },
+  { id: 'SIG_W_WB_T2', name: 'West Ladder Starter T2 (WB)', trackId: 2, zone: 'WEST_APPROACH', x: -1420, direction: -1 },
+  { id: 'SIG_W_WB_T3', name: 'West Ladder Starter T3 (WB)', trackId: 3, zone: 'WEST_APPROACH', x: -1420, direction: -1 },
+  { id: 'SIG_W_WB_T4', name: 'West Ladder Starter T4 (WB)', trackId: 4, zone: 'WEST_APPROACH', x: -1420, direction: -1 },
+  { id: 'SIG_W_WB_T5', name: 'West Ladder Starter T5 (WB)', trackId: 5, zone: 'WEST_APPROACH', x: -1420, direction: -1 },
+
+  // 2. CENTRAL SCISSORS REGION (x: -200 to +200)
+  // Eastbound Entry Signals (facing West at x = -260, governing central throat entry)
+  { id: 'SIG_C_EB_T1', name: 'Central Throat Starter T1 (EB)', trackId: 1, zone: 'STATION_CENTRAL', x: -260, direction: 1 },
+  { id: 'SIG_C_EB_T2', name: 'Central Throat Starter T2 (EB)', trackId: 2, zone: 'STATION_CENTRAL', x: -260, direction: 1 },
+  { id: 'SIG_C_EB_T3', name: 'Central Throat Starter T3 (EB)', trackId: 3, zone: 'STATION_CENTRAL', x: -260, direction: 1 },
+  { id: 'SIG_C_EB_T4', name: 'Central Throat Starter T4 (EB)', trackId: 4, zone: 'STATION_CENTRAL', x: -260, direction: 1 },
+  { id: 'SIG_C_EB_T5', name: 'Central Throat Starter T5 (EB)', trackId: 5, zone: 'STATION_CENTRAL', x: -260, direction: 1 },
+  // Westbound Entry Signals (facing East at x = +260, governing central throat entry)
+  { id: 'SIG_C_WB_T1', name: 'Central Throat Starter T1 (WB)', trackId: 1, zone: 'STATION_CENTRAL', x: 260, direction: -1 },
+  { id: 'SIG_C_WB_T2', name: 'Central Throat Starter T2 (WB)', trackId: 2, zone: 'STATION_CENTRAL', x: 260, direction: -1 },
+  { id: 'SIG_C_WB_T3', name: 'Central Throat Starter T3 (WB)', trackId: 3, zone: 'STATION_CENTRAL', x: 260, direction: -1 },
+  { id: 'SIG_C_WB_T4', name: 'Central Throat Starter T4 (WB)', trackId: 4, zone: 'STATION_CENTRAL', x: 260, direction: -1 },
+  { id: 'SIG_C_WB_T5', name: 'Central Throat Starter T5 (WB)', trackId: 5, zone: 'STATION_CENTRAL', x: 260, direction: -1 },
+
+  // 3. EAST CROSSOVER REGION (x: 1500 to 2100)
+  // Eastbound Entry Signals (facing West at x = 1420, governing East Ladder entry)
+  { id: 'SIG_E_EB_T1', name: 'East Ladder Starter T1 (EB)', trackId: 1, zone: 'EAST_DEPARTURE', x: 1420, direction: 1 },
+  { id: 'SIG_E_EB_T2', name: 'East Ladder Starter T2 (EB)', trackId: 2, zone: 'EAST_DEPARTURE', x: 1420, direction: 1 },
+  { id: 'SIG_E_EB_T3', name: 'East Ladder Starter T3 (EB)', trackId: 3, zone: 'EAST_DEPARTURE', x: 1420, direction: 1 },
+  { id: 'SIG_E_EB_T4', name: 'East Ladder Starter T4 (EB)', trackId: 4, zone: 'EAST_DEPARTURE', x: 1420, direction: 1 },
+  { id: 'SIG_E_EB_T5', name: 'East Ladder Starter T5 (EB)', trackId: 5, zone: 'EAST_DEPARTURE', x: 1420, direction: 1 },
+  // Westbound Entry Signals (facing East at x = 2180, governing entry from East Approach)
+  { id: 'SIG_E_WB_T1', name: 'East Ladder Home T1 (WB)', trackId: 1, zone: 'EAST_DEPARTURE', x: 2180, direction: -1 },
+  { id: 'SIG_E_WB_T2', name: 'East Ladder Home T2 (WB)', trackId: 2, zone: 'EAST_DEPARTURE', x: 2180, direction: -1 },
+  { id: 'SIG_E_WB_T3', name: 'East Ladder Home T3 (WB)', trackId: 3, zone: 'EAST_DEPARTURE', x: 2180, direction: -1 },
+  { id: 'SIG_E_WB_T4', name: 'East Ladder Home T4 (WB)', trackId: 4, zone: 'EAST_DEPARTURE', x: 2180, direction: -1 },
+  { id: 'SIG_E_WB_T5', name: 'East Ladder Home T5 (WB)', trackId: 5, zone: 'EAST_DEPARTURE', x: 2180, direction: -1 },
+];
+
+// -------------------------------------------------------------
+// ADDON 2: MOTORIZED POINT MACHINE & MOVING SWITCH BLADES
+// -------------------------------------------------------------
+export interface PointMachineSpec {
+  id: string;
+  name: string;
+  trackId: number;
+  x: number;
+  z: number;
+  divergeTrackId: number;
+  divergeTargetZ: number;
+  direction: 1 | -1;
+}
+
+export interface PointMachineEntity {
+  id: string;
+  name: string;
+  trackId: number;
+  divergeTrackId: number;
+  x: number;
+  z: number;
+  direction: 1 | -1;
+  group: THREE.Group;
+  driveRod: THREE.Mesh;
+  targetDisc: THREE.Mesh;
+  indicatorLight: THREE.PointLight;
+  switchBlade: THREE.Mesh;
+  baseBladeZ: number;
+  divergeBladeZ: number;
+  currentShift: number; // 0 = straight/normal, 1 = reverse/turnout
+  isReverse: boolean;
+}
+
+export const KEY_POINT_MACHINE_SPECS: PointMachineSpec[] = [
+  // 1. West Ladder Crossovers
+  { id: 'PM_W_1', name: 'West Turnout Point T1-T2', trackId: 1, x: -2100, z: -120, divergeTrackId: 2, divergeTargetZ: -60, direction: 1 },
+  { id: 'PM_W_2', name: 'West Turnout Point T2-T3', trackId: 2, x: -1950, z: -60, divergeTrackId: 3, divergeTargetZ: 0, direction: 1 },
+  { id: 'PM_W_3', name: 'West Turnout Point T3-T4', trackId: 3, x: -1950, z: 0, divergeTrackId: 4, divergeTargetZ: 60, direction: 1 },
+  { id: 'PM_W_4', name: 'West Turnout Point T4-T5', trackId: 4, x: -2100, z: 60, divergeTrackId: 5, divergeTargetZ: 120, direction: 1 },
+  { id: 'PM_W_5', name: 'West Turnout Point T2-T1 (WB)', trackId: 2, x: -1650, z: -60, divergeTrackId: 1, divergeTargetZ: -120, direction: -1 },
+  { id: 'PM_W_6', name: 'West Turnout Point T4-T5 (WB)', trackId: 4, x: -1650, z: 60, divergeTrackId: 5, divergeTargetZ: 120, direction: -1 },
+
+  // 2. Central Scissors Crossovers
+  { id: 'PM_C_1', name: 'Central Throat Point T1-T2 (EB)', trackId: 1, x: -200, z: -120, divergeTrackId: 2, divergeTargetZ: -60, direction: 1 },
+  { id: 'PM_C_2', name: 'Central Throat Point T2-T3 (EB)', trackId: 2, x: -200, z: -60, divergeTrackId: 3, divergeTargetZ: 0, direction: 1 },
+  { id: 'PM_C_3', name: 'Central Throat Point T3-T4 (EB)', trackId: 3, x: -200, z: 0, divergeTrackId: 4, divergeTargetZ: 60, direction: 1 },
+  { id: 'PM_C_4', name: 'Central Throat Point T4-T5 (EB)', trackId: 4, x: -200, z: 60, divergeTrackId: 5, divergeTargetZ: 120, direction: 1 },
+  { id: 'PM_C_5', name: 'Central Throat Point T2-T1 (WB)', trackId: 2, x: 50, z: -60, divergeTrackId: 1, divergeTargetZ: -120, direction: -1 },
+  { id: 'PM_C_6', name: 'Central Throat Point T3-T2 (WB)', trackId: 3, x: 50, z: 0, divergeTrackId: 2, divergeTargetZ: -60, direction: -1 },
+  { id: 'PM_C_7', name: 'Central Throat Point T4-T3 (WB)', trackId: 4, x: 50, z: 60, divergeTrackId: 3, divergeTargetZ: 0, direction: -1 },
+  { id: 'PM_C_8', name: 'Central Throat Point T5-T4 (WB)', trackId: 5, x: 50, z: 120, divergeTrackId: 4, divergeTargetZ: 60, direction: -1 },
+
+  // 3. East Ladder Crossovers
+  { id: 'PM_E_1', name: 'East Turnout Point T1-T2 (EB)', trackId: 1, x: 1500, z: -120, divergeTrackId: 2, divergeTargetZ: -60, direction: 1 },
+  { id: 'PM_E_2', name: 'East Turnout Point T2-T3 (EB)', trackId: 2, x: 1650, z: -60, divergeTrackId: 3, divergeTargetZ: 0, direction: 1 },
+  { id: 'PM_E_3', name: 'East Turnout Point T4-T3 (EB)', trackId: 4, x: 1650, z: 60, divergeTrackId: 3, divergeTargetZ: 0, direction: 1 },
+  { id: 'PM_E_4', name: 'East Turnout Point T5-T4 (EB)', trackId: 5, x: 1500, z: 120, divergeTrackId: 4, divergeTargetZ: 60, direction: 1 },
+  { id: 'PM_E_5', name: 'East Turnout Point T2-T1 (WB)', trackId: 2, x: 1950, z: -60, divergeTrackId: 1, divergeTargetZ: -120, direction: -1 },
+  { id: 'PM_E_6', name: 'East Turnout Point T4-T5 (WB)', trackId: 4, x: 1950, z: 60, divergeTrackId: 5, divergeTargetZ: 120, direction: -1 },
+];
+
+// -------------------------------------------------------------
+// ADDON 3: OVERHEAD CATENARY ELECTRIC SPARKS (OHE ARCS)
+// -------------------------------------------------------------
+export interface SparkParticle {
+  mesh: THREE.Mesh;
+  vel: THREE.Vector3;
+  life: number;
+  maxLife: number;
+}
+
+export interface SparkSystem {
+  group: THREE.Group;
+  arcFlashLight: THREE.PointLight;
+  arcBoltLine: THREE.Line;
+  sparkParticles: SparkParticle[];
+  isActive: boolean;
+  activeFrames: number;
+}
+
 export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
   isBlockActive: incomingBlockActive,
   isPowerIsolated: incomingPowerIsolated,
@@ -622,6 +778,10 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     { trackId: 1, zoneId: 'STATION_CENTRAL', type: 'P-WAY', timestamp: '14:30' },
     { trackId: 4, zoneId: 'WEST_THROAT', type: 'OHE', timestamp: '14:45' },
   ]);
+  const activeBlocksRef = useRef<ActiveBlock[]>(activeBlocks);
+  useEffect(() => {
+    activeBlocksRef.current = activeBlocks;
+  }, [activeBlocks]);
 
   const [selectedTrack, setSelectedTrack] = useState<number>(2);
   const [selectedZone, setSelectedZone] = useState<SegmentZoneId>('STATION_CENTRAL');
@@ -692,6 +852,10 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
   const activeTrainsRef = useRef<ActiveTrain[]>([]);
   const segmentMeshesRef = useRef<Map<string, { ballast: THREE.Mesh; rails: THREE.LineSegments }>>(new Map());
   const hazardGroupRef = useRef<THREE.Group>(new THREE.Group());
+  const signalsRef = useRef<SignalEntity[]>([]);
+  const pointMachinesRef = useRef<PointMachineEntity[]>([]);
+  const sparkSystemRef = useRef<SparkSystem | null>(null);
+  const sparkCooldownRef = useRef<number>(45);
   const pulseTimerRef = useRef<number>(0);
   const frameCountRef = useRef<number>(0);
 
@@ -1044,16 +1208,20 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       const t = Math.min(1, Math.max(0, train.distanceTraveled / train.curveLength));
       const enginePos = train.curve.getPointAt(t);
 
-      // 2. Find upcoming milestone node along travel direction on current track
+      // 2. Find upcoming crossover node in the 3 blue line regions along travel direction on current track
       const candidateMilestones = Array.from(graph.nodes.values()).filter((n) => {
         if (n.trackId !== train.currentTrack) return false;
+        const isCrossoverPoint = ALL_CROSSOVER_LINKS.some(
+          (link) => (link.t1 === train.currentTrack && link.x1 === n.x) || (link.t2 === train.currentTrack && link.x2 === n.x)
+        );
+        if (!isCrossoverPoint) return false;
         return train.direction === 1 ? n.x >= enginePos.x + 25 : n.x <= enginePos.x - 25;
       });
 
       candidateMilestones.sort((a, b) => Math.abs(a.x - enginePos.x) - Math.abs(b.x - enginePos.x));
 
       if (candidateMilestones.length === 0) {
-        addLog(`⚠️ Train ${train.name} is too close to corridor exit to switch tracks.`);
+        addLog(`⚠️ Train ${train.name}: No blue crossover switch ladder ahead to change tracks.`);
         return;
       }
 
@@ -1108,8 +1276,8 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
 
     const { pos } = getConsistPointAndTangent(train.curve, train.curveLength, train.distanceTraveled);
 
-    controls.target.set(pos.x, 0, pos.z);
-    camera.position.set(pos.x + 320, 320, pos.z + 320);
+    controls.target.set(pos.x, 10, pos.z);
+    camera.position.set(pos.x + 450, 590, pos.z + 450);
     camera.zoom = 1.35;
     camera.updateProjectionMatrix();
     controls.update();
@@ -1127,30 +1295,33 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     scene.background = new THREE.Color('#0a0e17');
     sceneRef.current = scene;
 
-    // 2. Camera: High-Precision Orthographic Camera (Default Zoomed-In to Yard)
+    // 2. Camera: High-Precision Orthographic Camera (Perfect Track Axis Centering)
     const aspect = container.clientWidth / container.clientHeight;
-    const viewSize = 820; // Framed to capture the 2x bold tracks & grand station
+    const viewSize = 640;
     const camera = new THREE.OrthographicCamera(
       (-viewSize * aspect) / 2,
       (viewSize * aspect) / 2,
       viewSize / 2,
       -viewSize / 2,
-      1,
-      6000
+      -15000, // Near clipping plane set to -15000: Completely eliminates near-plane ground clipping
+      30000   // Far clipping plane
     );
-    // Framed directly onto the central station yard and platforms (Identical to Recenter View)
-    camera.position.set(400, 440, 400);
-    camera.lookAt(0, 0, -25);
-    camera.zoom = 1.25; // Matches Recenter View zoom perfectly
+    // Framed directly onto the central 5-track corridor at Z=0
+    camera.position.set(450, 590, 450);
+    camera.lookAt(0, 10, 0);
+    camera.zoom = 1.25;
     camera.updateProjectionMatrix();
     cameraRef.current = camera;
 
     // 3. Renderer
     const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setSize(container.clientWidth, container.clientHeight, false);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.domElement.style.display = 'block';
+    renderer.domElement.style.width = '100%';
+    renderer.domElement.style.height = '100%';
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
@@ -1161,16 +1332,16 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     controls.enablePan = true;
     controls.screenSpacePanning = false;
     controls.maxPolarAngle = Math.PI / 2 - 0.08;
-    controls.minZoom = 0.35; // Allows zooming out to see full corridor
-    controls.maxZoom = 3.5;  // Allows zooming in close to train details
-    controls.target.set(0, 0, -25);
+    controls.minZoom = 0.40; // Full 5000-unit corridor visible across screen width without non-axis void
+    controls.maxZoom = 3.2;  // Allows zooming in close to train details
+    controls.target.set(0, 10, 0);
     controls.update();
     controlsRef.current = controls;
 
-    // Camera Pan Bounding Box Clamping (Allows viewing full 5000-unit corridor from end to end)
+    // Camera Pan Bounding Box Clamping (Centered on the 5-track railway corridor)
     const yardBounds = new THREE.Box3(
-      new THREE.Vector3(-2800, -20, -420),
-      new THREE.Vector3(2800, 80, 280)
+      new THREE.Vector3(-2800, -20, -350),
+      new THREE.Vector3(2800, 80, 350)
     );
 
     const restrictPan = () => {
@@ -1216,17 +1387,17 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     stationLight.position.set(0, 40, -170);
     scene.add(stationLight);
 
-    // 6. Yard Ground Plane & Grid
-    const groundGeo = new THREE.PlaneGeometry(5500, 1100);
+    // 6. Yard Ground Plane & Grid (Seamless, expansive coverage across all zoom levels)
+    const groundGeo = new THREE.PlaneGeometry(22000, 16000);
     const groundMat = new THREE.MeshStandardMaterial({ color: 0x090d16, roughness: 0.95 });
     const ground = new THREE.Mesh(groundGeo, groundMat);
     ground.rotation.x = -Math.PI / 2;
-    ground.position.y = -0.1;
+    ground.position.set(0, -0.1, 0);
     ground.receiveShadow = true;
     scene.add(ground);
 
-    const grid = new THREE.GridHelper(5200, 104, 0x1e293b, 0x0f172a);
-    grid.position.y = 0.05;
+    const grid = new THREE.GridHelper(22000, 360, 0x1e293b, 0x0f172a);
+    grid.position.set(0, 0.05, 0);
     scene.add(grid);
 
     // 7. BUILD 5 TRACKS × 5 CORRIDOR SEGMENTS MESHES (HEAVY 2x MASSIVE 3D PROFILE, LENGTH UNTOUCHED)
@@ -1330,6 +1501,302 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       xBallast.rotation.y = -angle;
       scene.add(xBallast);
     });
+
+    // -------------------------------------------------------------
+    // 8B. PRO INDIAN RAILWAYS COLOUR LIGHT SIGNALS (LOCATION 1: 3 CROSSOVER REGIONS)
+    // -------------------------------------------------------------
+    const sigConcreteMat = new THREE.MeshStandardMaterial({ color: 0x64748b, roughness: 0.85 });
+    const sigSilverMastMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.88, roughness: 0.2 }); // High-Vis Galvanized Steel
+    const sigMastRingMat = new THREE.MeshStandardMaterial({ color: 0x18181b, roughness: 0.7 }); // Contrasting IR Zebra Banding
+    const sigWhiteBorderMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.35 }); // High-Vis Target Plate Border
+    const sigTargetPlateMat = new THREE.MeshStandardMaterial({ color: 0x09090b, roughness: 0.9 }); // Deep Matte Black Face
+    const sigVisorMat = new THREE.MeshStandardMaterial({ color: 0x050505, roughness: 0.5 });
+    const sigLensOffMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.3, metalness: 0.7 });
+    const sigRedLitMat = new THREE.MeshStandardMaterial({
+      color: 0xff0000,
+      emissive: 0xff1111,
+      emissiveIntensity: 4.5,
+      roughness: 0.1,
+    });
+    const sigYellowLitMat = new THREE.MeshStandardMaterial({
+      color: 0xffa500,
+      emissive: 0xff9900,
+      emissiveIntensity: 4.5,
+      roughness: 0.1,
+    });
+    const sigGreenLitMat = new THREE.MeshStandardMaterial({
+      color: 0x10b981,
+      emissive: 0x00ff88,
+      emissiveIntensity: 4.5,
+      roughness: 0.1,
+    });
+    const sigFeatherLitMat = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      emissive: 0xe0f2fe,
+      emissiveIntensity: 4.5,
+      roughness: 0.1,
+    });
+
+    // Substantially Scaled 3D Geometries for Maximum Visibility
+    const sigPlinthGeo = new THREE.BoxGeometry(6.5, 4.0, 6.5);
+    const sigMastGeo = new THREE.CylinderGeometry(1.6, 1.9, 34, 16);
+    const sigRingGeo = new THREE.CylinderGeometry(1.95, 1.95, 4.2, 16);
+    const sigPlatGeo = new THREE.BoxGeometry(8.5, 0.6, 7.5);
+    const sigWhiteBorderGeo = new THREE.BoxGeometry(6.6, 19.5, 1.8);
+    const sigTargetPlateGeo = new THREE.BoxGeometry(5.6, 18.5, 2.4);
+    const sigLensGeo = new THREE.SphereGeometry(1.65, 16, 16); // 2.3x Larger Glowing Disc
+    const sigVisorGeo = new THREE.CylinderGeometry(2.0, 2.0, 2.4, 14, 1, true, 0, Math.PI);
+    const sigFeatherGeo = new THREE.BoxGeometry(7.0, 1.4, 1.4);
+
+    const signalsList: SignalEntity[] = [];
+
+    CROSSOVER_SIGNAL_SPECS.forEach((spec) => {
+      const trackDef = TRACKS.find((tr) => tr.id === spec.trackId);
+      const trackZ = trackDef ? trackDef.z : 0;
+      let lateralOffset = spec.direction === 1 ? -18 : 18;
+      if (spec.trackId === 1) lateralOffset = -26;
+      if (spec.trackId === 5) lateralOffset = 26;
+      const signalZ = trackZ + lateralOffset;
+
+      const sigGroup = new THREE.Group();
+      sigGroup.position.set(spec.x, 0, signalZ);
+
+      // 1. Concrete Foundation Plinth
+      const plinth = new THREE.Mesh(sigPlinthGeo, sigConcreteMat);
+      plinth.position.y = 2.0;
+      plinth.receiveShadow = true;
+      sigGroup.add(plinth);
+
+      // 2. High-Vis Galvanized Steel Mast
+      const mast = new THREE.Mesh(sigMastGeo, sigSilverMastMat);
+      mast.position.y = 19.0;
+      mast.castShadow = true;
+      sigGroup.add(mast);
+
+      // High-Contrast Zebra Band Rings (IR standard signal post livery)
+      [-5.0, 3.5].forEach((ringY) => {
+        const ring = new THREE.Mesh(sigRingGeo, sigMastRingMat);
+        ring.position.y = 19.0 + ringY;
+        sigGroup.add(ring);
+      });
+
+      // 3. Maintenance Service Platform
+      const platform = new THREE.Mesh(sigPlatGeo, sigSilverMastMat);
+      platform.position.y = 23.5;
+      sigGroup.add(platform);
+
+      // 4. Signal Head Casing (Positioned at eye-level high above tracks: y = 33)
+      const headGroup = new THREE.Group();
+      headGroup.position.set(0, 33, 0);
+
+      // Direct Isometric Camera Orientation:
+      // Rotated 45° so the lenses face directly toward the camera (+X, +Z) for 100% full frontal visibility
+      headGroup.rotation.y = Math.PI / 4;
+
+      // Outer White Contrast Border
+      const whiteBorder = new THREE.Mesh(sigWhiteBorderGeo, sigWhiteBorderMat);
+      headGroup.add(whiteBorder);
+
+      // Inner Black Target Plate Face
+      const targetPlate = new THREE.Mesh(sigTargetPlateGeo, sigTargetPlateMat);
+      headGroup.add(targetPlate);
+
+      // Sun Visors / Hoods
+      [-5.2, 0, 5.2].forEach((yOff) => {
+        const visor = new THREE.Mesh(sigVisorGeo, sigVisorMat);
+        visor.position.set(0, yOff, 1.4);
+        visor.rotation.x = Math.PI / 2;
+        headGroup.add(visor);
+      });
+
+      // 3 Lenses: Red (bottom, y = -5.2), Yellow (center, y = 0), Green (top, y = +5.2)
+      const redMesh = new THREE.Mesh(sigLensGeo, sigLensOffMat);
+      redMesh.position.set(0, -5.2, 1.3);
+      headGroup.add(redMesh);
+
+      const yellowMesh = new THREE.Mesh(sigLensGeo, sigLensOffMat);
+      yellowMesh.position.set(0, 0, 1.3);
+      headGroup.add(yellowMesh);
+
+      const greenMesh = new THREE.Mesh(sigLensGeo, sigGreenLitMat); // Default clear green
+      greenMesh.position.set(0, 5.2, 1.3);
+      headGroup.add(greenMesh);
+
+      // Junction Route Feather (Angled White Indicator for Diverging Routes)
+      const junctionMesh = new THREE.Mesh(sigFeatherGeo, sigLensOffMat);
+      junctionMesh.position.set(0, 11.2, 1.3);
+      junctionMesh.rotation.z = spec.direction === 1 ? -0.55 : 0.55;
+      headGroup.add(junctionMesh);
+
+      sigGroup.add(headGroup);
+
+      // 5. Dynamic Track Glow PointLight
+      const pointLight = new THREE.PointLight(0x22c55e, 1.8, 65);
+      pointLight.position.set(0, 33, 2.5);
+      sigGroup.add(pointLight);
+
+      scene.add(sigGroup);
+
+      signalsList.push({
+        id: spec.id,
+        name: spec.name,
+        trackId: spec.trackId,
+        zone: spec.zone,
+        x: spec.x,
+        z: signalZ,
+        direction: spec.direction,
+        group: sigGroup,
+        redMesh,
+        yellowMesh,
+        greenMesh,
+        junctionMesh,
+        pointLight,
+        currentAspect: 'GREEN',
+      });
+    });
+
+    signalsRef.current = signalsList;
+
+    // -------------------------------------------------------------
+    // ADDON 2: MOTORIZED POINT MACHINES & MOVING SWITCH RAILS
+    // -------------------------------------------------------------
+    const pmSleeperMat = new THREE.MeshStandardMaterial({ color: 0x27272a, roughness: 0.95 });
+    const pmBaseMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.7, metalness: 0.4 });
+    const pmCoverMat = new THREE.MeshStandardMaterial({ color: 0xf59e0b, roughness: 0.35, metalness: 0.2 }); // IR High-Vis Turnout Yellow
+    const pmRodMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.95, roughness: 0.15 });
+    const pmBladeMat = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.92, roughness: 0.2 });
+    const pmDiscMat = new THREE.MeshStandardMaterial({ color: 0x10b981, roughness: 0.3 }); // Green Normal, shifts to Amber
+
+    const pointMachinesList: PointMachineEntity[] = [];
+
+    KEY_POINT_MACHINE_SPECS.forEach((spec) => {
+      const pmGroup = new THREE.Group();
+
+      // Extended sleeper under the turnout motor
+      const sleeperGeo = new THREE.BoxGeometry(5.0, 2.2, 22.0);
+      const sleeper = new THREE.Mesh(sleeperGeo, pmSleeperMat);
+      sleeper.position.set(spec.x, 2.5, spec.z + (spec.divergeTargetZ > spec.z ? 7.0 : -7.0));
+      sleeper.receiveShadow = true;
+      pmGroup.add(sleeper);
+
+      // Motor Machine Enclosure Box
+      const motorOffsetZ = spec.divergeTargetZ > spec.z ? 9.5 : -9.5;
+      const boxGeo = new THREE.BoxGeometry(6.5, 3.2, 5.0);
+      const motorBox = new THREE.Mesh(boxGeo, pmBaseMat);
+      motorBox.position.set(spec.x, 5.0, spec.z + motorOffsetZ);
+      pmGroup.add(motorBox);
+
+      // Top Motor Cover (Yellow Casing)
+      const coverGeo = new THREE.BoxGeometry(6.7, 0.8, 5.2);
+      const motorCover = new THREE.Mesh(coverGeo, pmCoverMat);
+      motorCover.position.set(spec.x, 6.8, spec.z + motorOffsetZ);
+      pmGroup.add(motorCover);
+
+      // Drive Rod (Stretcher Bar) - connects motor into the track
+      const rodGeo = new THREE.BoxGeometry(1.2, 0.9, 8.5);
+      const driveRod = new THREE.Mesh(rodGeo, pmRodMat);
+      driveRod.position.set(spec.x, 5.0, spec.z + motorOffsetZ * 0.5);
+      pmGroup.add(driveRod);
+
+      // Turnout Position Indicator Disc & Spindle
+      const spindleGeo = new THREE.CylinderGeometry(0.3, 0.3, 4.5);
+      const spindle = new THREE.Mesh(spindleGeo, pmBaseMat);
+      spindle.position.set(spec.x, 9.0, spec.z + motorOffsetZ);
+      pmGroup.add(spindle);
+
+      const discGeo = new THREE.CylinderGeometry(1.5, 1.5, 0.4, 16);
+      const targetDisc = new THREE.Mesh(discGeo, pmDiscMat.clone());
+      targetDisc.rotation.x = Math.PI / 2;
+      targetDisc.position.set(spec.x, 11.2, spec.z + motorOffsetZ);
+      pmGroup.add(targetDisc);
+
+      const indicatorLight = new THREE.PointLight(0x22c55e, 0.6, 25);
+      indicatorLight.position.set(spec.x, 11.5, spec.z + motorOffsetZ);
+      pmGroup.add(indicatorLight);
+
+      // Moving Switch Blade Rail
+      const bladeGeo = new THREE.BoxGeometry(28.0, 2.2, 1.0);
+      const switchBlade = new THREE.Mesh(bladeGeo, pmBladeMat);
+      const baseBladeZ = spec.z + (spec.divergeTargetZ > spec.z ? 3.0 : -3.0);
+      const divergeBladeZ = spec.z + (spec.divergeTargetZ > spec.z ? 5.2 : -5.2);
+      switchBlade.position.set(spec.x + (spec.direction === 1 ? 14 : -14), 10.5, baseBladeZ);
+      pmGroup.add(switchBlade);
+
+      scene.add(pmGroup);
+
+      pointMachinesList.push({
+        id: spec.id,
+        name: spec.name,
+        trackId: spec.trackId,
+        divergeTrackId: spec.divergeTrackId,
+        x: spec.x,
+        z: spec.z,
+        direction: spec.direction,
+        group: pmGroup,
+        driveRod,
+        targetDisc,
+        indicatorLight,
+        switchBlade,
+        baseBladeZ,
+        divergeBladeZ,
+        currentShift: 0,
+        isReverse: false,
+      });
+    });
+
+    pointMachinesRef.current = pointMachinesList;
+
+    // -------------------------------------------------------------
+    // ADDON 3: OVERHEAD CATENARY ELECTRIC SPARKS (OHE ARCS)
+    // -------------------------------------------------------------
+    const sparkGroup = new THREE.Group();
+    sparkGroup.position.set(0, -9999, 0); // Hidden until triggered
+
+    // Arc Flash PointLight
+    const arcFlashLight = new THREE.PointLight(0x38bdf8, 0, 65);
+    sparkGroup.add(arcFlashLight);
+
+    // Jagged Electric Arc Bolt Line (Electric lightning discharge)
+    const arcBoltPts = [
+      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(0.5, 0.8, -0.4),
+      new THREE.Vector3(-0.6, 1.6, 0.5),
+      new THREE.Vector3(0.4, 2.5, -0.3),
+      new THREE.Vector3(0, 3.8, 0),
+    ];
+    const arcBoltGeo = new THREE.BufferGeometry().setFromPoints(arcBoltPts);
+    const arcBoltMat = new THREE.LineBasicMaterial({ color: 0xffffff, linewidth: 3 });
+    const arcBoltLine = new THREE.Line(arcBoltGeo, arcBoltMat);
+    arcBoltLine.visible = false;
+    sparkGroup.add(arcBoltLine);
+
+    // Spark Particles (Glowing diamond embers)
+    const sparkMat = new THREE.MeshBasicMaterial({ color: 0x93c5fd });
+    const sparkGeo = new THREE.BoxGeometry(0.7, 0.7, 0.7);
+    const sparkParticles: SparkParticle[] = [];
+
+    for (let s = 0; s < 20; s++) {
+      const pMesh = new THREE.Mesh(sparkGeo, sparkMat);
+      pMesh.visible = false;
+      sparkGroup.add(pMesh);
+      sparkParticles.push({
+        mesh: pMesh,
+        vel: new THREE.Vector3(),
+        life: 0,
+        maxLife: 15,
+      });
+    }
+
+    scene.add(sparkGroup);
+
+    sparkSystemRef.current = {
+      group: sparkGroup,
+      arcFlashLight,
+      arcBoltLine,
+      sparkParticles,
+      isActive: false,
+      activeFrames: 0,
+    };
 
     // -------------------------------------------------------------
     // 9. PRO-GRADE ARCHITECTURAL 3D STATION COMPLEX (BHOPAL JUNCTION) - 10X ENHANCED
@@ -2191,6 +2658,200 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
         }
       });
 
+      // Live Signal Aspect Calculation (Indian Railways 3-Aspect Interlocking at Location 1)
+      signalsRef.current.forEach((sig) => {
+        let targetAspect: SignalAspect = 'GREEN';
+        let isDiverging = false;
+
+        // 1. Check if track is blocked by active maintenance block in this corridor zone
+        const isBlocked = activeBlocksRef.current.some(
+          (b) =>
+            b.trackId === sig.trackId &&
+            ((sig.zone === 'WEST_APPROACH' && (b.zoneId === 'WEST_THROAT' || b.zoneId === 'STATION_CENTRAL')) ||
+              (sig.zone === 'STATION_CENTRAL' && b.zoneId === 'STATION_CENTRAL') ||
+              (sig.zone === 'EAST_DEPARTURE' && (b.zoneId === 'EAST_THROAT' || b.zoneId === 'STATION_CENTRAL')))
+        );
+
+        if (isBlocked) {
+          targetAspect = 'RED';
+        } else {
+          // 2. Check trains on this track
+          for (const train of activeTrainsRef.current) {
+            if (train.currentTrack === sig.trackId && train.direction === sig.direction) {
+              const enginePos = train.cars[0]?.mesh?.position;
+              if (!enginePos) continue;
+
+              const dist = sig.direction === 1 ? sig.x - enginePos.x : enginePos.x - sig.x;
+
+              // Train approaching within 420 units
+              if (dist >= 0 && dist < 420) {
+                if (train.assignedTrack !== train.currentTrack) {
+                  targetAspect = 'YELLOW';
+                  isDiverging = true;
+                } else if (dist < 80) {
+                  targetAspect = 'RED';
+                }
+              } else if (dist < 0 && dist > -380) {
+                // Train is occupying section past signal
+                targetAspect = 'RED';
+              }
+            }
+          }
+        }
+
+        // Apply visual aspect state changes
+        if (sig.currentAspect !== targetAspect) {
+          sig.currentAspect = targetAspect;
+          if (targetAspect === 'RED') {
+            sig.redMesh.material = sigRedLitMat;
+            sig.yellowMesh.material = sigLensOffMat;
+            sig.greenMesh.material = sigLensOffMat;
+            sig.pointLight.color.setHex(0xff1111);
+            sig.pointLight.intensity = 2.2;
+          } else if (targetAspect === 'YELLOW') {
+            sig.redMesh.material = sigLensOffMat;
+            sig.yellowMesh.material = sigYellowLitMat;
+            sig.greenMesh.material = sigLensOffMat;
+            sig.pointLight.color.setHex(0xff9900);
+            sig.pointLight.intensity = 2.2;
+          } else {
+            sig.redMesh.material = sigLensOffMat;
+            sig.yellowMesh.material = sigLensOffMat;
+            sig.greenMesh.material = sigGreenLitMat;
+            sig.pointLight.color.setHex(0x00ff88);
+            sig.pointLight.intensity = 1.8;
+          }
+        }
+
+        // Junction feather indicator state
+        sig.junctionMesh.material = isDiverging ? sigFeatherLitMat : sigLensOffMat;
+      });
+
+      // -------------------------------------------------------------
+      // ADDON 2: ANIMATED MOTORIZED POINT MACHINES & MOVING SWITCH BLADES
+      // -------------------------------------------------------------
+      pointMachinesRef.current.forEach((pm) => {
+        let shouldDiverge = false;
+
+        for (const train of activeTrainsRef.current) {
+          const enginePos = train.cars[0]?.mesh?.position;
+          if (!enginePos) continue;
+
+          const dist = pm.direction === 1 ? pm.x - enginePos.x : enginePos.x - pm.x;
+
+          // If train is on this track, approaching within 320 units or currently negotiating the turnout
+          if (train.currentTrack === pm.trackId && dist > -60 && dist < 320) {
+            if (train.assignedTrack === pm.divergeTrackId || train.status === 'DIVERTING') {
+              shouldDiverge = true;
+              break;
+            }
+          }
+        }
+
+        pm.isReverse = shouldDiverge;
+        const targetShift = shouldDiverge ? 1.0 : 0.0;
+        pm.currentShift += (targetShift - pm.currentShift) * 0.14;
+
+        // Drive Rod translation
+        const rodShift = (pm.divergeBladeZ - pm.baseBladeZ) * pm.currentShift;
+        const motorOffsetZ = pm.divergeBladeZ > pm.z ? 9.5 : -9.5;
+        pm.driveRod.position.z = pm.z + motorOffsetZ * 0.5 + rodShift * 0.45;
+
+        // Moving Switch Rail Blade physically shifts across to lock into turnout position!
+        pm.switchBlade.position.z = pm.baseBladeZ + rodShift;
+
+        // Turnout Target Indicator Disc rotates 90°
+        pm.targetDisc.rotation.z = pm.currentShift * (Math.PI / 2);
+        if (pm.targetDisc.material instanceof THREE.MeshStandardMaterial) {
+          pm.targetDisc.material.color.setHex(pm.currentShift > 0.5 ? 0xf59e0b : 0x10b981);
+        }
+        pm.indicatorLight.color.setHex(pm.currentShift > 0.5 ? 0xf59e0b : 0x22c55e);
+        pm.indicatorLight.intensity = 0.5 + 0.3 * Math.sin(pulseTimerRef.current * 4);
+      });
+
+      // -------------------------------------------------------------
+      // ADDON 3: OVERHEAD CATENARY ELECTRIC SPARKS (OHE ARCS)
+      // -------------------------------------------------------------
+      const sparkSys = sparkSystemRef.current;
+      if (sparkSys) {
+        sparkCooldownRef.current -= 1;
+
+        let sparkCandidate: ActiveTrain | null = null;
+        for (const train of activeTrainsRef.current) {
+          if (train.status === 'DIVERTING' && sparkCooldownRef.current <= 20) {
+            sparkCandidate = train;
+            break;
+          }
+        }
+
+        if (!sparkCandidate && sparkCooldownRef.current <= 0 && activeTrainsRef.current.length > 0) {
+          sparkCandidate = activeTrainsRef.current[Math.floor(Math.random() * activeTrainsRef.current.length)];
+          sparkCooldownRef.current = 65 + Math.floor(Math.random() * 85); // Every ~1.5 - 3.0s
+        }
+
+        if (sparkCandidate && !sparkSys.isActive) {
+          const engine = sparkCandidate.cars[0]?.mesh;
+          if (engine) {
+            sparkSys.isActive = true;
+            sparkSys.activeFrames = 8;
+            sparkSys.group.position.set(engine.position.x, 34.5, engine.position.z);
+            sparkSys.arcFlashLight.intensity = 4.5;
+            sparkSys.arcFlashLight.color.setHex(0x7dd3fc);
+            sparkSys.arcBoltLine.visible = true;
+
+            const positions = sparkSys.arcBoltLine.geometry.attributes.position as THREE.BufferAttribute;
+            positions.setXYZ(0, 0, 0, 0);
+            positions.setXYZ(1, (Math.random() - 0.5) * 1.8, 0.9, (Math.random() - 0.5) * 1.8);
+            positions.setXYZ(2, (Math.random() - 0.5) * 2.2, 1.9, (Math.random() - 0.5) * 2.2);
+            positions.setXYZ(3, (Math.random() - 0.5) * 1.8, 2.9, (Math.random() - 0.5) * 1.8);
+            positions.setXYZ(4, 0, 3.8, 0);
+            positions.needsUpdate = true;
+
+            sparkSys.sparkParticles.forEach((sp) => {
+              sp.mesh.visible = true;
+              sp.mesh.position.set(0, 3.5, 0);
+              sp.vel.set(
+                (Math.random() - 0.5) * 3.2,
+                Math.random() * 2.2 + 0.5,
+                (Math.random() - 0.5) * 3.2
+              );
+              sp.life = 0;
+              sp.maxLife = 12 + Math.floor(Math.random() * 10);
+            });
+          }
+        }
+
+        if (sparkSys.isActive) {
+          sparkSys.activeFrames -= 1;
+          const fade = Math.max(0, sparkSys.activeFrames / 8);
+          sparkSys.arcFlashLight.intensity = fade * 4.5;
+
+          if (sparkSys.activeFrames <= 4) {
+            sparkSys.arcBoltLine.visible = false;
+          }
+
+          sparkSys.sparkParticles.forEach((sp) => {
+            if (sp.life < sp.maxLife) {
+              sp.life += 1;
+              sp.mesh.position.add(sp.vel);
+              sp.vel.y -= 0.16; // Gravity effect pulling spark downward
+              sp.vel.multiplyScalar(0.94);
+            } else {
+              sp.mesh.visible = false;
+            }
+          });
+
+          if (sparkSys.activeFrames <= 0) {
+            sparkSys.isActive = false;
+            sparkSys.arcFlashLight.intensity = 0;
+            sparkSys.arcBoltLine.visible = false;
+            sparkSys.sparkParticles.forEach((sp) => {
+              sp.mesh.visible = false;
+            });
+          }
+        }
+      }
+
       renderer.render(scene, camera);
       animFrameRef.current = requestAnimationFrame(animate);
     };
@@ -2200,8 +2861,9 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     // Resize Handler
     const handleResize = () => {
       if (!container || !rendererRef.current || !cameraRef.current) return;
-      const w = container.clientWidth;
-      const h = container.clientHeight;
+      const rect = container.getBoundingClientRect();
+      const w = Math.floor(rect.width || container.clientWidth);
+      const h = Math.floor(rect.height || container.clientHeight);
       if (w === 0 || h === 0) return;
       const newAspect = w / h;
       cameraRef.current.left = (-viewSize * newAspect) / 2;
@@ -2209,7 +2871,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       cameraRef.current.top = viewSize / 2;
       cameraRef.current.bottom = -viewSize / 2;
       cameraRef.current.updateProjectionMatrix();
-      rendererRef.current.setSize(w, h);
+      rendererRef.current.setSize(w, h, false);
     };
 
     window.addEventListener('resize', handleResize);
@@ -2226,6 +2888,18 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       controls.removeEventListener('change', restrictPan);
       controls.removeEventListener('start', handleControlsStart);
       controls.dispose();
+      signalsRef.current.forEach((sig) => {
+        scene.remove(sig.group);
+      });
+      signalsRef.current = [];
+      pointMachinesRef.current.forEach((pm) => {
+        scene.remove(pm.group);
+      });
+      pointMachinesRef.current = [];
+      if (sparkSystemRef.current) {
+        scene.remove(sparkSystemRef.current.group);
+        sparkSystemRef.current = null;
+      }
       renderer.dispose();
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
@@ -2304,40 +2978,38 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
                 }
 
                 if (openTrackId) {
-                  const bypassZ = TRACKS.find((t) => t.id === openTrackId)?.z || 0;
-                  const destinationTrackId = train.assignedTrack; // PRESERVE ORIGINAL DESTINATION!
-                  const destinationZ = TRACKS.find((t) => t.id === destinationTrackId)?.z || enginePos.z;
                   const dir = train.direction;
-                  const exitX = dir === 1 ? 2500 : -2500;
+                  // Strictly require an upcoming blue switch ladder crossover point
+                  const upcomingCrossoverNode = Array.from(graph.nodes.values()).find((n) => {
+                    if (n.trackId !== train.currentTrack) return false;
+                    const isCrossoverPoint = ALL_CROSSOVER_LINKS.some(
+                      (link) => (link.t1 === train.currentTrack && link.x1 === n.x) || (link.t2 === train.currentTrack && link.x2 === n.x)
+                    );
+                    if (!isCrossoverPoint) return false;
+                    return dir === 1
+                      ? n.x >= enginePos.x + 20 && n.x <= otherEnginePos.x - 30
+                      : n.x <= enginePos.x - 20 && n.x >= otherEnginePos.x + 30;
+                  });
 
-                  // Dynamic Loop Bypass: Diverts onto bypassZ, clears other train, then re-enters destinationZ!
-                  const p0 = enginePos.clone();
-                  const p1x = enginePos.x + dir * 50;
-                  const p2x = enginePos.x + dir * 180;
-                  const p3x = dir === 1
-                    ? Math.min(2300, Math.max(p2x + 120, otherEnginePos.x + 220))
-                    : Math.max(-2300, Math.min(p2x - 120, otherEnginePos.x - 220));
-                  const p4x = dir === 1
-                    ? Math.min(2400, p3x + 160)
-                    : Math.max(-2400, p3x - 160);
-
-                  const p1 = new THREE.Vector3(p1x, 1.6, enginePos.z);
-                  const p2 = new THREE.Vector3(p2x, 1.6, bypassZ);
-                  const p3 = new THREE.Vector3(p3x, 1.6, bypassZ);
-                  const p4 = new THREE.Vector3(p4x, 1.6, destinationZ);
-                  const p5 = new THREE.Vector3(exitX, 1.6, destinationZ);
-
-                  const bypassCurve = new THREE.CatmullRomCurve3([p0, p1, p2, p3, p4, p5], false, 'catmullrom', 0.12);
-
-                  // Destination Track is strictly preserved!
-                  train.assignedTrack = destinationTrackId;
-                  train.curve = bypassCurve;
-                  train.curveLength = bypassCurve.getLength();
-                  train.distanceTraveled = 0;
-                  train.status = 'DIVERTING';
-                  train.statusMessage = `🛡️ Kavach Loop Bypass: Diverting to T${openTrackId} to bypass ${other.name} ➔ Exiting at T${destinationTrackId}`;
-                  train.speed = Math.max(0.9, train.targetSpeed * 0.75);
-                  addLog(`🛡️ Interlocking Crossover: ${train.name} taking loop bypass on Track ${openTrackId} to clear ${other.name} ➔ Destination Track ${destinationTrackId} preserved.`);
+                  if (upcomingCrossoverNode) {
+                    const newPath = graph.findPath(upcomingCrossoverNode.id, openTrackId, dir, activeBlocks);
+                    if (newPath && newPath.length >= 2) {
+                      const bypassCurve = new THREE.CatmullRomCurve3([enginePos, ...newPath], false, 'catmullrom', 0.12);
+                      train.assignedTrack = openTrackId;
+                      train.curve = bypassCurve;
+                      train.curveLength = bypassCurve.getLength();
+                      train.distanceTraveled = 0;
+                      train.status = 'DIVERTING';
+                      train.statusMessage = `🛡️ Kavach Turnout: Diverting to T${openTrackId} via Blue Switch Crossover`;
+                      train.speed = Math.max(0.9, train.targetSpeed * 0.75);
+                      addLog(`🛡️ Interlocking Crossover: ${train.name} switched to Track ${openTrackId} via blue switch crossover ladder.`);
+                    }
+                  } else {
+                    // No blue crossover link between trains: enforce strict Kavach hold stop (zero track jumps outside blue lines)
+                    isTrainConflict = true;
+                    train.speed = 0;
+                    trainConflictMsg = `🛡️ KAVACH Hold: Waiting for track clearance with ${other.name}`;
+                  }
                 }
               }
 
@@ -2428,9 +3100,14 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
       if (isUpcomingBlocked && train.status !== 'EMERGENCY_STOP') {
         const upcomingNode = Array.from(graph.nodes.values()).find((n) => {
           if (n.trackId !== train.currentTrack) return false;
+          // Must be an actual blue crossover connection point (the 3 crossover regions)
+          const isCrossoverPoint = ALL_CROSSOVER_LINKS.some(
+            (link) => (link.t1 === train.currentTrack && link.x1 === n.x) || (link.t2 === train.currentTrack && link.x2 === n.x)
+          );
+          if (!isCrossoverPoint) return false;
           return train.direction === 1
-            ? n.x >= enginePos.x + 15 && n.x <= enginePos.x + 160
-            : n.x <= enginePos.x - 15 && n.x >= enginePos.x - 160;
+            ? n.x >= enginePos.x + 15 && n.x <= enginePos.x + 220
+            : n.x <= enginePos.x - 15 && n.x >= enginePos.x - 220;
         });
 
         if (upcomingNode) {
@@ -2634,10 +3311,10 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
     isTweeningRef.current = true;
 
     const startPos = camera.position.clone();
-    const targetPos = new THREE.Vector3(400, 440, 400);
+    const targetPos = new THREE.Vector3(450, 590, 450);
 
     const startTarget = controls.target.clone();
-    const targetLookAt = new THREE.Vector3(0, 0, -25);
+    const targetLookAt = new THREE.Vector3(0, 10, 0);
 
     const startZoom = camera.zoom;
     const targetZoom = 1.25;
@@ -2703,7 +3380,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
           const w = mountRef.current.clientWidth;
           const h = mountRef.current.clientHeight;
           const newAspect = w / h;
-          const viewSize = 820;
+          const viewSize = 640;
           cameraRef.current.left = (-viewSize * newAspect) / 2;
           cameraRef.current.right = (viewSize * newAspect) / 2;
           cameraRef.current.top = viewSize / 2;
@@ -2831,11 +3508,11 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
         {/* 3D WebGL Canvas Viewport with MapControls */}
         <div
           className={`relative w-full ${
-            isFullscreen ? 'flex-1 min-h-0' : 'h-[620px] sm:h-[700px] lg:h-[760px]'
+            isFullscreen ? 'flex-1 min-h-0' : 'h-[500px] sm:h-[580px] lg:h-[640px]'
           } bg-[#0a0e17] select-none overflow-hidden`}
         >
           {/* Three.js Canvas DOM Container */}
-          <div ref={mountRef} className="w-full h-full cursor-grab active:cursor-grabbing" />
+          <div ref={mountRef} className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing" />
 
           {/* Active Camera Tracking HUD Indicator */}
           {trackedTrainId && (() => {
@@ -2887,7 +3564,7 @@ export const StationDigitalTwin3D: React.FC<StationDigitalTwin3DProps> = ({
               type="button"
               onClick={() => {
                 if (!cameraRef.current) return;
-                cameraRef.current.zoom = Math.max(0.6, cameraRef.current.zoom * 0.8);
+                cameraRef.current.zoom = Math.max(0.40, cameraRef.current.zoom * 0.82);
                 cameraRef.current.updateProjectionMatrix();
               }}
               className="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
