@@ -108,19 +108,30 @@ export const Sidebar: React.FC<SidebarProps> = ({
         />
       )}
 
-      {/* Sidebar container - AeroSkin Glass (Fixed on desktop, drawer on mobile) */}
+      {/* Sidebar container - Luminous Frosted Mint Glass (Fixed on desktop, drawer on mobile) */}
       <aside
+        style={{
+          backgroundColor: 'rgba(228, 240, 235, 0.4)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+        }}
         className={cn(
-          'fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-white/50 lg:bg-[#F8F5EE]/50 backdrop-blur-xl border-r border-white/80 shadow-[inset_0_1px_1px_rgba(255,255,255,0.85),_4px_0_24px_rgba(0,0,0,0.05)] transition-transform duration-300 ease-in-out lg:translate-x-0',
+          'fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] transition-transform duration-300 ease-in-out lg:translate-x-0',
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         )}
       >
-        {/* Brand Card (Top) with Bholu Mascot - Matching bina block style */}
-        <div className="mx-3.5 mt-2.5 p-2.5 rounded-2xl bg-white/95 border border-stone-200 shadow-xs hover:border-emerald-500/60 transition-all shrink-0">
+        {/* Brand Card (Top) with Bholu Mascot */}
+        <div
+          style={{
+            backgroundColor: 'rgba(255, 255, 255, 0.65)',
+            boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.05)',
+          }}
+          className="mx-3.5 mt-2.5 p-2.5 rounded-2xl border border-white/40 hover:border-white/70 hover:bg-white/[0.80] transition-all shrink-0"
+        >
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2.5">
               {/* Elevated squircle holding mascot */}
-              <div className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-stone-100/90 p-1 border border-stone-200/80 overflow-hidden shadow-2xs">
+              <div className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-white/80 p-1 border border-white/60 overflow-hidden shadow-2xs">
                 <img
                   src="/bholu.jpg"
                   alt="Bholu the Guard Elephant"
@@ -148,7 +159,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             {/* Close button on mobile */}
             <button
               type="button"
-              className="rounded-xl p-1 text-stone-400 hover:bg-stone-100 hover:text-stone-700 lg:hidden cursor-pointer"
+              className="rounded-xl p-1 text-stone-400 hover:bg-white/60 hover:text-stone-700 lg:hidden cursor-pointer"
               onClick={onCloseMobile}
             >
               <X className="h-5 w-5" />
@@ -156,20 +167,26 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
         </div>
 
-        {/* Corridor Metadata Pill (Matching bina block style) */}
-        <div className="mx-3.5 mt-2 mb-2 px-3.5 py-2.5 rounded-2xl bg-white/95 border border-stone-200 shadow-xs hover:border-emerald-500/60 transition-all shrink-0">
+        {/* Corridor Metadata Pill */}
+        <div
+          style={{
+            backgroundColor: 'rgba(255, 255, 255, 0.65)',
+            boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.05)',
+          }}
+          className="mx-3.5 mt-2 mb-2 px-3.5 py-2.5 rounded-2xl border border-white/40 hover:border-white/70 hover:bg-white/[0.80] transition-all shrink-0"
+        >
           <div className="flex items-center justify-between text-[11px] font-semibold text-stone-800">
-            <span className="flex items-center gap-1.5 text-stone-800 font-mono font-bold">
+            <span className="flex items-center gap-1.5 text-stone-900 font-mono font-bold">
               <Radio className="h-3 w-3 text-[#078A68] animate-pulse" />
               {t('bina_et_section') || 'BINA – ET SECTION'}
             </span>
-            <span className="font-mono text-emerald-900 text-[10px] bg-emerald-100/90 px-1.5 py-0.5 rounded-md border border-emerald-300/80 font-bold shadow-2xs">
+            <span className="font-mono text-emerald-950 text-[10px] bg-emerald-100/90 px-1.5 py-0.5 rounded-md border border-emerald-300/80 font-bold shadow-2xs">
               WCR / BPL
             </span>
           </div>
-          <div className="mt-0.5 flex items-center justify-between text-[10px] text-stone-600 font-medium font-mono">
+          <div className="mt-0.5 flex items-center justify-between text-[10px] text-stone-700 font-medium font-mono">
             <span>152.4 km • Double Track</span>
-            <span className="text-emerald-800 flex items-center gap-1 font-semibold">
+            <span className="text-emerald-900 flex items-center gap-1 font-bold">
               <ShieldCheck className="h-3 w-3 text-emerald-600" /> Kavach SIL-4
             </span>
           </div>
@@ -177,7 +194,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         {/* Navigation - Perfectly proportioned to fill available space */}
         <nav className="flex-1 flex flex-col justify-between px-3.5 py-1 min-h-0 overflow-hidden">
-          <div className="px-1 pb-1 text-[9.5px] font-bold uppercase tracking-wider text-stone-700 font-mono">
+          <div className="px-1 pb-1 text-[9.5px] font-bold uppercase tracking-wider text-stone-600 font-mono">
             {t('navigation') || 'Navigation'}
           </div>
           {navItems.map((item) => {
@@ -193,11 +210,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   onSelectNav(item.key);
                   onCloseMobile();
                 }}
+                style={{
+                  backgroundColor: isActive ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.65)',
+                  boxShadow: isActive
+                    ? '0 8px 32px 0 rgba(31, 38, 135, 0.08), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9)'
+                    : '0 8px 32px 0 rgba(31, 38, 135, 0.05)',
+                  borderLeft: isActive ? '4px solid #078A68' : '1px solid rgba(255, 255, 255, 0.4)',
+                  borderTop: isActive ? '1px solid rgba(7, 138, 104, 0.4)' : '1px solid rgba(255, 255, 255, 0.4)',
+                  borderRight: isActive ? '1px solid rgba(7, 138, 104, 0.4)' : '1px solid rgba(255, 255, 255, 0.4)',
+                  borderBottom: isActive ? '1px solid rgba(7, 138, 104, 0.4)' : '1px solid rgba(255, 255, 255, 0.4)',
+                }}
                 className={cn(
                   'group flex w-full items-center justify-between rounded-xl px-3.5 py-2.5 text-[13.5px] transition-all duration-200 cursor-pointer',
                   isActive
-                    ? 'border-l-4 border-l-[#078A68] bg-[#ECFDF5] text-emerald-950 font-bold border border-emerald-500/40 shadow-xs'
-                    : 'bg-white/55 hover:bg-white/85 text-stone-800 hover:text-stone-950 border border-white/80 hover:border-stone-200/80 shadow-2xs font-semibold backdrop-blur-md'
+                    ? 'text-emerald-950 font-bold scale-[1.01]'
+                    : 'hover:bg-white/[0.85] text-stone-800 hover:text-stone-950 font-semibold'
                 )}
               >
                 <div className="flex items-center space-x-3">
@@ -207,7 +234,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       isActive ? 'text-[#078A68]' : 'text-stone-700 group-hover:text-stone-950'
                     )}
                   />
-                  <span>{t(item.key) || item.label}</span>
+                  <span
+                    className={cn(
+                      'tracking-tight font-sans',
+                      isActive ? 'text-emerald-950 font-bold' : 'text-stone-800 group-hover:text-stone-950 font-semibold'
+                    )}
+                  >
+                    {t(item.key) || item.label}
+                  </span>
                 </div>
 
                 {item.badge && (
@@ -215,10 +249,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     className={cn(
                       'text-[9.5px] px-2 py-0.5 rounded-[7px] font-mono font-bold shadow-2xs',
                       isActive
-                        ? 'bg-[#078A68] text-white'
+                        ? 'bg-[#078A68] text-white shadow-xs'
                         : String(item.badge).includes('Clash') || String(item.badge).includes('Alert')
                         ? 'cockpit-dark-rose'
-                        : 'bg-white text-stone-800 border border-stone-200/80'
+                        : 'bg-white/90 text-stone-800 border border-white/80'
                     )}
                   >
                     {item.badge}
@@ -231,7 +265,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         {/* Footer Diagnostics - Harmonious, proportional gap */}
         <div className="mx-3.5 mb-2.5 mt-2 shrink-0">
-          <div className="rounded-2xl bg-white/95 p-2.5 text-xs space-y-1.5 border border-stone-200 shadow-xs hover:border-emerald-500/60 transition-all">
+          <div
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.65)',
+              boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.05)',
+            }}
+            className="rounded-2xl p-2.5 text-xs space-y-1.5 border border-white/40 hover:border-white/70 hover:bg-white/[0.80] transition-all"
+          >
             <div className="flex items-center justify-between text-[11px] font-mono">
               <span className="text-stone-600 font-medium">Solver Engine</span>
               <span className="cockpit-dark-chip text-[10px] font-bold px-2 py-0.5 rounded-[7px] aura-breathe-emerald tactile-spring cursor-default">

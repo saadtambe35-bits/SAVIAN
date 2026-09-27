@@ -9,7 +9,6 @@ import {
   Shield,
   AlertTriangle,
   Zap,
-  Radio,
   ChevronDown,
   Database,
 } from 'lucide-react';
@@ -36,14 +35,6 @@ export interface HeaderProps {
   onSelectScenario?: (scenarioId: string) => void;
 }
 
-const LIVE_DISPATCH_MESSAGES = [
-  '12002 Shatabdi Exp departed Bhopal Jn on schedule (PF-1)',
-  'Kavach SIL-4 Radio Ping verified: BINA-KIKA UP Track normal (RSSI -64dBm)',
-  'OHE Inspection Tower Car TW-44 staging at Kurwai Kethora',
-  'TMS Gang 14 reporting readiness for BINA-KIKA deep screening',
-  'CRIS COA-FOIS synchronizer: 0ms latency detected, 13 blocks live',
-  '20805 AP Express cleared Vidisha loop with green signal aspect',
-];
 
 export const Header: React.FC<HeaderProps> = ({
   title,
@@ -111,14 +102,6 @@ export const Header: React.FC<HeaderProps> = ({
     return () => clearInterval(latencyTimer);
   }, []);
 
-  // Live Radio Dispatch Feed index
-  const [dispatchIndex, setDispatchIndex] = useState<number>(0);
-  useEffect(() => {
-    const dispatchTimer = setInterval(() => {
-      setDispatchIndex((prev) => (prev + 1) % LIVE_DISPATCH_MESSAGES.length);
-    }, 6500);
-    return () => clearInterval(dispatchTimer);
-  }, []);
 
   // Metallic Pill Badge
   const renderSolverBadge = () => {
@@ -153,9 +136,9 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header className="sticky top-0 z-30 px-3 sm:px-6 pt-3 pb-1 select-none">
       {/* Floating AeroSkin Frosted Header Card */}
-      <div className="rounded-2xl border border-stone-200/80 bg-white/90 backdrop-blur-xl shadow-xs px-3.5 py-2 flex items-center justify-between gap-3 specular-sheen">
+      <div className="rounded-2xl border border-stone-200/80 bg-white/90 backdrop-blur-xl shadow-xs px-3.5 py-2 flex items-center justify-between gap-2 specular-sheen">
         {/* Left Area: Hamburger + Title */}
-        <div className="flex items-center space-x-2.5 shrink-0">
+        <div className="flex items-center space-x-2 shrink-0">
           <button
             type="button"
             onClick={onOpenMobileSidebar}
@@ -165,46 +148,31 @@ export const Header: React.FC<HeaderProps> = ({
             <Menu className="h-4 w-4" />
           </button>
 
-          <div className="flex items-center space-x-2">
-            <div className="flex items-center space-x-1.5">
+          <div className="flex items-center space-x-1.5 min-w-0">
+            <div className="flex items-center space-x-1.5 shrink-0">
               <span
                 key={title}
-                className="text-[15px] font-extrabold tracking-tight text-stone-900 font-sans whitespace-nowrap"
+                className="text-[11.5px] font-extrabold tracking-tight text-stone-900 font-sans whitespace-nowrap"
               >
                 {t(title)}
               </span>
-              <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 led-glow-emerald animate-pulse" />
+              <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 led-glow-emerald animate-pulse shrink-0" />
             </div>
-            <span className="hidden xl:inline-block px-1.5 py-0.5 rounded-md bg-stone-100/90 text-stone-600 text-[10px] font-mono font-semibold border border-stone-200/70">
-              BINA – ET
-            </span>
+            {title.length <= 22 && (
+              <span className="hidden 2xl:inline-block px-1.5 py-0.5 rounded-md bg-stone-100/90 text-stone-600 text-[10px] font-mono font-semibold border border-stone-200/70 shrink-0">
+                BINA – ET
+              </span>
+            )}
           </div>
         </div>
 
-        {/* Center: Live Railway Radio Dispatch & Railway Board ROI Audit Breakdown */}
-        <div className="hidden md:flex items-center gap-2.5 min-w-0">
-          <div
-            onClick={() => setDispatchIndex((prev) => (prev + 1) % LIVE_DISPATCH_MESSAGES.length)}
-            className="flex items-center gap-2 rounded-xl bg-stone-50/90 hover:bg-stone-100/90 px-3 py-1 border border-stone-200/70 shadow-2xs cursor-pointer transition-all max-w-xs lg:max-w-sm xl:max-w-md min-w-0"
-            title="Click to cycle live corridor dispatches"
-          >
-            <div className="flex items-center gap-1 text-[#078A68] shrink-0 font-mono text-[9.5px] font-bold">
-              <Radio className="h-3 w-3 animate-pulse text-[#078A68]" />
-              <span className="hidden lg:inline">DISPATCH:</span>
-            </div>
-            <span className="truncate text-xs font-mono font-medium text-stone-700 hover:text-stone-950 transition-colors">
-              {LIVE_DISPATCH_MESSAGES[dispatchIndex]}
-            </span>
-          </div>
-
-          {/* Railway Board ROI Audit Breakdown Interactive Pill */}
-          <div className="hidden xl:flex items-center shrink-0">
-            <RoiTicker compact />
-          </div>
+        {/* Center: Railway Board ROI Audit Breakdown Interactive Pill */}
+        <div className="hidden sm:flex items-center shrink-0">
+          <RoiTicker compact />
         </div>
 
         {/* Right Controls Area */}
-        <div className="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
+        <div className="flex items-center space-x-1 sm:space-x-1.5 shrink-0 pr-2">
           {/* Vernacular Language Switcher */}
           <div className="hidden sm:flex items-center">
             <LanguageToggle />

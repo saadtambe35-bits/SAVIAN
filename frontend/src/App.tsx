@@ -174,18 +174,6 @@ export const App: React.FC = () => {
   return (
     <LanguageProvider>
       <div className="flex h-screen w-screen overflow-hidden bg-transparent text-stone-800 font-sans relative">
-        {/* Deep Smoky Frosted Glass Underlay for stationary desktop sidebar */}
-        <div 
-          className="pointer-events-none fixed top-0 bottom-0 left-0 w-64 z-0 hidden lg:block overflow-hidden select-none" 
-          aria-hidden="true"
-        >
-          {/* Base dark charcoal backdrop */}
-          <div className="absolute inset-0 bg-stone-900/80" />
-          {/* Ambient emerald & teal blooms providing caustics and depth */}
-          <div className="absolute -top-10 -left-10 w-48 h-48 bg-emerald-500/25 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 -right-8 w-44 h-44 bg-teal-400/20 rounded-full blur-3xl" />
-          <div className="absolute -bottom-10 -left-10 w-52 h-52 bg-emerald-600/20 rounded-full blur-3xl" />
-        </div>
 
         {/* 1. Left Sidebar (Fixed / Desktop w-64, Drawer on Mobile) */}
         <Sidebar

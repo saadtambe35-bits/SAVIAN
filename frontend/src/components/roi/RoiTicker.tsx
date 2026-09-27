@@ -233,7 +233,7 @@ export const RoiTicker: React.FC<RoiTickerProps> = ({
             className={`flex items-center gap-1.5 transition-all duration-200 ${isTransitioning ? 'opacity-0 translate-y-1' : 'opacity-100 translate-y-0'
               }`}
           >
-            <span className="text-[11px] font-bold tracking-wide text-stone-900 font-mono whitespace-nowrap">
+            <span className="text-[10px] font-bold tracking-wide text-stone-900 font-mono whitespace-nowrap">
               {currentSlide.value}
             </span>
           </div>
