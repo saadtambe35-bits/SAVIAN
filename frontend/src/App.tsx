@@ -174,12 +174,8 @@ export const App: React.FC = () => {
   return (
     <LanguageProvider>
       <div className="flex h-screen w-screen overflow-hidden bg-transparent text-stone-800 font-sans relative">
-        {/* Soft Ambient Depth behind Sidebar for authentic desktop glass refraction */}
-        <div className="pointer-events-none fixed top-0 bottom-0 left-0 w-80 z-0 overflow-hidden hidden lg:block select-none" aria-hidden="true">
-          <div className="absolute -top-16 -left-16 w-80 h-80 rounded-full bg-emerald-300/30 blur-3xl" />
-          <div className="absolute top-1/3 -left-20 w-80 h-80 rounded-full bg-amber-300/25 blur-3xl" />
-          <div className="absolute -bottom-16 -left-12 w-80 h-80 rounded-full bg-teal-300/25 blur-3xl" />
-        </div>
+        {/* Neutral glass backing for desktop sidebar to match mobile frosted glass */}
+        <div className="pointer-events-none fixed top-0 bottom-0 left-0 w-64 z-0 hidden lg:block bg-stone-900/[0.04] backdrop-blur-xs select-none" aria-hidden="true" />
 
         {/* 1. Left Sidebar (Fixed / Desktop w-64, Drawer on Mobile) */}
         <Sidebar

@@ -111,7 +111,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* Sidebar container - AeroSkin Glass (Fixed on desktop, drawer on mobile) */}
       <aside
         className={cn(
-          'fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-[#F8F5EE]/72 backdrop-blur-2xl border-r border-white/85 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9),_4px_0_30px_rgba(160,148,130,0.12)] transition-transform duration-300 ease-in-out lg:translate-x-0',
+          'fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-white/50 lg:bg-[#F8F5EE]/50 backdrop-blur-xl border-r border-white/80 shadow-[inset_0_1px_1px_rgba(255,255,255,0.85),_4px_0_24px_rgba(0,0,0,0.05)] transition-transform duration-300 ease-in-out lg:translate-x-0',
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         )}
       >
