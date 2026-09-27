@@ -9,6 +9,7 @@ import {
   Shield,
   AlertTriangle,
   Zap,
+  Radio,
   ChevronDown,
   Database,
 } from 'lucide-react';
@@ -18,6 +19,15 @@ import { PRESET_SCENARIOS } from '@/data/mockData';
 import { RoiTicker } from '@/components/roi/RoiTicker';
 import { LanguageToggle, useTranslation } from '@/i18n/LanguageContext';
 import { RollingNumber } from '@/components/common/RollingNumber';
+
+const LIVE_DISPATCH_MESSAGES = [
+  '12002 Shatabdi Exp departed Bhopal Jn on schedule (PF-1)',
+  'Kavach SIL-4 Radio Ping verified: BINA-KIKA UP Track normal (RSSI -64dBm)',
+  'OHE Inspection Tower Car TW-44 staging at Kurwai Kethora',
+  'TMS Gang 14 reporting readiness for BINA-KIKA deep screening',
+  'CRIS COA-FOIS synchronizer: 0ms latency detected, 13 blocks live',
+  '20805 AP Express cleared Vidisha loop with green signal aspect',
+];
 
 export type SolverStatusType = 'idle' | 'solving' | 'done';
 
@@ -100,6 +110,15 @@ export const Header: React.FC<HeaderProps> = ({
       setCrisLatency(Math.floor(28 + Math.random() * 14));
     }, 4500);
     return () => clearInterval(latencyTimer);
+  }, []);
+
+  // Live Radio Dispatch Feed index
+  const [dispatchIndex, setDispatchIndex] = useState<number>(0);
+  useEffect(() => {
+    const dispatchTimer = setInterval(() => {
+      setDispatchIndex((prev) => (prev + 1) % LIVE_DISPATCH_MESSAGES.length);
+    }, 6500);
+    return () => clearInterval(dispatchTimer);
   }, []);
 
 
@@ -365,6 +384,24 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </div>
         </div>
+      </div>
+
+      {/* Slim Live Operations Radio Ticker Bar */}
+      <div className="flex items-center space-x-2 px-3 sm:px-6 pt-1.5 pb-0.5 text-[11px] text-stone-600 font-mono overflow-hidden select-none">
+        <div className="flex items-center space-x-1.5 shrink-0 text-[#078A68] font-bold pr-2 border-r border-stone-300/80">
+          <Radio className="h-3 w-3 text-[#078A68] animate-pulse" />
+          <span className="uppercase text-[10px] tracking-wider">LIVE RAILWAY DISPATCH:</span>
+        </div>
+        <div
+          onClick={() => setDispatchIndex((prev) => (prev + 1) % LIVE_DISPATCH_MESSAGES.length)}
+          className="truncate cursor-pointer hover:text-stone-900 transition-all font-medium text-stone-700"
+          title="Click to cycle live dispatches"
+        >
+          {LIVE_DISPATCH_MESSAGES[dispatchIndex]}
+        </div>
+        <span className="ml-auto text-[10px] text-stone-400 shrink-0 font-sans hidden sm:inline">
+          Click ticker to step
+        </span>
       </div>
     </header>
   );
