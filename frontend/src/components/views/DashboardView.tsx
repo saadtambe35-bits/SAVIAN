@@ -73,7 +73,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             transition={{ duration: 0.35, ease: 'easeOut' }}
             className="overflow-hidden"
           >
-            <div className="rounded-2xl border border-amber-300/80 bg-gradient-to-r from-amber-100/90 via-[#fcfbf7] to-amber-50/80 p-4 shadow-[0_6px_20px_rgba(245,158,11,0.18)]">
+            <div className="rounded-2xl border border-amber-300/70 bg-gradient-to-r from-amber-50/85 via-white/80 to-amber-50/75 backdrop-blur-md p-4 shadow-[0_8px_24px_rgba(245,158,11,0.14)] specular-sheen">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center space-x-3.5">
                   <div className="rounded-2xl bg-amber-200/90 p-2.5 text-amber-800 shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)] border border-amber-300">

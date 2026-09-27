@@ -174,8 +174,18 @@ export const App: React.FC = () => {
   return (
     <LanguageProvider>
       <div className="flex h-screen w-screen overflow-hidden bg-transparent text-stone-800 font-sans relative">
-        {/* Neutral glass backing for desktop sidebar to match mobile frosted glass */}
-        <div className="pointer-events-none fixed top-0 bottom-0 left-0 w-64 z-0 hidden lg:block bg-stone-900/[0.04] backdrop-blur-xs select-none" aria-hidden="true" />
+        {/* Deep Smoky Frosted Glass Underlay for stationary desktop sidebar */}
+        <div 
+          className="pointer-events-none fixed top-0 bottom-0 left-0 w-64 z-0 hidden lg:block overflow-hidden select-none" 
+          aria-hidden="true"
+        >
+          {/* Base dark charcoal backdrop */}
+          <div className="absolute inset-0 bg-stone-900/80" />
+          {/* Ambient emerald & teal blooms providing caustics and depth */}
+          <div className="absolute -top-10 -left-10 w-48 h-48 bg-emerald-500/25 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 -right-8 w-44 h-44 bg-teal-400/20 rounded-full blur-3xl" />
+          <div className="absolute -bottom-10 -left-10 w-52 h-52 bg-emerald-600/20 rounded-full blur-3xl" />
+        </div>
 
         {/* 1. Left Sidebar (Fixed / Desktop w-64, Drawer on Mobile) */}
         <Sidebar
@@ -183,12 +193,12 @@ export const App: React.FC = () => {
           onSelectNav={(key) => setActiveNav(key)}
           mobileOpen={mobileSidebarOpen}
           onCloseMobile={() => setMobileSidebarOpen(false)}
-        demandCount={demands.length}
-        activeClashes={solverResult.clashes_detected}
-      />
+          demandCount={demands.length}
+          activeClashes={solverResult.clashes_detected}
+        />
 
-      {/* 2. Main Wrapper (Offset on desktop for w-64 sidebar) */}
-      <div className="flex flex-1 flex-col overflow-hidden lg:pl-64">
+        {/* 2. Main Wrapper (Offset on desktop for w-64 sidebar) */}
+        <div className="flex flex-1 flex-col overflow-hidden lg:pl-64 relative z-10">
         {/* Top Header */}
         <Header
           title={navMeta.title}
@@ -203,69 +213,87 @@ export const App: React.FC = () => {
           onSelectScenario={handleSelectScenario}
         />
 
-        {/* Center Main Content Area (Scrollable) */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 bg-transparent">
-          <div className="w-full">
-            {activeNav === 'dashboard' && (
-              <DashboardView
-                chaosMode={chaosMode}
-                onRunSolver={handleRunSolver}
-                solverStatus={solverStatus}
-                onNavigate={(view) => setActiveNav(view as any)}
-                demands={demands}
-                solverResult={solverResult}
-              />
-            )}
-
-            {activeNav === 'marey' && (
-              <MareyView
-                chaosMode={chaosMode}
-                onChaosModeChange={(chaos) => setChaosMode(chaos)}
-              />
-            )}
-
-            {activeNav === 'demands' && (
-              <DemandsView
-                demands={demands}
-                onAddDemand={handleAddDemand}
-                onUpdateDemand={handleUpdateDemand}
-                onDeleteDemand={handleDeleteDemand}
-              />
-            )}
-
-            {activeNav === 'solver' && (
-              <SolverView
-                solverStatus={solverStatus}
-                onRunSolver={handleRunSolver}
-                solverResult={solverResult}
-                telemetryData={telemetryData}
-                solvingPhase={solvingPhase}
-                solvingProgress={solvingProgress}
-              />
-            )}
-
-            {activeNav === 'lifecycle' && (
-              <LifecycleView
-                demands={demands}
-                onUpdateDemand={handleUpdateDemand}
-              />
-            )}
-
-            {activeNav === 'digitaltwin' && (
-              <div className="rounded-2xl skin-glass-card p-4">
-                <StationDigitalTwin3D />
-              </div>
-            )}
-
-            {activeNav === 'discipline' && (
-              <div className="rounded-2xl skin-glass-card p-4">
-                <DepartmentTrustMatrix />
-              </div>
-            )}
-
-            {activeNav === 'settings' && <SettingsView />}
+        {/* Center Main Content Area (Scrollable with Smoky Glass Canvas) */}
+        <div className="flex-1 relative overflow-hidden">
+          {/* Subtle Luminous Frosted Glass Underlay for Main Dashboard Area below Header */}
+          <div 
+            className="pointer-events-none absolute inset-0 z-0 overflow-hidden select-none" 
+            aria-hidden="true"
+          >
+            {/* Soft warm oatmeal base */}
+            <div className="absolute inset-0 bg-[#ebe7de]/85" />
+            {/* Gentle smoky glass tint for depth without harsh darkness */}
+            <div className="absolute inset-0 bg-stone-900/[0.07]" />
+            {/* Ambient luminous emerald, teal & amber blooms providing caustics and physical depth */}
+            <div className="absolute -top-12 -left-12 w-[38rem] h-[38rem] bg-emerald-500/18 rounded-full blur-[90px]" />
+            <div className="absolute top-1/4 -right-16 w-[36rem] h-[36rem] bg-teal-400/15 rounded-full blur-[90px]" />
+            <div className="absolute -bottom-16 left-1/4 w-[42rem] h-[42rem] bg-emerald-600/15 rounded-full blur-[100px]" />
+            <div className="absolute top-2/3 right-1/4 w-[30rem] h-[30rem] bg-amber-500/12 rounded-full blur-[90px]" />
           </div>
-        </main>
+
+          <main className="relative z-10 h-full overflow-y-auto p-4 sm:p-6 bg-transparent">
+            <div className="w-full">
+              {activeNav === 'dashboard' && (
+                <DashboardView
+                  chaosMode={chaosMode}
+                  onRunSolver={handleRunSolver}
+                  solverStatus={solverStatus}
+                  onNavigate={(view) => setActiveNav(view as any)}
+                  demands={demands}
+                  solverResult={solverResult}
+                />
+              )}
+
+              {activeNav === 'marey' && (
+                <MareyView
+                  chaosMode={chaosMode}
+                  onChaosModeChange={(chaos) => setChaosMode(chaos)}
+                />
+              )}
+
+              {activeNav === 'demands' && (
+                <DemandsView
+                  demands={demands}
+                  onAddDemand={handleAddDemand}
+                  onUpdateDemand={handleUpdateDemand}
+                  onDeleteDemand={handleDeleteDemand}
+                />
+              )}
+
+              {activeNav === 'solver' && (
+                <SolverView
+                  solverStatus={solverStatus}
+                  onRunSolver={handleRunSolver}
+                  solverResult={solverResult}
+                  telemetryData={telemetryData}
+                  solvingPhase={solvingPhase}
+                  solvingProgress={solvingProgress}
+                />
+              )}
+
+              {activeNav === 'lifecycle' && (
+                <LifecycleView
+                  demands={demands}
+                  onUpdateDemand={handleUpdateDemand}
+                />
+              )}
+
+              {activeNav === 'digitaltwin' && (
+                <div className="rounded-2xl skin-glass-card p-4">
+                  <StationDigitalTwin3D />
+                </div>
+              )}
+
+              {activeNav === 'discipline' && (
+                <div className="rounded-2xl skin-glass-card p-4">
+                  <DepartmentTrustMatrix />
+                </div>
+              )}
+
+              {activeNav === 'settings' && <SettingsView />}
+            </div>
+          </main>
+        </div>
 
         {/* Bottom Status Bar */}
         <StatusBar

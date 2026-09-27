@@ -38,12 +38,14 @@
 
 /* Restrained Enterprise Operational Cards */
 .neumorphic-card {
-  background: #fbf9f4;
-  border: 1px solid rgba(215, 208, 195, 0.85);
-  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.76) 0%, rgba(255, 255, 255, 0.52) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
   box-shadow: 
-    2px 2px 8px rgba(180, 170, 155, 0.12),
-    -1px -1px 4px rgba(255, 255, 255, 0.8);
+    0 8px 26px -4px rgba(150, 135, 115, 0.14),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .neumorphic-card-hover {
@@ -83,37 +85,43 @@
    SKIN-GLASS CARD SYSTEM — Warm Neumorphic + Frosted Glass Hybrid
    ========================================================================= */
 .skin-glass-card {
-  background: linear-gradient(145deg, rgba(255,252,248,0.92), rgba(250,247,240,0.88));
-  border: 1px solid rgba(215, 205, 190, 0.75);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.76) 0%, rgba(255, 255, 255, 0.52) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
   box-shadow:
-    2px 3px 10px rgba(170, 158, 140, 0.14),
-    -1px -1px 5px rgba(255, 255, 255, 0.85),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+    0 8px 26px -4px rgba(150, 135, 115, 0.14),
+    0 2px 6px -1px rgba(0, 0, 0, 0.04),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .skin-glass-elevated {
   box-shadow:
-    4px 6px 18px rgba(160, 148, 130, 0.16),
-    -2px -2px 8px rgba(255, 255, 255, 0.9),
-    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    0 12px 34px -6px rgba(140, 125, 105, 0.18),
+    0 4px 10px -2px rgba(0, 0, 0, 0.06),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.95);
+}
+
+.specular-sheen {
+  position: relative;
 }
 
 .specular-sheen::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7) 40%, rgba(255,255,255,0.9) 60%, transparent);
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent 4%, rgba(255,255,255,0.85) 25%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.85) 75%, transparent 96%);
   border-radius: inherit;
   pointer-events: none;
 }
 
 .skin-glass-sub {
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 /* =========================================================================
