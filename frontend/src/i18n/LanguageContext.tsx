@@ -113,12 +113,20 @@ export const RAILWAY_PHRASES: { en: string; hi: string; mr: string }[] = [
   { en: 'AI Scheduling Cockpit', hi: 'एआई शेड्यूलिंग कॉकपिट', mr: 'एआय शेड्यूलिंग कॉकपिट' },
   { en: 'CP-SAT Optimization & Explainable Reasoning (XAI)', hi: 'सीपी-सैट अनुकूलन एवं व्याख्यात्मक निर्णय (XAI)', mr: 'सीपी-सॅट ऑप्टिमायझेशन आणि स्पष्टीकरण (XAI)' },
   { en: 'Multi-Department Lifecycle Pipeline', hi: 'बहु-विभागीय स्वीकृति पाइपलाइन', mr: 'बहु-विभागीय मंजुरी पाइपलाइन' },
-  { en: 'Six-Stage Request to Completion Governance', hi: 'छह-चरणीय अनुरक्षण गवर्नेंस प्रक्रिया', mr: 'सहा-टप्प्यांची मंजुरी प्रक्रिया' },
+  { en: 'Block Lifecycle', hi: 'ब्लॉक जीवनचक्र एवं स्वीकृति', mr: 'ब्लॉक जीवनचक्र आणि मंजुरी' },
+  { en: 'Proposal to Station Master Line-Clear Execution Pipeline', hi: 'प्रस्ताव से स्टेशन मास्टर लाइन-क्लियर निष्पादन पाइपलाइन', mr: 'प्रस्तावापासून स्टेशन मास्टर मार्ग-मोकळा अंमलबजावणी' },
   { en: 'Station 3D Yard Twin', hi: 'स्टेशन ३डी यार्ड डिजिटल ट्विन', mr: 'स्थानक ३डी यार्ड डिजिटल ट्विन' },
-  { en: 'Three.js Spatial Interlocking & Point Machine Status', hi: 'स्थानिक इंटरलॉकिंग एवं पॉइंट मशीन स्थिति (Three.js)', mr: 'इंटरलॉकिंग आणि पॉइंट मशीन स्थिती (Three.js)' },
+  { en: '3D Station Yard Digital Twin', hi: 'स्टेशन ३डी यार्ड डिजिटल ट्विन', mr: 'स्थानक ३डी यार्ड डिजिटल ट्विन' },
+  { en: 'Interactive 2.5D Isometric Rail Yard & Lockout Visualizer', hi: 'इंटरएक्टिव २.५डी आइसोमेट्रिक रेल यार्ड एवं लॉकआउट दृश्य', mr: 'परस्परसंवादी २.५डी रेल्वे यार्ड आणि लॉकआउट दृश्य' },
   { en: 'Department Trust Matrix', hi: 'विभाग विश्वास एवं अनुशासन मैट्रिक्स', mr: 'विभाग विश्वास व शिस्त मॅट्रिक्स' },
-  { en: 'P-Way, OHE, S&T Reliability & Punctuality Scoring', hi: 'पी-वे, ओएचई व सिग्नलिंग विश्वसनीयता स्कोर', mr: 'पी-वे, ओएचई आणि सिग्नलिंग विश्वासार्हता गुण' },
+  { en: 'Departmental Discipline Matrix', hi: 'विभागीय अनुशासन एवं विश्वास मैट्रिक्स', mr: 'विभागीय शिस्त आणि विश्वास मॅट्रिक्स' },
+  { en: 'P-Way, S&T & OHE Historical Trust Scores & Solver Penalties', hi: 'पी-वे, सिग्नलिंग एवं ओएचई ऐतिहासिक विश्वास स्कोर व पेनल्टी', mr: 'पी-वे, सिग्नलिंग आणि ओएचई विश्वासार्हता गुण' },
   { en: 'System Settings & Safety Constraints', hi: 'सिस्टम सेटिंग्स एवं सुरक्षा नियम', mr: 'सिस्टम सेटिंग्ज आणि सुरक्षा नियम' },
+  { en: 'System Settings', hi: 'सिस्टम सेटिंग्स एवं नियम', mr: 'सिस्टम सेटिंग्ज आणि नियम' },
+  { en: 'Corridor Rules & Kavach Constraints', hi: 'गलियारा नियम एवं कवच बाधाएं', mr: 'कॉरिडॉर नियम आणि कवच मर्यादा' },
+  { en: 'Six-Stage Request to Completion Governance', hi: 'छह-चरणीय अनुरक्षण गवर्नेंस प्रक्रिया', mr: 'सहा-टप्प्यांची मंजुरी प्रक्रिया' },
+  { en: 'Three.js Spatial Interlocking & Point Machine Status', hi: 'स्थानिक इंटरलॉकिंग एवं पॉइंट मशीन स्थिति (Three.js)', mr: 'इंटरलॉकिंग आणि पॉइंट मशीन स्थिती (Three.js)' },
+  { en: 'P-Way, OHE, S&T Reliability & Punctuality Scoring', hi: 'पी-वे, ओएचई व सिग्नलिंग विश्वसनीयता स्कोर', mr: 'पी-वे, ओएचई आणि सिग्नलिंग विश्वासार्हता गुण' },
   { en: 'Corridor Parameters, Kavach Thresholds & Solver Tuning', hi: 'गलियारा पैरामीटर, कवच नियम एवं सॉल्वर ट्यूनिंग', mr: 'कॉरिडॉर मापदंड, कवच नियम आणि सॉल्वर ट्युनिंग' },
   { en: 'Crew Overtime Averted', hi: 'क्रू ओवरटाइम बचत', mr: 'क्रू ओव्हरटाईम बचत' },
   { en: 'Energy Recovery', hi: 'ऊर्जा पुनर्चक्रण', mr: 'ऊर्जा पुनर्प्राप्ती' },
@@ -972,18 +980,26 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             let orig = originalTextMap.get(node);
             const prevTrans = currentTranslatedMap.get(node);
 
-            // If new node or updated by React with new English text
-            if (orig === undefined || (prevTrans !== undefined && rawVal !== prevTrans)) {
-              orig = rawVal;
-              originalTextMap.set(node, orig);
-            }
-
             if (language === 'en') {
-              if (node.nodeValue !== orig) {
-                node.nodeValue = orig;
+              if (prevTrans !== undefined) {
+                // Node was previously translated into non-English; restore authoritative English
+                if (orig !== undefined && node.nodeValue !== orig) {
+                  node.nodeValue = orig;
+                }
+                currentTranslatedMap.delete(node);
+              } else {
+                // In English mode, any DOM text change (from React navigation, state, props) is the new English source
+                orig = rawVal;
+                originalTextMap.set(node, orig);
               }
-              currentTranslatedMap.delete(node);
             } else {
+              // In Hindi or Marathi mode
+              // If new node, or React has rendered new English text into this node
+              if (orig === undefined || prevTrans === undefined || rawVal !== prevTrans) {
+                orig = rawVal;
+                originalTextMap.set(node, orig);
+              }
+
               const translated = translateText(orig, language);
               if (node.nodeValue !== translated) {
                 currentTranslatedMap.set(node, translated);

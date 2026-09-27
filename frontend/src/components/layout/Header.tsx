@@ -140,7 +140,7 @@ export const Header: React.FC<HeaderProps> = ({
       case 'idle':
       default:
         return (
-          <div className="flex items-center space-x-1.5 rounded-full border border-white/90 bg-white/70 backdrop-blur-md px-2 py-0.5 text-[9.5px] font-semibold text-stone-600 shadow-2xs">
+          <div className="flex items-center space-x-1.5 rounded-full border border-stone-200/80 bg-white/90 backdrop-blur-md px-2.5 py-0.5 text-[9.5px] font-semibold text-stone-700 shadow-2xs">
             <span className="h-1.5 w-1.5 rounded-full bg-stone-400" />
             <span className="tracking-wide font-mono">🔘 SOLVER IDLE</span>
           </div>
@@ -151,42 +151,56 @@ export const Header: React.FC<HeaderProps> = ({
   const currentScenarioMeta = PRESET_SCENARIOS[currentScenario] || PRESET_SCENARIOS['standard'];
 
   return (
-    <header className="sticky top-0 z-30 flex flex-col border-b border-white/80 bg-[#FAF7F0]/85 backdrop-blur-xl shadow-[0_4px_20px_rgba(160,148,130,0.08)] specular-sheen">
-      {/* Primary Header Row */}
-      <div className="flex h-16 w-full items-center justify-between px-3 sm:px-4">
+    <header className="sticky top-0 z-30 px-3 sm:px-6 pt-3 pb-1 select-none">
+      {/* Floating AeroSkin Frosted Header Card */}
+      <div className="rounded-2xl border border-stone-200/80 bg-white/90 backdrop-blur-xl shadow-xs px-3.5 py-2 flex items-center justify-between gap-3 specular-sheen">
         {/* Left Area: Hamburger + Title */}
-        <div className="flex items-center space-x-2 shrink-0">
+        <div className="flex items-center space-x-2.5 shrink-0">
           <button
             type="button"
             onClick={onOpenMobileSidebar}
-            className="rounded-xl p-1.5 text-stone-500 hover:bg-white/70 hover:text-stone-800 lg:hidden cursor-pointer"
+            className="rounded-xl p-1.5 text-stone-500 hover:bg-stone-100 hover:text-stone-800 lg:hidden cursor-pointer"
             aria-label="Open sidebar menu"
           >
             <Menu className="h-4 w-4" />
           </button>
 
-          <div className="flex items-center space-x-1.5 shrink-0">
-            <h1 className="text-sm font-bold tracking-tight text-stone-900 sm:text-base whitespace-nowrap">
-              {t(title)}
-            </h1>
-            {subtitle && (
-              <div className="hidden xl:flex flex-col justify-center border-l border-stone-300/80 pl-1.5 text-[8.5px] leading-[10px] font-medium text-stone-500 whitespace-nowrap shrink-0">
-                {t(subtitle).length > 25 ? (
-                  <>
-                    <span>{t(subtitle).split(' ').slice(0, 3).join(' ')}</span>
-                    <span>{t(subtitle).split(' ').slice(3).join(' ')}</span>
-                  </>
-                ) : (
-                  <span>{t(subtitle)}</span>
-                )}
-              </div>
-            )}
+          <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1.5">
+              <span
+                key={title}
+                className="text-[15px] font-extrabold tracking-tight text-stone-900 font-sans whitespace-nowrap"
+              >
+                {t(title)}
+              </span>
+              <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 led-glow-emerald animate-pulse" />
+            </div>
+            <span className="hidden xl:inline-block px-1.5 py-0.5 rounded-md bg-stone-100/90 text-stone-600 text-[10px] font-mono font-semibold border border-stone-200/70">
+              BINA – ET
+            </span>
           </div>
         </div>
 
-        {/* Center Ticker Slot: Live Demurrage & Carbon ROI */}
-        <div className="hidden xl:flex items-center justify-center shrink-0 mx-0.5">
-          <RoiTicker compact />
+        {/* Center: Live Railway Radio Dispatch & Railway Board ROI Audit Breakdown */}
+        <div className="hidden md:flex items-center gap-2.5 min-w-0">
+          <div
+            onClick={() => setDispatchIndex((prev) => (prev + 1) % LIVE_DISPATCH_MESSAGES.length)}
+            className="flex items-center gap-2 rounded-xl bg-stone-50/90 hover:bg-stone-100/90 px-3 py-1 border border-stone-200/70 shadow-2xs cursor-pointer transition-all max-w-xs lg:max-w-sm xl:max-w-md min-w-0"
+            title="Click to cycle live corridor dispatches"
+          >
+            <div className="flex items-center gap-1 text-[#078A68] shrink-0 font-mono text-[9.5px] font-bold">
+              <Radio className="h-3 w-3 animate-pulse text-[#078A68]" />
+              <span className="hidden lg:inline">DISPATCH:</span>
+            </div>
+            <span className="truncate text-xs font-mono font-medium text-stone-700 hover:text-stone-950 transition-colors">
+              {LIVE_DISPATCH_MESSAGES[dispatchIndex]}
+            </span>
+          </div>
+
+          {/* Railway Board ROI Audit Breakdown Interactive Pill */}
+          <div className="hidden xl:flex items-center shrink-0">
+            <RoiTicker compact />
+          </div>
         </div>
 
         {/* Right Controls Area */}
@@ -197,14 +211,14 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Live IST Clock Pill */}
-          <div className="hidden sm:flex items-center space-x-1 rounded-full border border-white/90 bg-white/80 backdrop-blur-md px-2 py-0.5 text-[10px] font-mono text-stone-800 shadow-2xs">
+          <div className="hidden sm:flex items-center space-x-1 rounded-full border border-stone-200/80 bg-white/90 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-mono text-stone-800 shadow-2xs">
             <Clock className="h-3 w-3 text-stone-400 animate-spin" style={{ animationDuration: '60s' }} />
             <span className="font-extrabold text-[10px] tracking-wide">{currentTime || '19:42:00 IST'}</span>
           </div>
 
           {/* CRIS Ping Latency Pill - High Contrast Cockpit Dark Chip with Breathing Aura & Rolling Digits */}
           <div
-            className="hidden md:flex items-center space-x-1 rounded-[7px] cockpit-dark-chip px-1.5 py-0.5 text-xs font-mono shadow-2xs aura-breathe-emerald tactile-spring cursor-default"
+            className="hidden lg:flex items-center space-x-1 rounded-[7px] cockpit-dark-chip px-1.5 py-0.5 text-xs font-mono shadow-2xs aura-breathe-emerald tactile-spring cursor-default"
             title="Centre for Railway Information Systems (CRIS) Live Heartbeat"
           >
             <span className="relative flex h-1.5 w-1.5 shrink-0">
@@ -222,7 +236,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={() => setShowScenarioMenu(!showScenarioMenu)}
-              className="flex items-center space-x-1 rounded-full border border-white/90 bg-white/70 backdrop-blur-md px-2 py-0.5 text-[10px] font-semibold text-stone-700 hover:bg-white shadow-2xs transition-all cursor-pointer"
+              className="flex items-center space-x-1 rounded-full border border-stone-200/80 bg-white/90 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-semibold text-stone-800 hover:bg-white shadow-2xs transition-all cursor-pointer"
               title="Switch demo scenarios"
             >
               <Database className="h-3 w-3 text-emerald-700" />
@@ -234,7 +248,7 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
 
             {showScenarioMenu && (
-              <div className="absolute right-0 mt-2 w-72 rounded-2xl border border-stone-200 bg-[#FAF7F0] p-2.5 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2">
+              <div className="absolute right-0 mt-2 w-72 rounded-2xl border border-stone-200 bg-white/95 backdrop-blur-xl p-2.5 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2">
                 <div className="px-2 py-1.5 text-[10px] font-bold uppercase tracking-wider text-stone-500 border-b border-stone-200/70 font-mono">
                   Select Railway Scenario
                 </div>
@@ -278,10 +292,10 @@ export const Header: React.FC<HeaderProps> = ({
               type="button"
               onClick={() => onChaosModeChange?.(!chaosMode)}
               className={cn(
-                'flex items-center space-x-1.5 rounded-full px-2 py-0.5 transition-all border text-[10px] font-semibold shadow-sm',
+                'flex items-center space-x-1.5 rounded-full px-2 py-0.5 transition-all border text-[10px] font-semibold shadow-2xs cursor-pointer',
                 chaosMode
-                  ? 'bg-amber-100/80 border-amber-300 text-amber-900 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
-                  : 'bg-[#f0ece3] border-[#d8d3c5] text-stone-600 hover:bg-[#eae5d9]'
+                  ? 'bg-amber-100/90 border-amber-300 text-amber-900 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
+                  : 'bg-white/90 border-stone-200/80 text-stone-700 hover:bg-white'
               )}
               title="Toggle Corridor Disruption Simulator"
             >
@@ -316,7 +330,7 @@ export const Header: React.FC<HeaderProps> = ({
               id="notification-bell-btn"
               type="button"
               onClick={() => setShowNotifications(!showNotifications)}
-              className="relative rounded-xl p-1.5 text-stone-600 transition-colors hover:bg-white/80 hover:text-stone-900 focus:outline-none shadow-2xs border border-white/80 bg-white/60 backdrop-blur-md cursor-pointer"
+              className="relative rounded-xl p-1.5 text-stone-700 transition-colors hover:bg-white hover:text-stone-950 focus:outline-none shadow-2xs border border-stone-200/80 bg-white/90 backdrop-blur-md cursor-pointer"
               aria-label="View notifications"
             >
               <Bell className="h-3.5 w-3.5" />
@@ -329,7 +343,7 @@ export const Header: React.FC<HeaderProps> = ({
 
             {/* Notifications Flyout */}
             {showNotifications && (
-              <div className="absolute right-0 mt-2 w-80 rounded-2xl border border-stone-200 bg-[#FAF7F0] p-3.5 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2">
+              <div className="absolute right-0 mt-2 w-80 rounded-2xl border border-stone-200 bg-white/95 backdrop-blur-xl p-3.5 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2">
                 <div className="flex items-center justify-between pb-2.5 border-b border-stone-200/60">
                   <div className="flex items-center space-x-1.5 text-xs font-bold text-stone-800 font-mono">
                     <Zap className="h-3.5 w-3.5 text-[#078A68]" />
@@ -341,7 +355,7 @@ export const Header: React.FC<HeaderProps> = ({
                 </div>
 
                 <div className="mt-2.5 space-y-2 max-h-64 overflow-y-auto pr-1">
-                  <div className="rounded-xl skin-glass-sub p-2.5 text-xs border border-white/80">
+                  <div className="rounded-xl skin-glass-sub p-2.5 text-xs border border-stone-200/80">
                     <div className="flex items-center justify-between text-[11px] font-semibold text-amber-800 font-mono">
                       <span className="flex items-center gap-1">
                         <AlertTriangle className="h-3 w-3 text-amber-600" /> P-Way Urgent Demand
@@ -353,7 +367,7 @@ export const Header: React.FC<HeaderProps> = ({
                     </p>
                   </div>
 
-                  <div className="rounded-xl skin-glass-sub p-2.5 text-xs border border-white/80">
+                  <div className="rounded-xl skin-glass-sub p-2.5 text-xs border border-stone-200/80">
                     <div className="flex items-center justify-between text-[11px] font-semibold text-emerald-800 font-mono">
                       <span className="flex items-center gap-1">
                         <CheckCircle2 className="h-3 w-3 text-emerald-600" /> Shadow Block Opportunity
@@ -383,24 +397,6 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </div>
         </div>
-      </div>
-
-      {/* Slim Live Operations Radio Ticker Bar */}
-      <div className="flex items-center space-x-2 bg-white/40 backdrop-blur-md border-t border-white/70 px-4 sm:px-6 py-1 text-[11px] text-stone-700 font-mono overflow-hidden select-none">
-        <div className="flex items-center space-x-1.5 shrink-0 text-emerald-800 font-bold pr-2 border-r border-stone-300/60">
-          <Radio className="h-3 w-3 text-[#078A68] animate-pulse" />
-          <span className="uppercase text-[10px] tracking-wider">LIVE RAILWAY DISPATCH:</span>
-        </div>
-        <div
-          onClick={() => setDispatchIndex((prev) => (prev + 1) % LIVE_DISPATCH_MESSAGES.length)}
-          className="truncate cursor-pointer hover:text-stone-900 transition-all font-medium"
-          title="Click to cycle live dispatches"
-        >
-          {LIVE_DISPATCH_MESSAGES[dispatchIndex]}
-        </div>
-        <span className="ml-auto text-[10px] text-stone-400 shrink-0 font-sans hidden sm:inline">
-          Click ticker to step
-        </span>
       </div>
     </header>
   );

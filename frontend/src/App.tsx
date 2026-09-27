@@ -215,20 +215,15 @@ export const App: React.FC = () => {
 
         {/* Center Main Content Area (Scrollable with Smoky Glass Canvas) */}
         <div className="flex-1 relative overflow-hidden">
-          {/* Subtle Luminous Frosted Glass Underlay for Main Dashboard Area below Header */}
+          {/* Clean Neutral Frosted Glass Underlay for Main Content Area below Header */}
           <div 
             className="pointer-events-none absolute inset-0 z-0 overflow-hidden select-none" 
             aria-hidden="true"
           >
-            {/* Soft warm oatmeal base */}
-            <div className="absolute inset-0 bg-[#ebe7de]/85" />
-            {/* Gentle smoky glass tint for depth without harsh darkness */}
-            <div className="absolute inset-0 bg-stone-900/[0.07]" />
-            {/* Ambient luminous emerald, teal & amber blooms providing caustics and physical depth */}
-            <div className="absolute -top-12 -left-12 w-[38rem] h-[38rem] bg-emerald-500/18 rounded-full blur-[90px]" />
-            <div className="absolute top-1/4 -right-16 w-[36rem] h-[36rem] bg-teal-400/15 rounded-full blur-[90px]" />
-            <div className="absolute -bottom-16 left-1/4 w-[42rem] h-[42rem] bg-emerald-600/15 rounded-full blur-[100px]" />
-            <div className="absolute top-2/3 right-1/4 w-[30rem] h-[30rem] bg-amber-500/12 rounded-full blur-[90px]" />
+            {/* Soft warm oatmeal base without colored tint */}
+            <div className="absolute inset-0 bg-[#ebe7de]" />
+            {/* Subtle neutral depth tint */}
+            <div className="absolute inset-0 bg-stone-900/[0.03]" />
           </div>
 
           <main className="relative z-10 h-full overflow-y-auto p-4 sm:p-6 bg-transparent">
